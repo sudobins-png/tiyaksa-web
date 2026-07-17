@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Design tokens ── */
+:root {
+  --c-forest:     #1B4F1B;
+  --c-forest-dk:  #143d14;
+  --c-grove:      #2E7D32;
+  --c-mint:       #EDF3ED;
+  --c-gold:       #F0B429;
+  --c-gold-dk:    #e0a516;
+  --c-bg:         #F9FAFB;
+  --c-ink:        #1A1D1A;
+  --c-muted:      #707A70;
+  --c-subtle:     #4a544a;
+  --c-sage:       #8DBE2E;
+  --c-border:     #eef1ee;
+}
+
+/* ── Base ── */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px;
+}
+
+body {
+  margin: 0;
+  color: var(--c-ink);
+  background: var(--c-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: var(--c-grove);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--c-forest);
+}
+
+/* ── Range input ── */
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 99px;
+  background: #dbe4db;
+  outline: none;
+  width: 100%;
+  cursor: pointer;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--c-forest);
+  border: 4px solid #fff;
+  box-shadow: 0 2px 8px rgba(27, 79, 27, 0.35);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+input[type='range']::-webkit-slider-thumb:active {
+  transform: scale(1.12);
+}
+
+input[type='range']::-moz-range-thumb {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--c-forest);
+  border: 4px solid #fff;
+  box-shadow: 0 2px 8px rgba(27, 79, 27, 0.35);
+  cursor: pointer;
+}

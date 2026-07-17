@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+  tiyaksa:
+    image: ghcr.io/${GITHUB_REPO}/tiyaksa:latest
+    restart: always
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+    networks:
+      - n8n_default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tiyaksa.rule=Host(`tiyaksa.ru`)"
+      - "traefik.http.routers.tiyaksa.entrypoints=websecure"
+      - "traefik.http.routers.tiyaksa.tls.certresolver=mytlschallenge"
+      - "traefik.http.services.tiyaksa.loadbalancer.server.port=3000"
+
+networks:
+  n8n_default:
+    external: true

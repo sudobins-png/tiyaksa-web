@@ -1,0 +1,19 @@
+# deps
+node_modules/
+
+# build
+.next/
+out/
+
+# env
+.env
+.env.local
+.env.*.local
+.env.server
+
+# OS
+.DS_Store
+
+# debug
+npm-debug.log*
+pnpm-debug.log*

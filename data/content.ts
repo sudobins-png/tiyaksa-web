@@ -44,8 +44,8 @@ export const portfolioItems = [
     images: ['/pk-1.jpg', '/pk-2.jpg', '/pk-3.jpg', '/pk-4.jpg'],
   },
   {
-    name: 'ЖК «Северная долина»',    area: '48 м²', term: '41 день', price: '1 240 000 ₽',
-    images: ['/pk-2.jpg', '/pk-3.jpg', '/pk-4.jpg', '/pk-1.jpg', '/hero-pic.jpg'],
+    name: 'Офисные помещения',        area: '48 м²', term: '41 день', price: '1 240 000 ₽',
+    images: ['/pk-5.jpg', '/pk-6.jpg', '/pk-7.jpg', '/pk-8.jpg', '/pk-9.jpg'],
   },
   {
     name: 'ЖК «Галактика»',          area: '82 м²', term: '68 дней', price: '2 180 000 ₽',

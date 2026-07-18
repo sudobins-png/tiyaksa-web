@@ -41,7 +41,7 @@ export const stats = [
 export const portfolioItems = [
   {
     name: 'ЖК «Приморский квартал»', area: '64 м²', term: '52 дня',  price: '1 655 000 ₽',
-    images: ['/pk-1.jpg', '/pk-2.jpg', '/pk-3.jpg', '/pk-4.jpg', '/hero-pic.jpg'],
+    images: ['/pk-1.jpg', '/pk-2.jpg', '/pk-3.jpg', '/pk-4.jpg'],
   },
   {
     name: 'ЖК «Северная долина»',    area: '48 м²', term: '41 день', price: '1 240 000 ₽',

@@ -40,11 +40,11 @@ export const stats = [
 
 export const portfolioItems = [
   {
-    name: 'ЖК «Приморский квартал»', area: '64 м²', term: '52 дня',  price: '1 655 000 ₽',
+    name: 'Ремонт кухни',             area: '25 м²', term: '52 дня',  price: '365 000 ₽',
     images: ['/pk-1.jpg', '/pk-2.jpg', '/pk-3.jpg', '/pk-4.jpg'],
   },
   {
-    name: 'Офисные помещения',        area: '48 м²', term: '41 день', price: '1 240 000 ₽',
+    name: 'Офисные помещения',        area: '320 м²', term: '45 дней', price: '4 000 000 ₽',
     images: ['/pk-5.jpg', '/pk-6.jpg', '/pk-7.jpg', '/pk-8.jpg', '/pk-9.jpg'],
   },
   {

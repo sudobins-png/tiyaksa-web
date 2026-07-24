@@ -48,8 +48,8 @@ export const portfolioItems = [
     images: ['/pk-5.jpg', '/pk-6.jpg', '/pk-7.jpg', '/pk-8.jpg', '/pk-9.jpg'],
   },
   {
-    name: 'ЖК «Галактика»',          area: '82 м²', term: '68 дней', price: '2 180 000 ₽',
-    images: ['/pk-3.jpg', '/pk-1.jpg', '/hero-pic.jpg', '/pk-2.jpg', '/pk-4.jpg'],
+    name: 'Дизайнерский ремонт в 3-к. кв', area: '124 м²', term: '68 дней', price: '2 580 000 ₽',
+    images: ['/pk-10.jpeg', '/pk-11.jpeg', '/pk-12.jpeg', '/pk-13.jpg', '/pk-14.jpg', '/pk-15.jpg'],
   },
 ];
 

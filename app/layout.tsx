@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Toaster } from '@/components/ui/Toaster';
+import { CookieBanner } from '@/components/ui/CookieBanner';
 import './globals.css';
 
 const inter = Inter({
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="font-sans">
         {children}
         <Toaster />
+        <CookieBanner />
       </body>
     </html>
   );

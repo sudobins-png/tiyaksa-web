@@ -37,6 +37,15 @@ const icons: Record<string, React.ReactNode> = {
       <path d="M14 21l4 4 8-8" stroke="#F0B429" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   ),
+  recommend: (
+    <svg width="28" height="28" viewBox="0 0 40 40" fill="none" aria-hidden>
+      <rect x="4" y="6" width="22" height="16" rx="4" stroke="#1B4F1B" strokeWidth="2.2" />
+      <path d="M8 22l2 5 4-5" stroke="#1B4F1B" strokeWidth="2.2" strokeLinejoin="round" />
+      <rect x="14" y="18" width="22" height="14" rx="4" stroke="#1B4F1B" strokeWidth="2.2" />
+      <path d="M32 32l-2 5-4-5" stroke="#1B4F1B" strokeWidth="2.2" strokeLinejoin="round" />
+      <circle cx="30" cy="8" r="3.5" fill="#F0B429" />
+    </svg>
+  ),
 };
 
 export function WhyUs() {
@@ -124,6 +133,15 @@ function DesktopIcon({ name }: { name: string }) {
         <rect x="9" y="7" width="22" height="27" rx="3" stroke="#1B4F1B" strokeWidth="2" />
         <rect x="15" y="4" width="10" height="6" rx="2" stroke="#1B4F1B" strokeWidth="2" />
         <path d="M14 21l4 4 8-8" stroke="#F0B429" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
+    recommend: (
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden>
+        <rect x="4" y="6" width="22" height="16" rx="4" stroke="#1B4F1B" strokeWidth="2" />
+        <path d="M8 22l2 5 4-5" stroke="#1B4F1B" strokeWidth="2" strokeLinejoin="round" />
+        <rect x="14" y="18" width="22" height="14" rx="4" stroke="#1B4F1B" strokeWidth="2" />
+        <path d="M32 32l-2 5-4-5" stroke="#1B4F1B" strokeWidth="2" strokeLinejoin="round" />
+        <circle cx="30" cy="8" r="3.5" fill="#F0B429" />
       </svg>
     ),
   };

@@ -37,6 +37,12 @@ export function Footer() {
               <a href={siteConfig.phoneHref} className="text-white font-semibold text-[17px] hover:text-sage transition-colors">
                 {siteConfig.phone}
               </a>
+              <div className="flex flex-col gap-0.5">
+                <a href={siteConfig.consultantPhoneHref} className="text-white font-semibold text-[17px] hover:text-sage transition-colors">
+                  {siteConfig.consultantPhone}
+                </a>
+                <span className="text-sage text-[12px] font-medium tracking-wide">{siteConfig.consultantLabel}</span>
+              </div>
               <a href={`mailto:${siteConfig.email}`} className="text-white/80 text-base hover:text-white transition-colors">
                 {siteConfig.email}
               </a>

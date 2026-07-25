@@ -116,6 +116,12 @@ export function Header() {
             <a href={siteConfig.phoneHref} className="text-forest font-bold text-lg py-[14px]">
               {siteConfig.phone}
             </a>
+            <div className="flex flex-col pb-[14px] border-b border-[#f2f4f2]">
+              <a href={siteConfig.consultantPhoneHref} className="text-forest font-bold text-lg">
+                {siteConfig.consultantPhone}
+              </a>
+              <span className="text-muted text-[13px] mt-0.5">{siteConfig.consultantLabel}</span>
+            </div>
             <a
               href="#cta"
               onClick={() => setMenuOpen(false)}

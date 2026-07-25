@@ -37,21 +37,18 @@ export function Manager() {
                 <path d="M6 10l3 3 5-6" stroke="#1A1D1A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               <span className="font-semibold text-[14px] text-forest">{managerInfo.badge}</span>
+              <a
+                href={siteConfig.phoneHref}
+                aria-label={`Позвонить: ${siteConfig.phone}`}
+                className="ml-1 flex items-center justify-center w-8 h-8 rounded-[8px] bg-gold hover:bg-gold-dark transition-colors shadow-gold-glow"
+              >
+                <svg width="15" height="15" viewBox="0 0 20 20" fill="none" aria-hidden>
+                  <path d="M4.5 2C4.5 2 3 2 2 3.5C1 5 1.5 7 3 9C4.5 11 7 13.5 9 15C11 16.5 13 17 14.5 16C16 15 16 13.5 16 13.5L13.5 11L11.5 12.5C11.5 12.5 9.5 11.5 8 10C6.5 8.5 5.5 6.5 5.5 6.5L7 4.5L4.5 2Z" fill="#1A1D1A" />
+                </svg>
+              </a>
             </div>
 
             <p className="m-0 text-lg leading-[1.6] text-subtle max-w-[560px]">{managerInfo.text}</p>
-
-            <div className="flex flex-wrap gap-3 mt-6">
-              <a
-                href={siteConfig.phoneHref}
-                className="inline-flex items-center gap-[10px] bg-gold hover:bg-gold-dark text-ink font-bold text-[15px] px-5 py-[13px] rounded-xl transition-all duration-200 shadow-gold-glow hover:-translate-y-px"
-              >
-                <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden>
-                  <path d="M4.5 2C4.5 2 3 2 2 3.5C1 5 1.5 7 3 9C4.5 11 7 13.5 9 15C11 16.5 13 17 14.5 16C16 15 16 13.5 16 13.5L13.5 11L11.5 12.5C11.5 12.5 9.5 11.5 8 10C6.5 8.5 5.5 6.5 5.5 6.5L7 4.5L4.5 2Z" fill="#1A1D1A" />
-                </svg>
-                Позвонить Льву
-              </a>
-            </div>
           </div>
         </div>
       </div>

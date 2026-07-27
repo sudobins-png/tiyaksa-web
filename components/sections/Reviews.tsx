@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { reviews } from '@/data/content';
 
 function Stars() {
@@ -32,9 +33,15 @@ export function Reviews() {
               <Stars />
               <p className="m-0 text-base leading-[1.6] text-subtle flex-1">{r.text}</p>
               <div className="flex items-center gap-[14px] mt-6 pt-5 border-t border-[#eef1ee]">
-                <div className="w-[40px] h-[40px] rounded-full bg-[#dde5dd] flex-none flex items-center justify-center">
-                  <span className="font-bold text-[15px] text-forest">{r.name[0]}</span>
-                </div>
+                {r.photo ? (
+                  <div className="w-[40px] h-[40px] rounded-full overflow-hidden flex-none">
+                    <Image src={r.photo} alt={r.name} width={40} height={40} className="object-cover w-full h-full" />
+                  </div>
+                ) : (
+                  <div className="w-[40px] h-[40px] rounded-full bg-[#dde5dd] flex-none flex items-center justify-center">
+                    <span className="font-bold text-[15px] text-forest">{r.name[0]}</span>
+                  </div>
+                )}
                 <p className="font-bold text-base text-ink">{r.name}</p>
               </div>
             </div>

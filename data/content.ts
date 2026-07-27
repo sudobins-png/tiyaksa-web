@@ -5,7 +5,7 @@ export const siteConfig = {
   consultantPhone: '+7 (911) 783-33-15',
   consultantPhoneHref: 'tel:+79117833315',
   consultantLabel: 'Консультант по ремонту',
-  email: 'info@tiyaksa.ru',
+  email: 'remont@tiyaksa.ru',
   website: 'tiyaksa.ru',
   address: 'Санкт-Петербург',
   copyright: 'ТиЯКСа.Ремонт © 2006–2026',

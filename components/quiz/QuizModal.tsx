@@ -114,7 +114,7 @@ export function QuizModal({ onClose }: QuizModalProps) {
   const [hasDesign,   setHasDesign]   = useState('');
   const [messenger,   setMessenger]   = useState<Messenger | null>(null);
   const [privacyOpen, setPrivacyOpen] = useState(false);
-  const [phoneRaw,    setPhoneRaw]    = useState('');
+  const [contactRaw,  setContactRaw]  = useState('');
   const showToast = useToastStore((s) => s.show);
 
   const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm<ContactValues>({
@@ -134,10 +134,13 @@ export function QuizModal({ onClose }: QuizModalProps) {
   const next = () => { setDir(1);  setStep((s) => s + 1); };
   const back = () => { setDir(-1); setStep((s) => s - 1); };
 
-  const onPhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const f = formatPhone(e.target.value);
-    setPhoneRaw(f);
-    setValue('contact', f, { shouldValidate: true });
+  const onContactChange = (e: React.ChangeEvent<HTMLInputElement>, ms: Messenger) => {
+    const raw = e.target.value;
+    // Telegram с @ — не форматируем
+    const isTgUsername = ms === 'telegram' && (raw.startsWith('@') || (!raw.startsWith('+') && !/^\d/.test(raw) && raw.length > 0));
+    const formatted = isTgUsername ? raw : formatPhone(raw);
+    setContactRaw(formatted);
+    setValue('contact', formatted, { shouldValidate: true });
   };
 
   const onSubmit = async (data: ContactValues) => {
@@ -147,7 +150,7 @@ export function QuizModal({ onClose }: QuizModalProps) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         name:    data.name,
-        phone:   isPhone ? data.contact : '+7 (000) 000-00-00',
+        phone:   isPhone ? data.contact : '—',
         website: data.website,
         source:  'quiz',
         aptType,
@@ -277,7 +280,7 @@ export function QuizModal({ onClose }: QuizModalProps) {
                 <div className="grid grid-cols-3 gap-2 mb-5">
                   {MESSENGERS.map((m) => (
                     <button key={m.id} type="button"
-                      onClick={() => { setMessenger(m.id); setPhoneRaw(''); setValue('contact', ''); }}
+                      onClick={() => { setMessenger(m.id); setContactRaw(''); setValue('contact', ''); }}
                       className={[
                         'flex flex-col items-center gap-2 py-4 rounded-[14px] border-2 transition-all duration-150 cursor-pointer',
                         messenger === m.id
@@ -304,18 +307,19 @@ export function QuizModal({ onClose }: QuizModalProps) {
                     </div>
 
                     <div>
-                      {messenger === 'phone' ? (
-                        <input type="tel" inputMode="tel" placeholder="+7 (___) ___-__-__" autoComplete="tel"
-                          value={phoneRaw} onChange={onPhoneChange}
-                          className="w-full bg-[#f7f9f7] border border-[#e4e9e4] focus:border-grove rounded-xl px-5 py-4 text-base outline-none transition-colors placeholder:text-[#b0b8b0]"
-                          aria-invalid={!!errors.contact} />
-                      ) : (
-                        <input {...register('contact')} type="text"
-                          placeholder={messenger === 'telegram' ? '@username или номер телефона' : 'Номер телефона в Max'}
-                          autoComplete="off"
-                          className="w-full bg-[#f7f9f7] border border-[#e4e9e4] focus:border-grove rounded-xl px-5 py-4 text-base outline-none transition-colors placeholder:text-[#b0b8b0]"
-                          aria-invalid={!!errors.contact} />
-                      )}
+                      <input
+                        type={messenger === 'phone' || messenger === 'max' ? 'tel' : 'text'}
+                        inputMode={messenger === 'telegram' ? 'text' : 'tel'}
+                        placeholder={
+                          messenger === 'telegram' ? '@username или номер телефона' :
+                          '+7 (___) ___-__-__'
+                        }
+                        autoComplete={messenger === 'telegram' ? 'off' : 'tel'}
+                        value={contactRaw}
+                        onChange={(e) => onContactChange(e, messenger!)}
+                        className="w-full bg-[#f7f9f7] border border-[#e4e9e4] focus:border-grove rounded-xl px-5 py-4 text-base outline-none transition-colors placeholder:text-[#b0b8b0]"
+                        aria-invalid={!!errors.contact}
+                      />
                       {errors.contact && <p className="mt-1 text-xs text-red-500">{errors.contact.message}</p>}
                     </div>
 

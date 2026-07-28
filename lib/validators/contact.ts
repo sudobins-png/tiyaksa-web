@@ -2,14 +2,14 @@ import { z } from 'zod';
 
 export const leadSchema = z.object({
   name: z.string().min(2, 'Введите имя (минимум 2 символа)'),
-  phone: z.string().min(10, 'Введите корректный номер телефона'),
+  phone: z.string().min(3, 'Введите контакт для связи'),
   message: z.string().max(1500).optional(),
   website: z.string().optional(), // honeypot — should stay empty
 });
 
 export const contactSchema = z.object({
   name: z.string().min(2, 'Введите имя (минимум 2 символа)'),
-  phone: z.string().min(10, 'Введите корректный номер телефона'),
+  phone: z.string().min(3, 'Введите контакт для связи'),
   message: z.string().optional(),
 });
 

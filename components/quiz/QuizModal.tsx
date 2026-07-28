@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -23,58 +24,14 @@ function formatPhone(raw: string): string {
   return out;
 }
 
-/* ─── Step 1: тип объекта ─────────────────────────────────────── */
+/* ─── Step 1: тип объекта (фото-карточки) ────────────────────── */
 const OBJECT_TYPE_OPTIONS = [
-  {
-    label: 'Новостройка',
-    icon: (
-      <svg width="34" height="34" viewBox="0 0 48 48" fill="none" aria-hidden>
-        <rect x="8" y="20" width="32" height="22" rx="2" stroke="currentColor" strokeWidth="2" />
-        <path d="M4 22 L24 6 L44 22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        <rect x="19" y="30" width="10" height="12" rx="1" fill="#F0B429" fillOpacity=".5" stroke="currentColor" strokeWidth="1.5" />
-        <rect x="12" y="26" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="1.5" />
-        <rect x="29" y="26" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="1.5" />
-      </svg>
-    ),
-  },
-  {
-    label: 'Вторичное жильё',
-    icon: (
-      <svg width="34" height="34" viewBox="0 0 48 48" fill="none" aria-hidden>
-        <rect x="6" y="16" width="36" height="28" rx="2" stroke="currentColor" strokeWidth="2" />
-        <path d="M2 18 L24 2 L46 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        <rect x="13" y="26" width="9" height="9" rx="1" stroke="currentColor" strokeWidth="1.5" />
-        <rect x="26" y="26" width="9" height="9" rx="1" stroke="currentColor" strokeWidth="1.5" />
-        <rect x="18" y="33" width="12" height="11" rx="1" fill="#F0B429" fillOpacity=".45" stroke="currentColor" strokeWidth="1.5" />
-      </svg>
-    ),
-  },
-  {
-    label: 'Частный дом',
-    icon: (
-      <svg width="34" height="34" viewBox="0 0 48 48" fill="none" aria-hidden>
-        <rect x="10" y="24" width="28" height="20" rx="2" stroke="currentColor" strokeWidth="2" />
-        <path d="M6 26 L24 8 L42 26" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        <rect x="20" y="32" width="8" height="12" rx="1" fill="#F0B429" fillOpacity=".45" stroke="currentColor" strokeWidth="1.5" />
-        <rect x="13" y="28" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="1.5" />
-        <circle cx="37" cy="20" r="4" fill="#F0B429" fillOpacity=".3" stroke="currentColor" strokeWidth="1.5" />
-      </svg>
-    ),
-  },
-  {
-    label: 'Офис / коммерция',
-    icon: (
-      <svg width="34" height="34" viewBox="0 0 48 48" fill="none" aria-hidden>
-        <rect x="8" y="10" width="32" height="34" rx="2" stroke="currentColor" strokeWidth="2" />
-        <rect x="14" y="16" width="6" height="6" rx="1" stroke="currentColor" strokeWidth="1.5" />
-        <rect x="28" y="16" width="6" height="6" rx="1" stroke="currentColor" strokeWidth="1.5" />
-        <rect x="14" y="26" width="6" height="6" rx="1" stroke="currentColor" strokeWidth="1.5" />
-        <rect x="28" y="26" width="6" height="6" rx="1" stroke="currentColor" strokeWidth="1.5" />
-        <rect x="19" y="34" width="10" height="10" rx="1" fill="#F0B429" fillOpacity=".45" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M8 10 L24 4 L40 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-    ),
-  },
+  { label: 'Новостройка',      photo: '/quiz/novostroyka.jpg'      },
+  { label: 'Вторичное жильё',  photo: '/quiz/vtorichnoe_zhilye.jpg' },
+  { label: 'Загородный дом',   photo: '/quiz/zagorodniy_dom.jpg'   },
+  { label: 'Офис / коммерция', photo: '/quiz/ofis.jpg'             },
+  { label: 'Комната / студия', photo: '/quiz/komnata.jpg'          },
+  { label: 'Кухня',            photo: '/quiz/kukhnya.jpg'          },
 ];
 
 /* ─── Step 2: площадь ─────────────────────────────────────────── */
@@ -262,17 +219,23 @@ export function QuizModal({ onClose }: QuizModalProps) {
         <div className="flex-1 overflow-y-auto px-6 pb-8 pt-6 min-h-0">
           <AnimatePresence mode="wait" custom={dir}>
 
-            {/* Step 0: тип объекта — photo-card style */}
+            {/* Step 0: тип объекта — фото-карточки */}
             {step === 0 && (
               <StepWrap key="s0" dir={dir}>
                 <StepTitle>Где планируете ремонт?</StepTitle>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {OBJECT_TYPE_OPTIONS.map((opt) => (
                     <button key={opt.label} type="button"
                       onClick={() => { setAptType(opt.label); next(); }}
-                      className="flex flex-col items-center gap-3 py-6 px-4 rounded-[16px] border-2 border-[#eef1ee] bg-site hover:border-grove hover:bg-[#edf5ed] transition-all duration-150 cursor-pointer text-center group text-[#1B4F1B]">
-                      <span className="group-hover:scale-110 transition-transform duration-150">{opt.icon}</span>
-                      <span className="font-semibold text-[15px] text-ink">{opt.label}</span>
+                      className="flex flex-col rounded-[14px] overflow-hidden border-2 border-[#eef1ee] hover:border-grove transition-all duration-150 cursor-pointer group text-left">
+                      <div className="relative w-full aspect-[4/3] bg-[#eef1ee]">
+                        <Image src={opt.photo} alt={opt.label} fill
+                          sizes="(max-width: 640px) 50vw, 33vw"
+                          className="object-cover group-hover:scale-[1.04] transition-transform duration-200" />
+                      </div>
+                      <div className="px-3 py-2.5 bg-white group-hover:bg-[#f5faf5] transition-colors">
+                        <span className="font-semibold text-[14px] text-ink">{opt.label}</span>
+                      </div>
                     </button>
                   ))}
                 </div>

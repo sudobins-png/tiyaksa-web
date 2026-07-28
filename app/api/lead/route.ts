@@ -21,7 +21,7 @@ function checkRate(ip: string): boolean {
 /* ── Request schema ─────────────────────────────────────────────── */
 const bodySchema = z.object({
   name:    z.string().min(2).max(100),
-  phone:   z.string().min(6).max(30),
+  phone:   z.string().min(1).max(60),
   message: z.string().max(1500).optional(),
   source:  z.string().max(60).optional(),
   aptType: z.string().max(40).optional(),

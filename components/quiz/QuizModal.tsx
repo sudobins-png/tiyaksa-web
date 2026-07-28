@@ -143,20 +143,20 @@ export function QuizModal({ onClose }: QuizModalProps) {
   };
 
   const onSubmit = async (data: ContactValues) => {
-    const isPhone = messenger === 'phone';
+    const messengerLabel = MESSENGERS.find((m) => m.id === messenger)?.label ?? '';
     const res = await fetch('/api/lead', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         name:    data.name,
-        phone:   isPhone ? data.contact : '—',
+        phone:   messenger !== 'telegram' ? data.contact : '—',
         website: data.website,
         source:  'quiz',
         aptType,
         message: [
           area      && `Площадь: ${area}`,
           hasDesign && `Дизайн-проект: ${hasDesign}`,
-          messenger !== 'phone' && `Мессенджер: ${MESSENGERS.find(m => m.id === messenger)?.label} — ${data.contact}`,
+          `Связь: ${messengerLabel}${messenger === 'telegram' ? ` — ${data.contact}` : ''}`,
         ].filter(Boolean).join(' · ') || undefined,
       }),
     });

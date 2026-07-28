@@ -51,55 +51,6 @@ const DESIGN_OPTIONS = [
   { label: 'Хочу без проекта',       sub: 'Достаточно технической документации' },
 ];
 
-/* ─── Step 4: тип ремонта ─────────────────────────────────────── */
-const WORK_TYPE_OPTIONS = [
-  {
-    label: 'Косметический',
-    sub:   'Обои, покраска, полы — без сноса',
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden>
-        <rect x="4" y="20" width="24" height="4" rx="2" fill="#F0B429" fillOpacity=".5" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M10 20V8M22 20V8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        <rect x="8" y="4" width="16" height="6" rx="2" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M14 7h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-    ),
-  },
-  {
-    label: 'Капитальный',
-    sub:   'Перепланировка, стяжка, коммуникации',
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden>
-        <rect x="3" y="14" width="26" height="14" rx="2" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M3 18h26M3 22h26" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M7 14V4h18v10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="16" cy="9" r="2" fill="#F0B429" fillOpacity=".7" stroke="currentColor" strokeWidth="1.5" />
-      </svg>
-    ),
-  },
-  {
-    label: 'Под ключ',
-    sub:   'Полный цикл от замера до финала',
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden>
-        <circle cx="12" cy="13" r="7" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M17 18 L28 28" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-        <circle cx="12" cy="13" r="3" fill="#F0B429" fillOpacity=".6" />
-      </svg>
-    ),
-  },
-  {
-    label: 'С дизайн-проектом',
-    sub:   'Авторский стиль + реализация',
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden>
-        <rect x="4" y="4" width="24" height="24" rx="3" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M9 22 L13 14 L17 18 L20 12 L23 22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="23" cy="9" r="3" fill="#F0B429" fillOpacity=".6" stroke="currentColor" strokeWidth="1.5" />
-      </svg>
-    ),
-  },
-];
 
 /* ─── Contact form schema ─────────────────────────────────────── */
 const contactSchema = z.object({
@@ -128,7 +79,6 @@ export function QuizModal({ onClose }: QuizModalProps) {
   const [aptType,   setAptType]   = useState('');
   const [area,      setArea]      = useState('');
   const [hasDesign, setHasDesign] = useState('');
-  const [workType,  setWorkType]  = useState('');
   const [phoneRaw,  setPhoneRaw]  = useState('');
   const showToast = useToastStore((s) => s.show);
 
@@ -165,17 +115,16 @@ export function QuizModal({ onClose }: QuizModalProps) {
         website:  data.website,
         source:   'quiz',
         aptType,
-        workType,
         message:  [area && `Площадь: ${area}`, hasDesign && `Дизайн-проект: ${hasDesign}`]
                     .filter(Boolean).join(' · ') || undefined,
       }),
     });
     if (!res.ok) { showToast('Ошибка отправки. Позвоните нам напрямую.'); return; }
-    setDir(1); setStep(5);
+    setDir(1); setStep(4);
   };
 
-  const TOTAL = 4;
-  const progress = step >= 5 ? 100 : Math.round((step / TOTAL) * 100);
+  const TOTAL = 3;
+  const progress = step >= 4 ? 100 : Math.round((step / TOTAL) * 100);
 
   return (
     <motion.div
@@ -193,7 +142,7 @@ export function QuizModal({ onClose }: QuizModalProps) {
         <div className="shrink-0 px-6 pt-5 pb-4 border-b border-[#f0f3f0]">
           <div className="flex items-start justify-between mb-3 gap-3">
             <p className="text-[13px] text-muted font-medium leading-snug pt-0.5">
-              {step < 5 ? 'Ответьте на 4 вопроса — получите предварительный расчёт' : ' '}
+              {step < 4 ? 'Ответьте на 3 вопроса — получите предварительный расчёт' : ' '}
             </p>
             <button onClick={handleClose} aria-label="Закрыть"
               className="w-9 h-9 rounded-full hover:bg-[#f0f4f0] flex items-center justify-center transition-colors shrink-0">
@@ -203,7 +152,7 @@ export function QuizModal({ onClose }: QuizModalProps) {
             </button>
           </div>
 
-          {step < 5 && (
+          {step < 4 && (
             <div className="flex items-center gap-3">
               <div className="flex-1 h-[6px] bg-[#eef1ee] rounded-full overflow-hidden">
                 <motion.div className="h-full bg-gold rounded-full"
@@ -269,28 +218,9 @@ export function QuizModal({ onClose }: QuizModalProps) {
               </StepWrap>
             )}
 
-            {/* Step 3: тип ремонта — card grid */}
+            {/* Step 3: контакты */}
             {step === 3 && (
               <StepWrap key="s3" dir={dir}>
-                <StepTitle>Какой ремонт планируете?</StepTitle>
-                <div className="grid grid-cols-2 gap-3">
-                  {WORK_TYPE_OPTIONS.map((opt) => (
-                    <button key={opt.label} type="button"
-                      onClick={() => { setWorkType(opt.label); next(); }}
-                      className="flex flex-col items-start gap-2 p-4 rounded-[16px] border-2 border-[#eef1ee] bg-site hover:border-grove hover:bg-[#edf5ed] transition-all duration-150 cursor-pointer group text-[#1B4F1B]">
-                      <span className="group-hover:scale-110 transition-transform duration-150">{opt.icon}</span>
-                      <span className="font-bold text-[15px] text-ink">{opt.label}</span>
-                      <span className="text-[12px] text-muted leading-snug">{opt.sub}</span>
-                    </button>
-                  ))}
-                </div>
-                <BackBtn onClick={back} />
-              </StepWrap>
-            )}
-
-            {/* Step 4: контакты */}
-            {step === 4 && (
-              <StepWrap key="s4" dir={dir}>
                 <StepTitle>Куда отправить расчёт?</StepTitle>
                 <p className="text-[15px] text-muted mb-5 -mt-1">
                   Перезвоним в течение часа и пришлём предварительную смету.
@@ -301,7 +231,6 @@ export function QuizModal({ onClose }: QuizModalProps) {
                   {aptType   && <Chip>{aptType}</Chip>}
                   {area      && <Chip>{area}</Chip>}
                   {hasDesign && <Chip>{hasDesign}</Chip>}
-                  {workType  && <Chip>{workType}</Chip>}
                 </div>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3" noValidate>
@@ -338,8 +267,8 @@ export function QuizModal({ onClose }: QuizModalProps) {
             )}
 
             {/* Step 5: success */}
-            {step === 5 && (
-              <StepWrap key="s5" dir={dir}>
+            {step === 4 && (
+              <StepWrap key="s4" dir={dir}>
                 <div className="flex flex-col items-center text-center py-8">
                   <div className="w-[72px] h-[72px] rounded-full bg-[#eef6ee] flex items-center justify-center mb-5">
                     <svg width="36" height="36" viewBox="0 0 40 40" fill="none" aria-hidden>

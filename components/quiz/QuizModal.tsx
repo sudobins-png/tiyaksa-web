@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { motion, AnimatePresence } from 'framer-motion';
 import { z } from 'zod';
 import { useToastStore } from '@/stores/toastStore';
+import { PrivacyModal } from '@/components/ui/PrivacyModal';
 
 /* ─── Phone formatter ─────────────────────────────────────────── */
 function formatPhone(raw: string): string {
@@ -76,9 +77,10 @@ export interface QuizModalProps {
 export function QuizModal({ onClose }: QuizModalProps) {
   const [step, setStep] = useState(0);
   const [dir, setDir]   = useState(1);
-  const [aptType,   setAptType]   = useState('');
-  const [area,      setArea]      = useState('');
-  const [hasDesign, setHasDesign] = useState('');
+  const [aptType,      setAptType]      = useState('');
+  const [area,         setArea]         = useState('');
+  const [hasDesign,    setHasDesign]    = useState('');
+  const [privacyOpen,  setPrivacyOpen]  = useState(false);
   const [phoneRaw,  setPhoneRaw]  = useState('');
   const showToast = useToastStore((s) => s.show);
 
@@ -127,6 +129,7 @@ export function QuizModal({ onClose }: QuizModalProps) {
   const progress = step >= 4 ? 100 : Math.round((step / TOTAL) * 100);
 
   return (
+    <>
     <motion.div
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.15 }}
       className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/55"
@@ -259,10 +262,10 @@ export function QuizModal({ onClose }: QuizModalProps) {
 
                   <p className="text-[12px] text-[#9aa39a] text-center leading-relaxed">
                     Нажимая кнопку, вы соглашаетесь на{' '}
-                    <a href="/privacy" target="_blank" rel="noopener noreferrer"
-                      className="underline hover:text-forest transition-colors">
+                    <button type="button" onClick={() => setPrivacyOpen(true)}
+                      className="underline hover:text-forest transition-colors bg-transparent border-none p-0 text-[12px] text-[#9aa39a] cursor-pointer">
                       обработку персональных данных
-                    </a>
+                    </button>
                   </p>
                 </form>
 
@@ -296,6 +299,9 @@ export function QuizModal({ onClose }: QuizModalProps) {
         </div>
       </motion.div>
     </motion.div>
+
+    {privacyOpen && <PrivacyModal onClose={() => setPrivacyOpen(false)} />}
+    </>
   );
 }
 

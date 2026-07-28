@@ -258,7 +258,11 @@ export function QuizModal({ onClose }: QuizModalProps) {
                   </button>
 
                   <p className="text-[12px] text-[#9aa39a] text-center leading-relaxed">
-                    Нажимая кнопку, вы соглашаетесь на обработку персональных данных
+                    Нажимая кнопку, вы соглашаетесь на{' '}
+                    <a href="/privacy" target="_blank" rel="noopener noreferrer"
+                      className="underline hover:text-forest transition-colors">
+                      обработку персональных данных
+                    </a>
                   </p>
                 </form>
 

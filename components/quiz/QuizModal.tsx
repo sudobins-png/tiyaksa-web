@@ -53,10 +53,42 @@ const DESIGN_OPTIONS = [
 ];
 
 
+/* ─── Messenger options ───────────────────────────────────────── */
+type Messenger = 'phone' | 'telegram' | 'max';
+
+const MESSENGERS: { id: Messenger; label: string; icon: React.ReactNode }[] = [
+  {
+    id: 'phone', label: 'Телефон',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+        <path d="M6.5 3C6.5 3 5 3 4 4.5C3 6 3.5 8 5 10C6.5 12 9 14.5 11 16C13 17.5 15 18 16.5 17C18 16 18 14.5 18 14.5L15.5 12L13.5 13.5C13.5 13.5 11.5 12.5 10 11C8.5 9.5 7.5 7.5 7.5 7.5L9 5.5L6.5 3Z" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
+    id: 'telegram', label: 'Telegram',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+        <path d="M21.8 3.6L18.5 19.4C18.3 20.2 17.8 20.4 17.1 20L12.1 16.3L9.7 18.6C9.4 18.9 9.2 19.1 8.6 19.1L9 14L18.1 5.8C18.5 5.4 18 5.2 17.4 5.6L6.1 12.7L1.2 11.2C0.1 10.9 0.1 10.1 1.4 9.6L20.4 2.1C21.3 1.8 22.1 2.3 21.8 3.6Z" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
+    id: 'max', label: 'Max',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+        <circle cx="12" cy="12" r="10" fill="currentColor" fillOpacity=".15" />
+        <path d="M7 8 L12 14 L17 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M7 13 L12 19 L17 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" strokeOpacity=".5" />
+      </svg>
+    ),
+  },
+];
+
 /* ─── Contact form schema ─────────────────────────────────────── */
 const contactSchema = z.object({
   name:    z.string().min(2, 'Введите имя'),
-  phone:   z.string().min(16, 'Введите телефон полностью'),
+  contact: z.string().min(3, 'Введите контакт'),
   website: z.string().optional(),
 });
 type ContactValues = z.infer<typeof contactSchema>;
@@ -77,11 +109,12 @@ export interface QuizModalProps {
 export function QuizModal({ onClose }: QuizModalProps) {
   const [step, setStep] = useState(0);
   const [dir, setDir]   = useState(1);
-  const [aptType,      setAptType]      = useState('');
-  const [area,         setArea]         = useState('');
-  const [hasDesign,    setHasDesign]    = useState('');
-  const [privacyOpen,  setPrivacyOpen]  = useState(false);
-  const [phoneRaw,  setPhoneRaw]  = useState('');
+  const [aptType,     setAptType]     = useState('');
+  const [area,        setArea]        = useState('');
+  const [hasDesign,   setHasDesign]   = useState('');
+  const [messenger,   setMessenger]   = useState<Messenger | null>(null);
+  const [privacyOpen, setPrivacyOpen] = useState(false);
+  const [phoneRaw,    setPhoneRaw]    = useState('');
   const showToast = useToastStore((s) => s.show);
 
   const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm<ContactValues>({
@@ -104,21 +137,25 @@ export function QuizModal({ onClose }: QuizModalProps) {
   const onPhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const f = formatPhone(e.target.value);
     setPhoneRaw(f);
-    setValue('phone', f, { shouldValidate: true });
+    setValue('contact', f, { shouldValidate: true });
   };
 
   const onSubmit = async (data: ContactValues) => {
+    const isPhone = messenger === 'phone';
     const res = await fetch('/api/lead', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        name:     data.name,
-        phone:    data.phone,
-        website:  data.website,
-        source:   'quiz',
+        name:    data.name,
+        phone:   isPhone ? data.contact : '+7 (000) 000-00-00',
+        website: data.website,
+        source:  'quiz',
         aptType,
-        message:  [area && `Площадь: ${area}`, hasDesign && `Дизайн-проект: ${hasDesign}`]
-                    .filter(Boolean).join(' · ') || undefined,
+        message: [
+          area      && `Площадь: ${area}`,
+          hasDesign && `Дизайн-проект: ${hasDesign}`,
+          messenger !== 'phone' && `Мессенджер: ${MESSENGERS.find(m => m.id === messenger)?.label} — ${data.contact}`,
+        ].filter(Boolean).join(' · ') || undefined,
       }),
     });
     if (!res.ok) { showToast('Ошибка отправки. Позвоните нам напрямую.'); return; }
@@ -226,7 +263,7 @@ export function QuizModal({ onClose }: QuizModalProps) {
               <StepWrap key="s3" dir={dir}>
                 <StepTitle>Куда отправить расчёт?</StepTitle>
                 <p className="text-[15px] text-muted mb-5 -mt-1">
-                  Перезвоним в течение часа и пришлём предварительную смету.
+                  Свяжемся в течение часа и пришлём предварительную смету.
                 </p>
 
                 {/* Summary chips */}
@@ -236,38 +273,66 @@ export function QuizModal({ onClose }: QuizModalProps) {
                   {hasDesign && <Chip>{hasDesign}</Chip>}
                 </div>
 
-                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3" noValidate>
-                  <input {...register('website')} type="text" autoComplete="off" tabIndex={-1} aria-hidden
-                    style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', width: 0, height: 0 }} />
-
-                  <div>
-                    <input {...register('name')} type="text" placeholder="Ваше имя" autoComplete="name"
-                      className="w-full bg-[#f7f9f7] border border-[#e4e9e4] focus:border-grove rounded-xl px-5 py-4 text-base outline-none transition-colors placeholder:text-[#b0b8b0]"
-                      aria-invalid={!!errors.name} />
-                    {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>}
-                  </div>
-
-                  <div>
-                    <input type="tel" inputMode="tel" placeholder="+7 (___) ___-__-__" autoComplete="tel"
-                      value={phoneRaw} onChange={onPhoneChange}
-                      className="w-full bg-[#f7f9f7] border border-[#e4e9e4] focus:border-grove rounded-xl px-5 py-4 text-base outline-none transition-colors placeholder:text-[#b0b8b0]"
-                      aria-invalid={!!errors.phone} />
-                    {errors.phone && <p className="mt-1 text-xs text-red-500">{errors.phone.message}</p>}
-                  </div>
-
-                  <button type="submit" disabled={isSubmitting}
-                    className="w-full bg-gold hover:bg-gold-dark disabled:opacity-60 text-ink font-bold text-[17px] py-[16px] border-none rounded-[14px] cursor-pointer shadow-gold-glow transition-all duration-200 hover:-translate-y-px">
-                    {isSubmitting ? 'Отправляем…' : 'Получить расчёт →'}
-                  </button>
-
-                  <p className="text-[12px] text-[#9aa39a] text-center leading-relaxed">
-                    Нажимая кнопку, вы соглашаетесь на{' '}
-                    <button type="button" onClick={() => setPrivacyOpen(true)}
-                      className="underline hover:text-forest transition-colors bg-transparent border-none p-0 text-[12px] text-[#9aa39a] cursor-pointer">
-                      обработку персональных данных
+                {/* Messenger selector */}
+                <div className="grid grid-cols-3 gap-2 mb-5">
+                  {MESSENGERS.map((m) => (
+                    <button key={m.id} type="button"
+                      onClick={() => { setMessenger(m.id); setPhoneRaw(''); setValue('contact', ''); }}
+                      className={[
+                        'flex flex-col items-center gap-2 py-4 rounded-[14px] border-2 transition-all duration-150 cursor-pointer',
+                        messenger === m.id
+                          ? 'border-grove bg-[#edf5ed] text-forest'
+                          : 'border-[#eef1ee] bg-site text-ink hover:border-grove hover:bg-[#edf5ed]',
+                      ].join(' ')}>
+                      {m.icon}
+                      <span className="font-semibold text-[13px]">{m.label}</span>
                     </button>
-                  </p>
-                </form>
+                  ))}
+                </div>
+
+                {/* Contact form — показываем после выбора мессенджера */}
+                {messenger && (
+                  <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3" noValidate>
+                    <input {...register('website')} type="text" autoComplete="off" tabIndex={-1} aria-hidden
+                      style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', width: 0, height: 0 }} />
+
+                    <div>
+                      <input {...register('name')} type="text" placeholder="Ваше имя" autoComplete="name"
+                        className="w-full bg-[#f7f9f7] border border-[#e4e9e4] focus:border-grove rounded-xl px-5 py-4 text-base outline-none transition-colors placeholder:text-[#b0b8b0]"
+                        aria-invalid={!!errors.name} />
+                      {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>}
+                    </div>
+
+                    <div>
+                      {messenger === 'phone' ? (
+                        <input type="tel" inputMode="tel" placeholder="+7 (___) ___-__-__" autoComplete="tel"
+                          value={phoneRaw} onChange={onPhoneChange}
+                          className="w-full bg-[#f7f9f7] border border-[#e4e9e4] focus:border-grove rounded-xl px-5 py-4 text-base outline-none transition-colors placeholder:text-[#b0b8b0]"
+                          aria-invalid={!!errors.contact} />
+                      ) : (
+                        <input {...register('contact')} type="text"
+                          placeholder={messenger === 'telegram' ? '@username или номер телефона' : 'Номер телефона в Max'}
+                          autoComplete="off"
+                          className="w-full bg-[#f7f9f7] border border-[#e4e9e4] focus:border-grove rounded-xl px-5 py-4 text-base outline-none transition-colors placeholder:text-[#b0b8b0]"
+                          aria-invalid={!!errors.contact} />
+                      )}
+                      {errors.contact && <p className="mt-1 text-xs text-red-500">{errors.contact.message}</p>}
+                    </div>
+
+                    <button type="submit" disabled={isSubmitting}
+                      className="w-full bg-gold hover:bg-gold-dark disabled:opacity-60 text-ink font-bold text-[17px] py-[16px] border-none rounded-[14px] cursor-pointer shadow-gold-glow transition-all duration-200 hover:-translate-y-px">
+                      {isSubmitting ? 'Отправляем…' : 'Получить расчёт →'}
+                    </button>
+
+                    <p className="text-[12px] text-[#9aa39a] text-center leading-relaxed">
+                      Нажимая кнопку, вы соглашаетесь на{' '}
+                      <button type="button" onClick={() => setPrivacyOpen(true)}
+                        className="underline hover:text-forest transition-colors bg-transparent border-none p-0 text-[12px] text-[#9aa39a] cursor-pointer">
+                        обработку персональных данных
+                      </button>
+                    </p>
+                  </form>
+                )}
 
                 <BackBtn onClick={back} />
               </StepWrap>

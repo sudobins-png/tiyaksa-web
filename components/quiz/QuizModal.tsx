@@ -79,9 +79,13 @@ export function QuizModal({ onClose }: QuizModalProps) {
   useEffect(() => {
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
+  }, []);
+
+  useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') handleClose(); };
     window.addEventListener('keydown', onKey);
-    return () => { document.body.style.overflow = prev; window.removeEventListener('keydown', onKey); };
+    return () => window.removeEventListener('keydown', onKey);
   }, [handleClose]);
 
   const next = () => { setDir(1);  setStep((s) => s + 1); };
@@ -95,23 +99,29 @@ export function QuizModal({ onClose }: QuizModalProps) {
 
   const onSubmit = async (data: ContactValues) => {
     const messengerLabel = MESSENGERS.find((m) => m.id === messenger)?.label ?? '';
-    const res = await fetch('/api/lead', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name:    data.name,
-        phone:   messenger !== 'telegram' ? data.contact : '—',
-        website: data.website,
-        source:  'quiz',
-        aptType,
-        message: [
-          area      && `Площадь: ${area}`,
-          hasDesign && `Дизайн-проект: ${hasDesign}`,
-          `Связь: ${messengerLabel}${messenger === 'telegram' ? ` — ${data.contact}` : ''}`,
-        ].filter(Boolean).join(' · ') || undefined,
-      }),
-    });
-    if (!res.ok) { showToast('Ошибка отправки. Позвоните нам напрямую.'); return; }
+    const isTextContact = messenger === 'telegram' || messenger === 'max';
+    try {
+      const res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name:    data.name,
+          phone:   !isTextContact ? data.contact : '—',
+          website: data.website,
+          source:  'quiz',
+          aptType,
+          message: [
+            area      && `Площадь: ${area}`,
+            hasDesign && `Дизайн-проект: ${hasDesign}`,
+            isTextContact ? `Связь: ${messengerLabel} — ${data.contact}` : `Связь: ${messengerLabel}`,
+          ].filter(Boolean).join(' · ') || undefined,
+        }),
+      });
+      if (!res.ok) { showToast('Ошибка отправки. Позвоните нам напрямую.'); return; }
+    } catch {
+      showToast('Ошибка отправки. Проверьте соединение.');
+      return;
+    }
     setDir(1); setStep(4);
   };
 
@@ -249,13 +259,14 @@ export function QuizModal({ onClose }: QuizModalProps) {
 
                     <div>
                       <input
-                        type={messenger === 'phone' || messenger === 'max' ? 'tel' : 'text'}
-                        inputMode={messenger === 'telegram' ? 'text' : 'tel'}
+                        type={messenger === 'phone' ? 'tel' : 'text'}
+                        inputMode={messenger === 'phone' ? 'tel' : 'text'}
                         placeholder={
                           messenger === 'telegram' ? '@username или номер телефона' :
+                          messenger === 'max'      ? 'vk.me/... или номер телефона' :
                           '+7 (___) ___-__-__'
                         }
-                        autoComplete={messenger === 'telegram' ? 'off' : 'tel'}
+                        autoComplete={messenger === 'phone' ? 'tel' : 'off'}
                         value={contactRaw}
                         onChange={onContactChange}
                         className="w-full bg-[#f7f9f7] border border-[#e4e9e4] focus:border-grove rounded-xl px-5 py-4 text-base outline-none transition-colors placeholder:text-[#b0b8b0]"

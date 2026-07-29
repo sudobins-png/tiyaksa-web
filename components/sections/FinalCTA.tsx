@@ -57,21 +57,27 @@ export function FinalCTA() {
 
   const onSubmit = async (data: LeadValues) => {
     const messengerLabel = MESSENGERS.find((m) => m.id === messenger)?.label ?? '';
-    const res = await fetch('/api/lead', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        ...data,
-        phone:  messenger !== 'telegram' ? data.phone : '—',
-        source: 'cta-form',
-        aptType, workType, area,
-        message: [
-          data.message,
-          `Связь: ${messengerLabel}${messenger === 'telegram' ? ` — ${data.phone}` : ''}`,
-        ].filter(Boolean).join(' · '),
-      }),
-    });
-    if (!res.ok) { showToast('Ошибка отправки. Позвоните нам напрямую.'); return; }
+    const isTextContact = messenger === 'telegram' || messenger === 'max';
+    try {
+      const res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...data,
+          phone:  !isTextContact ? data.phone : '—',
+          source: 'cta-form',
+          aptType, workType, area,
+          message: [
+            data.message,
+            isTextContact ? `Связь: ${messengerLabel} — ${data.phone}` : `Связь: ${messengerLabel}`,
+          ].filter(Boolean).join(' · '),
+        }),
+      });
+      if (!res.ok) { showToast('Ошибка отправки. Позвоните нам напрямую.'); return; }
+    } catch {
+      showToast('Ошибка отправки. Проверьте соединение.');
+      return;
+    }
     reset();
     setContactRaw('');
     setMessenger('phone');
@@ -158,10 +164,14 @@ export function FinalCTA() {
                 </div>
                 <div className="flex-1 min-w-[160px]">
                   <input
-                    type={messenger === 'telegram' ? 'text' : 'tel'}
-                    inputMode={messenger === 'telegram' ? 'text' : 'tel'}
-                    placeholder={messenger === 'telegram' ? '@username или телефон' : '+7 (___) ___-__-__'}
-                    autoComplete={messenger === 'telegram' ? 'off' : 'tel'}
+                    type={messenger === 'phone' ? 'tel' : 'text'}
+                    inputMode={messenger === 'phone' ? 'tel' : 'text'}
+                    placeholder={
+                      messenger === 'telegram' ? '@username или телефон' :
+                      messenger === 'max'      ? 'vk.me/... или телефон' :
+                      '+7 (___) ___-__-__'
+                    }
+                    autoComplete={messenger === 'phone' ? 'tel' : 'off'}
                     value={contactRaw}
                     onChange={onContactChange}
                     className="w-full bg-site border border-[#e4e9e4] focus:border-grove rounded-xl px-[18px] py-4 text-base outline-none transition-colors duration-200"

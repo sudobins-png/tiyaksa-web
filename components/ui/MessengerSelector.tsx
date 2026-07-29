@@ -46,7 +46,8 @@ export function formatPhone(raw: string): string {
 }
 
 export function formatContact(raw: string, messenger: MessengerType): string {
-  if (messenger === 'telegram' && (raw.startsWith('@') || (raw.length > 0 && !/^\+?\d/.test(raw)))) {
+  const isUsername = raw.startsWith('@') || (raw.length > 0 && !/^\+?\d/.test(raw));
+  if ((messenger === 'telegram' || messenger === 'max') && isUsername) {
     return raw;
   }
   return formatPhone(raw);

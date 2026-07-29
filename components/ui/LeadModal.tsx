@@ -38,9 +38,13 @@ export function LeadModal({ onClose, source }: LeadModalProps) {
   useEffect(() => {
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
+  }, []);
+
+  useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') handleClose(); };
     window.addEventListener('keydown', onKey);
-    return () => { document.body.style.overflow = prev; window.removeEventListener('keydown', onKey); };
+    return () => window.removeEventListener('keydown', onKey);
   }, [handleClose]);
 
   const onContactChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,20 +61,26 @@ export function LeadModal({ onClose, source }: LeadModalProps) {
 
   const onSubmit = async (data: LeadValues) => {
     const messengerLabel = MESSENGERS.find((m) => m.id === messenger)?.label ?? '';
-    const res = await fetch('/api/lead', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        ...data,
-        phone:   messenger !== 'telegram' ? data.phone : '—',
-        source,
-        message: [
-          data.message,
-          `Связь: ${messengerLabel}${messenger === 'telegram' ? ` — ${data.phone}` : ''}`,
-        ].filter(Boolean).join(' · '),
-      }),
-    });
-    if (!res.ok) { showToast('Ошибка отправки. Позвоните нам напрямую.'); return; }
+    const isTextContact = messenger === 'telegram' || messenger === 'max';
+    try {
+      const res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...data,
+          phone:   !isTextContact ? data.phone : '—',
+          source,
+          message: [
+            data.message,
+            isTextContact ? `Связь: ${messengerLabel} — ${data.phone}` : `Связь: ${messengerLabel}`,
+          ].filter(Boolean).join(' · '),
+        }),
+      });
+      if (!res.ok) { showToast('Ошибка отправки. Позвоните нам напрямую.'); return; }
+    } catch {
+      showToast('Ошибка отправки. Проверьте соединение.');
+      return;
+    }
     onClose();
     showToast('Заявка принята! Свяжемся в течение часа.');
   };
@@ -125,10 +135,14 @@ export function LeadModal({ onClose, source }: LeadModalProps) {
             {/* Контакт */}
             <div>
               <input
-                type={messenger === 'telegram' ? 'text' : 'tel'}
-                inputMode={messenger === 'telegram' ? 'text' : 'tel'}
-                placeholder={messenger === 'telegram' ? '@username или номер телефона' : '+7 (___) ___-__-__'}
-                autoComplete={messenger === 'telegram' ? 'off' : 'tel'}
+                type={messenger === 'phone' ? 'tel' : 'text'}
+                inputMode={messenger === 'phone' ? 'tel' : 'text'}
+                placeholder={
+                  messenger === 'telegram' ? '@username или номер телефона' :
+                  messenger === 'max'      ? 'vk.me/... или номер телефона' :
+                  '+7 (___) ___-__-__'
+                }
+                autoComplete={messenger === 'phone' ? 'tel' : 'off'}
                 value={contactRaw}
                 onChange={onContactChange}
                 className={inputCls}

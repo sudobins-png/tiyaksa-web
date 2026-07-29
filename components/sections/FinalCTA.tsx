@@ -166,11 +166,7 @@ export function FinalCTA() {
                   <input
                     type={messenger === 'phone' ? 'tel' : 'text'}
                     inputMode={messenger === 'phone' ? 'tel' : 'text'}
-                    placeholder={
-                      messenger === 'telegram' ? '@username или телефон' :
-                      messenger === 'max'      ? 'vk.me/... или телефон' :
-                      '+7 (___) ___-__-__'
-                    }
+                    placeholder={messenger === 'telegram' ? '@username или телефон' : '+7 (___) ___-__-__'}
                     autoComplete={messenger === 'phone' ? 'tel' : 'off'}
                     value={contactRaw}
                     onChange={onContactChange}

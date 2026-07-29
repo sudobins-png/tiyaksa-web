@@ -261,11 +261,7 @@ export function QuizModal({ onClose }: QuizModalProps) {
                       <input
                         type={messenger === 'phone' ? 'tel' : 'text'}
                         inputMode={messenger === 'phone' ? 'tel' : 'text'}
-                        placeholder={
-                          messenger === 'telegram' ? '@username или номер телефона' :
-                          messenger === 'max'      ? 'vk.me/... или номер телефона' :
-                          '+7 (___) ___-__-__'
-                        }
+                        placeholder={messenger === 'telegram' ? '@username или номер телефона' : '+7 (___) ___-__-__'}
                         autoComplete={messenger === 'phone' ? 'tel' : 'off'}
                         value={contactRaw}
                         onChange={onContactChange}

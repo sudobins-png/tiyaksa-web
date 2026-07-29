@@ -99,21 +99,21 @@ export function QuizModal({ onClose }: QuizModalProps) {
 
   const onSubmit = async (data: ContactValues) => {
     const messengerLabel = MESSENGERS.find((m) => m.id === messenger)?.label ?? '';
-    const isTextContact = messenger === 'telegram' || messenger === 'max';
+    const isTelegram = messenger === 'telegram';
     try {
       const res = await fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name:    data.name,
-          phone:   !isTextContact ? data.contact : '—',
+          phone:   !isTelegram ? data.contact : '—',
           website: data.website,
           source:  'quiz',
           aptType,
           message: [
             area      && `Площадь: ${area}`,
             hasDesign && `Дизайн-проект: ${hasDesign}`,
-            isTextContact ? `Связь: ${messengerLabel} — ${data.contact}` : `Связь: ${messengerLabel}`,
+            isTelegram ? `Связь: ${messengerLabel} — ${data.contact}` : `Связь: ${messengerLabel}`,
           ].filter(Boolean).join(' · ') || undefined,
         }),
       });

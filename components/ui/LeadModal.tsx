@@ -61,18 +61,18 @@ export function LeadModal({ onClose, source }: LeadModalProps) {
 
   const onSubmit = async (data: LeadValues) => {
     const messengerLabel = MESSENGERS.find((m) => m.id === messenger)?.label ?? '';
-    const isTextContact = messenger === 'telegram' || messenger === 'max';
+    const isTelegram = messenger === 'telegram';
     try {
       const res = await fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...data,
-          phone:   !isTextContact ? data.phone : '—',
+          phone:   !isTelegram ? data.phone : '—',
           source,
           message: [
             data.message,
-            isTextContact ? `Связь: ${messengerLabel} — ${data.phone}` : `Связь: ${messengerLabel}`,
+            isTelegram ? `Связь: ${messengerLabel} — ${data.phone}` : `Связь: ${messengerLabel}`,
           ].filter(Boolean).join(' · '),
         }),
       });

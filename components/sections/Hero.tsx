@@ -71,7 +71,7 @@ export function Hero() {
 
           <div className="flex flex-col sm:flex-row gap-[14px]">
             <a
-              href="#calc"
+              href="#prices"
               className="bg-gold hover:bg-gold-dark text-ink font-bold text-[17px] px-[30px] py-[17px] rounded-[14px] shadow-gold-glow transition-all duration-200 hover:-translate-y-0.5 text-center"
             >
               {heroContent.ctaPrimary}

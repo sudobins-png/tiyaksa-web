@@ -17,6 +17,7 @@ function PriceBadge({ className = '' }: { className?: string }) {
       <div className="bg-gold px-4 py-[10px]">
         <p className="text-[10px] font-bold uppercase tracking-[.12em] text-ink/60 leading-none mb-[5px]">стоимость ремонта</p>
         <p className="text-[20px] font-extrabold text-ink leading-none">от 7 500 ₽/м²</p>
+        <p className="text-[11px] font-semibold text-ink/50 leading-none mt-[5px]">косметический ремонт</p>
       </div>
     </div>
   );

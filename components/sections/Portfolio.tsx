@@ -238,9 +238,12 @@ function PortfolioCard({ item, onOpen }: CardProps) {
       {/* Info */}
       <div className="px-[22px] pb-6 pt-[22px]">
         <p className="font-bold text-xl text-ink">{item.name}</p>
-        <div className="flex gap-[18px] flex-wrap my-[14px] text-muted text-[15px]">
+        <div className="flex gap-2 flex-wrap my-[14px] text-muted text-[15px]">
           <span>{item.area}</span>
+          <span>·</span>
           <span>{item.term}</span>
+          <span>·</span>
+          <span className="text-forest font-semibold">{item.pricePerSqm}</span>
         </div>
       </div>
     </div>

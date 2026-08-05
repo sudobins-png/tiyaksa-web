@@ -43,15 +43,15 @@ export const stats = [
 
 export const portfolioItems = [
   {
-    name: 'Дизайнерский ремонт в 3-к. кв', area: '124 м²', term: '68 дней',
+    name: 'Дизайнерский ремонт в 3-к. кв', area: '124 м²', term: '68 дней', pricePerSqm: '20 800 ₽/м²',
     images: ['/pk-10.jpeg', '/pk-11.jpeg', '/pk-12.jpeg', '/pk-13.jpg', '/pk-14.jpg', '/pk-15.jpg'],
   },
   {
-    name: 'Ремонт кухни',             area: '25 м²', term: '52 дня',
+    name: 'Ремонт кухни',             area: '25 м²',  term: '52 дня',  pricePerSqm: '14 600 ₽/м²',
     images: ['/pk-2.jpg', '/pk-3.jpg', '/pk-1.jpg'],
   },
   {
-    name: 'Офисные помещения',        area: '320 м²', term: '45 дней',
+    name: 'Офисные помещения',        area: '320 м²', term: '45 дней', pricePerSqm: '12 500 ₽/м²',
     images: ['/pk-5.jpg', '/pk-6.jpg', '/pk-7.jpg', '/pk-8.jpg', '/pk-9.jpg'],
   },
 ];

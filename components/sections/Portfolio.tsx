@@ -274,14 +274,6 @@ export function Portfolio() {
           ))}
         </div>
 
-        <div className="mt-9">
-          <a
-            href="#cta"
-            className="inline-block border-[1.5px] border-forest text-forest hover:bg-forest hover:text-white font-semibold text-base px-7 py-[14px] rounded-xl transition-all duration-200"
-          >
-            Рассчитать стоимость
-          </a>
-        </div>
       </div>
 
       {lightbox && (

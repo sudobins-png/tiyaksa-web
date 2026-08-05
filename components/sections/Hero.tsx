@@ -6,6 +6,22 @@ import { GridOverlay } from '@/components/ui/GridOverlay';
 import { LeadModal } from '@/components/ui/LeadModal';
 import { heroContent } from '@/data/content';
 
+function PriceBadge({ className = '' }: { className?: string }) {
+  return (
+    <div className={`inline-flex items-stretch rounded-xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,.30)] ${className}`}>
+      <div
+        aria-hidden
+        className="w-[14px] shrink-0"
+        style={{ background: 'repeating-linear-gradient(-45deg, #1B4F1B 0px, #1B4F1B 5px, #F0B429 5px, #F0B429 10px)' }}
+      />
+      <div className="bg-gold px-4 py-[10px]">
+        <p className="text-[10px] font-bold uppercase tracking-[.12em] text-ink/60 leading-none mb-[5px]">стоимость ремонта</p>
+        <p className="text-[20px] font-extrabold text-ink leading-none">от 7 500 ₽/м²</p>
+      </div>
+    </div>
+  );
+}
+
 export function Hero() {
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -38,6 +54,10 @@ export function Hero() {
           >
             {heroContent.heading}
           </h1>
+
+          {/* Price badge — mobile only (desktop версия на изображении) */}
+          <PriceBadge className="md:hidden mb-6" />
+
           <ul className="flex flex-col gap-3 mb-9">
             {heroContent.bullets.map((item) => (
               <li key={item} className="flex items-start gap-3 text-white/85" style={{ fontSize: 'clamp(16px,2vw,18px)' }}>
@@ -69,6 +89,8 @@ export function Hero() {
 
         {/* Hero image */}
         <div className="flex-1 min-w-[280px] relative" style={{ flexBasis: '380px', maxWidth: '460px', height: '420px' }}>
+          {/* Price badge — desktop only */}
+          <PriceBadge className="hidden md:inline-flex absolute -left-5 top-8 z-10" />
           <Image
             src={heroContent.heroImage}
             alt="Интерьер отремонтированной квартиры"

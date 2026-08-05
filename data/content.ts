@@ -43,7 +43,7 @@ export const stats = [
 
 export const portfolioItems = [
   {
-    name: 'Дизайнерский ремонт в 3-к. кв', area: '124 м²', term: '68 дней', pricePerSqm: '20 800 ₽/м²',
+    name: 'Дизайнерский ремонт в 3-к. кв', area: '124 м²', term: '190 дней', pricePerSqm: '20 800 ₽/м²',
     images: ['/pk-10.jpeg', '/pk-11.jpeg', '/pk-12.jpeg', '/pk-13.jpg', '/pk-14.jpg', '/pk-15.jpg'],
   },
   {

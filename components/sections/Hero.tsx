@@ -55,8 +55,7 @@ export function Hero() {
             {heroContent.heading}
           </h1>
 
-          {/* Price badge — mobile only (desktop версия на изображении) */}
-          <PriceBadge className="md:hidden mb-6" />
+          <PriceBadge className="mb-6" />
 
           <ul className="flex flex-col gap-3 mb-9">
             {heroContent.bullets.map((item) => (
@@ -89,8 +88,6 @@ export function Hero() {
 
         {/* Hero image */}
         <div className="flex-1 min-w-[280px] relative" style={{ flexBasis: '380px', maxWidth: '460px', height: '420px' }}>
-          {/* Price badge — desktop only */}
-          <PriceBadge className="hidden md:inline-flex absolute -left-5 top-8 z-10" />
           <Image
             src={heroContent.heroImage}
             alt="Интерьер отремонтированной квартиры"

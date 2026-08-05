@@ -242,7 +242,6 @@ function PortfolioCard({ item, onOpen }: CardProps) {
           <span>{item.area}</span>
           <span>{item.term}</span>
         </div>
-        <p className="font-bold text-[19px] text-forest">{item.price}</p>
       </div>
     </div>
   );

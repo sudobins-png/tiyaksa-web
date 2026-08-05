@@ -42,7 +42,7 @@ export function Hero() {
         }}
       />
 
-      <div className="relative max-w-content mx-auto px-6 py-24 flex flex-wrap gap-14 items-center" style={{ paddingTop: '96px', paddingBottom: '100px' }}>
+      <div className="relative max-w-content mx-auto px-6 flex flex-wrap gap-14 items-center pt-8 pb-14 md:pt-24 md:pb-[100px]">
         {/* Text block */}
         <div className="flex-1 min-w-[300px]" style={{ flexBasis: '460px' }}>
           <p className="font-semibold text-[15px] tracking-[.1em] uppercase text-sage mb-6">

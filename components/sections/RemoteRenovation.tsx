@@ -27,7 +27,7 @@ const icons: Record<string, React.ReactNode> = {
 
 export function RemoteRenovation() {
   return (
-    <section className="relative overflow-hidden bg-forest">
+    <section id="удаленный-ремонт" className="relative overflow-hidden bg-forest">
       <GridOverlay />
       <div
         aria-hidden

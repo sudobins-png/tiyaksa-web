@@ -23,8 +23,8 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-COPY --from=deps --chown=nextjs:nodejs /app/node_modules/sharp ./node_modules/sharp
-COPY --from=deps --chown=nextjs:nodejs /app/node_modules/@img ./node_modules/@img
+
+RUN npm install sharp@0.33.5 --prefer-offline
 
 USER nextjs
 EXPOSE 3000

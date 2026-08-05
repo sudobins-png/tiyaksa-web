@@ -4,7 +4,7 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 import { QuizModal } from './QuizModal';
 
 const SESSION_KEY     = 'tiyaksa_quiz_shown';
-const IDLE_TIMEOUT_MS = 20_000; // мобайл: 20 с бездействия
+const IDLE_TIMEOUT_MS = 10_000; // мобайл: 10 с бездействия
 
 export function ExitIntentQuiz() {
   const [open, setOpen] = useState(false);

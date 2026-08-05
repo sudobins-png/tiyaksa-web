@@ -48,7 +48,7 @@ export const portfolioItems = [
   },
   {
     name: 'Ремонт кухни',             area: '25 м²', term: '52 дня',
-    images: ['/pk-2.jpg', '/pk-3.jpg', '/pk-4.jpg', '/pk-1.jpg'],
+    images: ['/pk-2.jpg', '/pk-3.jpg', '/pk-1.jpg'],
   },
   {
     name: 'Офисные помещения',        area: '320 м²', term: '45 дней',

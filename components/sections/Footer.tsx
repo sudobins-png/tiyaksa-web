@@ -43,9 +43,6 @@ export function Footer() {
                 </a>
                 <span className="text-sage text-[12px] font-medium tracking-wide">{siteConfig.consultantLabel}</span>
               </div>
-              <a href={`mailto:${siteConfig.email}`} className="text-white/80 text-base hover:text-white transition-colors">
-                {siteConfig.email}
-              </a>
               <a href={`https://${siteConfig.website}`} className="text-white/80 text-base hover:text-white transition-colors">
                 {siteConfig.website}
               </a>

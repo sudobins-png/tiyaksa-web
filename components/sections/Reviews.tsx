@@ -3,7 +3,7 @@ import { reviews } from '@/data/content';
 
 function Stars() {
   return (
-    <div className="flex gap-[3px] mb-4" aria-label="Оценка 5 из 5">
+    <div role="img" className="flex gap-[3px] mb-4" aria-label="Оценка 5 из 5">
       {Array.from({ length: 5 }).map((_, i) => (
         <svg key={i} width="18" height="18" viewBox="0 0 20 20" fill="#F0B429" aria-hidden>
           <path d="M10 1.5l2.47 5.01 5.53.8-4 3.9.94 5.49L10 14.27l-4.94 2.43.94-5.49-4-3.9 5.53-.8z" />

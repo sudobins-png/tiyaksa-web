@@ -142,8 +142,7 @@ export function QuizModal({ onClose }: QuizModalProps) {
     setDir(1); setStep(4);
   };
 
-  const TOTAL = 3;
-  const progress = (calculating || step >= 4) ? 100 : Math.round((step / TOTAL) * 100);
+  const progress = (calculating || step >= 3) ? 100 : Math.round(((step + 1) / 4) * 100);
 
   return (
     <>
@@ -174,12 +173,16 @@ export function QuizModal({ onClose }: QuizModalProps) {
 
           {(step < 4 || calculating) && (
             <div className="flex items-center gap-3">
-              <div className="flex-1 h-[6px] bg-[#eef1ee] rounded-full overflow-hidden">
+              {!calculating && (
+                <span className="shrink-0 text-[11px] font-bold uppercase tracking-[.1em] text-forest/70 w-[68px]">
+                  Шаг {step + 1} из 4
+                </span>
+              )}
+              <div className="flex-1 h-[5px] bg-[#eef1ee] rounded-full overflow-hidden">
                 <motion.div className="h-full bg-gold rounded-full"
                   animate={{ width: `${progress}%` }}
                   transition={{ duration: calculating ? 2.0 : 0.35, ease: 'easeOut' }} />
               </div>
-              <span className="text-[13px] font-semibold text-gold shrink-0">{progress}%</span>
             </div>
           )}
         </div>
@@ -244,10 +247,7 @@ export function QuizModal({ onClose }: QuizModalProps) {
             {/* Step 3: контакты */}
             {step === 3 && (
               <StepWrap key="s3" dir={dir}>
-                <StepTitle>Куда отправить расчёт?</StepTitle>
-                <p className="text-[15px] text-muted mb-5 -mt-1">
-                  Свяжемся в течение часа и пришлём предварительную смету.
-                </p>
+                <StepTitle>Ваш расчёт готов!</StepTitle>
 
                 {/* Summary chips */}
                 <div className="flex flex-wrap gap-2 mb-5">
@@ -258,6 +258,9 @@ export function QuizModal({ onClose }: QuizModalProps) {
 
                 {/* Messenger selector */}
                 <div className="mb-5">
+                  <p className="text-[12px] font-bold uppercase tracking-[.1em] text-forest/60 mb-3">
+                    Куда отправить расчёт?
+                  </p>
                   <MessengerSelector
                     value={messenger}
                     onChange={(m) => { setMessenger(m); setContactRaw(''); setValue('contact', ''); }}

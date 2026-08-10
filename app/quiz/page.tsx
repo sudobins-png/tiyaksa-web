@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { QuizInline } from '@/components/quiz/QuizInline';
+import { Footer } from '@/components/sections/Footer';
 
 export const metadata: Metadata = {
   title: 'Расчёт стоимости ремонта — ТиЯКСа.Ремонт',
@@ -40,10 +41,7 @@ export default function QuizPage() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="text-center py-5 text-[13px] text-muted">
-        © {new Date().getFullYear()} ТиЯКСа.Ремонт — ремонт квартир в Санкт-Петербурге
-      </footer>
+      <Footer />
     </div>
   );
 }

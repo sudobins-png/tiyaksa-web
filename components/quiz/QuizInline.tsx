@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -10,6 +10,7 @@ import { z } from 'zod';
 import { useToastStore } from '@/stores/toastStore';
 import { PrivacyModal } from '@/components/ui/PrivacyModal';
 import { MessengerSelector, formatContact, MESSENGERS, type MessengerType } from '@/components/ui/MessengerSelector';
+import { CalculatingStep } from '@/components/quiz/CalculatingStep';
 
 const OBJECT_TYPE_OPTIONS = [
   { label: 'Новостройка',      photo: '/quiz/novostroyka.jpg'       },
@@ -50,10 +51,26 @@ export function QuizInline() {
   const [aptType,     setAptType]     = useState('');
   const [area,        setArea]        = useState('');
   const [hasDesign,   setHasDesign]   = useState('');
+  const [calculating, setCalculating] = useState(false);
   const [messenger,   setMessenger]   = useState<MessengerType | null>(null);
   const [privacyOpen, setPrivacyOpen] = useState(false);
   const [contactRaw,  setContactRaw]  = useState('');
+  const calcTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const showToast = useToastStore((s) => s.show);
+
+  useEffect(() => {
+    return () => { if (calcTimer.current) clearTimeout(calcTimer.current); };
+  }, []);
+
+  const startCalculating = (designValue: string) => {
+    setHasDesign(designValue);
+    setCalculating(true);
+    calcTimer.current = setTimeout(() => {
+      setCalculating(false);
+      setDir(1);
+      setStep(3);
+    }, 2200);
+  };
 
   const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm<ContactValues>({
     resolver: zodResolver(contactSchema),
@@ -97,7 +114,7 @@ export function QuizInline() {
   };
 
   const TOTAL = 3;
-  const progress = step >= 4 ? 100 : Math.round((step / TOTAL) * 100);
+  const progress = (calculating || step >= 4) ? 100 : Math.round((step / TOTAL) * 100);
 
   return (
     <>
@@ -116,12 +133,12 @@ export function QuizInline() {
             </a>
           </div>
 
-          {step < 4 && (
+          {(step < 4 || calculating) && (
             <div className="flex items-center gap-3">
               <div className="flex-1 h-[6px] bg-[#eef1ee] rounded-full overflow-hidden">
                 <motion.div className="h-full bg-gold rounded-full"
                   animate={{ width: `${progress}%` }}
-                  transition={{ duration: 0.35, ease: 'easeOut' }} />
+                  transition={{ duration: calculating ? 2.0 : 0.35, ease: 'easeOut' }} />
               </div>
               <span className="text-[13px] font-semibold text-gold shrink-0">{progress}%</span>
             </div>
@@ -166,18 +183,20 @@ export function QuizInline() {
               </StepWrap>
             )}
 
-            {step === 2 && (
+            {step === 2 && !calculating && (
               <StepWrap key="s2" dir={dir}>
                 <StepTitle>Есть ли у вас готовый дизайн-проект?</StepTitle>
                 <div className="flex flex-col gap-2">
                   {DESIGN_OPTIONS.map((opt) => (
                     <RadioRow key={opt.label} label={opt.label} sub={opt.sub}
-                      onClick={() => { setHasDesign(opt.label); next(); }} />
+                      onClick={() => startCalculating(opt.label)} />
                   ))}
                 </div>
                 <BackBtn onClick={back} />
               </StepWrap>
             )}
+
+            {calculating && <CalculatingStep key="calc" />}
 
             {step === 3 && (
               <StepWrap key="s3" dir={dir}>

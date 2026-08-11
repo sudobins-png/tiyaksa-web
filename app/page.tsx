@@ -27,9 +27,9 @@ export default function HomePage() {
         <WhyUs />
         <Reviews />
         <LeadForm />
-        <Calculator />
-        <RemoteRenovation />
         <Manager />
+        {/* <Calculator /> */}
+        <RemoteRenovation />
         <FAQ />
         <FinalCTA />
       </main>

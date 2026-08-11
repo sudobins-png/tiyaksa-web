@@ -1,22 +1,39 @@
 import { stats } from '@/data/content';
 
+const TRACK = [...stats, ...stats, ...stats];
+
 export function Stats() {
   return (
-    <section className="bg-white">
-      <div className="max-w-content mx-auto px-6 py-[72px] grid gap-5"
-        style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
-        {stats.map((s) => (
-          <div key={s.value} className="text-left px-1 py-2">
-            <div
-              className="font-extrabold leading-none text-forest tracking-[-0.02em]"
-              style={{ fontSize: 'clamp(38px,4.5vw,52px)' }}
-            >
+    <div
+      className="bg-forest overflow-hidden relative"
+      style={{
+        maskImage: 'linear-gradient(to right, transparent 0, black 80px, black calc(100% - 80px), transparent 100%)',
+        WebkitMaskImage: 'linear-gradient(to right, transparent 0, black 80px, black calc(100% - 80px), transparent 100%)',
+      }}
+    >
+      <div
+        className="flex whitespace-nowrap py-[14px] motion-reduce:[animation-play-state:paused]"
+        style={{ animation: 'tiyaksa-marquee 55s linear infinite' }}
+      >
+        {TRACK.map((s, i) => (
+          <span key={i} className="inline-flex items-baseline shrink-0 gap-3 px-10">
+            <span className="font-extrabold text-gold text-[22px] leading-none tracking-tight">
               {s.value}
-            </div>
-            <div className="font-normal text-[17px] text-muted mt-3">{s.label}</div>
-          </div>
+            </span>
+            <span className="text-[14px] font-medium text-white/65 leading-none">
+              {s.label}
+            </span>
+            <span className="text-white/20 text-[8px] ml-2 self-center">◆</span>
+          </span>
         ))}
       </div>
-    </section>
+
+      <style>{`
+        @keyframes tiyaksa-marquee {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(calc(-100% / 3)); }
+        }
+      `}</style>
+    </div>
   );
 }

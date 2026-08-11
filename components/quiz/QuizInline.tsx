@@ -135,7 +135,7 @@ export function QuizInline() {
           {(step < 4 || calculating) && (
             <div className="flex items-center gap-3">
               {!calculating && (
-                <span className="shrink-0 text-[11px] font-bold uppercase tracking-[.1em] text-forest/70 w-[68px]">
+                <span className="shrink-0 whitespace-nowrap text-[11px] font-bold uppercase tracking-[.1em] text-forest/70">
                   Шаг {step + 1} из 4
                 </span>
               )}

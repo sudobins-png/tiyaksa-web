@@ -162,7 +162,7 @@ function PortfolioCard({ item, onOpen }: CardProps) {
     <div className="bg-white rounded-2xl overflow-hidden shadow-card transition-all duration-[250ms] hover:-translate-y-1 hover:shadow-card-hover">
       {/* Slider */}
       <div
-        className="relative bg-[#e7ebe7] cursor-pointer select-none"
+        className="group/card relative bg-[#e7ebe7] cursor-pointer select-none"
         style={{ aspectRatio: '4/3' }}
         onClick={() => onOpen(idx)}
         onTouchStart={onTouchStart}
@@ -185,50 +185,45 @@ function PortfolioCard({ item, onOpen }: CardProps) {
           />
         ))}
 
-        {/* Expand icon hint */}
-        <div className="absolute top-3 right-3 w-8 h-8 rounded-lg bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" aria-hidden>
-            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
-          </svg>
-        </div>
-
-        {/* Prev arrow */}
+        {/* Prev arrow — always visible on mobile, hover-only on desktop */}
         {images.length > 1 && (
           <button
             onClick={prev}
             aria-label="Предыдущее фото"
-            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/30 hover:bg-black/50 flex items-center justify-center transition-colors opacity-0 hover:opacity-100 focus:opacity-100 [.group:hover_&]:opacity-100"
-            style={{ opacity: undefined }}
-            onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
+            className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-8 md:h-8 rounded-full bg-black/40 hover:bg-black/60 flex items-center justify-center transition-all duration-150 opacity-85 md:opacity-0 md:group-hover/card:opacity-100"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <path d="M15 18l-6-6 6-6" />
             </svg>
           </button>
         )}
 
-        {/* Next arrow */}
+        {/* Next arrow — always visible on mobile, hover-only on desktop */}
         {images.length > 1 && (
           <button
             onClick={next}
             aria-label="Следующее фото"
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/30 hover:bg-black/50 flex items-center justify-center transition-colors"
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-8 md:h-8 rounded-full bg-black/40 hover:bg-black/60 flex items-center justify-center transition-all duration-150 opacity-85 md:opacity-0 md:group-hover/card:opacity-100"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <path d="M9 18l6-6-6-6" />
             </svg>
           </button>
         )}
 
-        {/* Dots */}
+        {/* Dots + counter */}
         {images.length > 1 && (
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-[7px] px-3 py-[6px] rounded-full bg-black/30">
             {images.map((_, i) => (
               <button
                 key={i}
                 onClick={(e) => { e.stopPropagation(); setIdx(i); }}
                 aria-label={`Фото ${i + 1}`}
-                className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${i === idx ? 'bg-white scale-125' : 'bg-white/55 hover:bg-white/80'}`}
+                className={`rounded-full transition-all duration-200 ${
+                  i === idx
+                    ? 'w-[18px] h-[6px] bg-white'
+                    : 'w-[6px] h-[6px] bg-white/55 hover:bg-white/80'
+                }`}
               />
             ))}
           </div>

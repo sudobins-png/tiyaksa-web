@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { pricingTiers, type PricingTier } from '@/data/pricing';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LeadModal } from '@/components/ui/LeadModal';
+import { QuizModal } from '@/components/quiz/QuizModal';
 
 const SHOW_LIMIT = 5;
 
@@ -147,7 +147,7 @@ export function Pricing() {
         <p className="mt-7 text-muted text-[15px]">Точная стоимость — после бесплатного замера.</p>
       </div>
 
-      {modalOpen && <LeadModal onClose={() => setModalOpen(false)} source="pricing" />}
+      {modalOpen && <QuizModal onClose={() => setModalOpen(false)} />}
     </section>
   );
 }

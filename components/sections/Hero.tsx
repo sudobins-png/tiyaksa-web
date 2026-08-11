@@ -70,12 +70,15 @@ export function Hero() {
           </ul>
 
           <div className="flex flex-col sm:flex-row gap-[14px]">
-            <a
-              href="#prices"
-              className="bg-gold hover:bg-gold-dark text-ink font-bold text-[17px] px-[30px] py-[17px] rounded-[14px] shadow-gold-glow transition-all duration-200 hover:-translate-y-0.5 text-center"
-            >
-              {heroContent.ctaPrimary}
-            </a>
+            <div className="flex flex-col items-center gap-[6px]">
+              <a
+                href="#prices"
+                className="w-full bg-gold hover:bg-gold-dark text-ink font-bold text-[17px] px-[30px] py-[17px] rounded-[14px] shadow-gold-glow transition-all duration-200 hover:-translate-y-0.5 text-center"
+              >
+                {heroContent.ctaPrimary}
+              </a>
+              <span className="text-[12px] font-light text-white/55 tracking-wide">за 60 секунд</span>
+            </div>
             <button
               type="button"
               onClick={() => setModalOpen(true)}

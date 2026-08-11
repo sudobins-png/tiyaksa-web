@@ -11,12 +11,15 @@ export function LeadForm() {
         >
           Получите смету за 24 часа
         </h2>
-        <a
-          href="#cta"
-          className="inline-block bg-gold hover:bg-gold-dark text-ink font-bold text-[17px] px-[36px] py-[17px] rounded-[14px] border-none shadow-gold-glow transition-all duration-200 hover:-translate-y-px"
-        >
-          Рассчитать ремонт онлайн
-        </a>
+        <div className="inline-flex flex-col items-center gap-[7px]">
+          <a
+            href="#cta"
+            className="bg-gold hover:bg-gold-dark text-ink font-bold text-[17px] px-[36px] py-[17px] rounded-[14px] border-none shadow-gold-glow transition-all duration-200 hover:-translate-y-px"
+          >
+            Рассчитать стоимость
+          </a>
+          <span className="text-[12px] font-light text-white/50 tracking-wide">за 60 секунд</span>
+        </div>
         <p className="mt-[22px] text-sm text-white/70">
           Без предоплаты. Замер бесплатно. Перезвоним в течение часа.
         </p>

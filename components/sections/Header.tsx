@@ -48,7 +48,7 @@ export function Header() {
             href="#calc"
             className="bg-gold hover:bg-gold-dark text-ink font-bold text-[15px] px-[22px] py-3 rounded-xl whitespace-nowrap transition-all duration-200 shadow-gold-glow hover:-translate-y-px"
           >
-            Рассчитать ремонт онлайн
+            Рассчитать стоимость
           </a>
         </div>
 
@@ -127,7 +127,7 @@ export function Header() {
               onClick={() => setMenuOpen(false)}
               className="bg-gold text-ink font-bold text-base py-[15px] rounded-xl text-center mt-1.5"
             >
-              Рассчитать ремонт онлайн
+              Рассчитать стоимость
             </a>
           </motion.div>
         )}

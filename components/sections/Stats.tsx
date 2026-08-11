@@ -5,7 +5,7 @@ const TRACK = [...stats, ...stats, ...stats];
 export function Stats() {
   return (
     <div
-      className="bg-forest overflow-hidden relative"
+      className="bg-[#162216] overflow-hidden relative"
       style={{
         maskImage: 'linear-gradient(to right, transparent 0, black 80px, black calc(100% - 80px), transparent 100%)',
         WebkitMaskImage: 'linear-gradient(to right, transparent 0, black 80px, black calc(100% - 80px), transparent 100%)',
@@ -13,7 +13,7 @@ export function Stats() {
     >
       <div
         className="flex whitespace-nowrap py-[14px] motion-reduce:[animation-play-state:paused]"
-        style={{ animation: 'tiyaksa-marquee 55s linear infinite' }}
+        style={{ animation: 'tiyaksa-marquee 27s linear infinite' }}
       >
         {TRACK.map((s, i) => (
           <span key={i} className="inline-flex items-baseline shrink-0 gap-3 px-10">

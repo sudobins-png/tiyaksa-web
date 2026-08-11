@@ -22,9 +22,9 @@ export default function HomePage() {
         <Hero />
         <Stats />
         <Portfolio />
-        <HowWeWork />
-        <Pricing />
         <WhyUs />
+        <Pricing />
+        <HowWeWork />
         <Reviews />
         <LeadForm />
         <Manager />

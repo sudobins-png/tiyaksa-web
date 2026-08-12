@@ -55,7 +55,7 @@ export function Hero() {
             {heroContent.heading}
           </h1>
 
-          <PriceBadge className="mb-6" />
+          {/* <PriceBadge className="mb-6" /> */}
 
           <ul className="flex flex-col gap-3 mb-9">
             {heroContent.bullets.map((item) => (

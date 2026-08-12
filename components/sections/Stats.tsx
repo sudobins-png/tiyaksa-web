@@ -13,7 +13,7 @@ export function Stats() {
     >
       <div
         className="flex whitespace-nowrap py-[14px] motion-reduce:[animation-play-state:paused]"
-        style={{ animation: 'tiyaksa-marquee 27s linear infinite' }}
+        style={{ animation: 'tiyaksa-marquee 12s linear infinite' }}
       >
         {TRACK.map((s, i) => (
           <span key={i} className="inline-flex items-baseline shrink-0 gap-3 px-10">

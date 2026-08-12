@@ -160,9 +160,6 @@ export function QuizModal({ onClose }: QuizModalProps) {
         {/* ── Header ── */}
         <div className="shrink-0 px-6 pt-5 pb-4 border-b border-[#f0f3f0]">
           <div className="flex items-start justify-between mb-3 gap-3">
-            <p className="text-[13px] text-muted font-medium leading-snug pt-0.5">
-              {step < 4 ? 'Ответьте на 3 вопроса — получите предварительный расчёт' : ' '}
-            </p>
             <button onClick={handleClose} aria-label="Закрыть"
               className="w-9 h-9 rounded-full hover:bg-[#f0f4f0] flex items-center justify-center transition-colors shrink-0">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#707A70" strokeWidth="2.2" strokeLinecap="round" aria-hidden>

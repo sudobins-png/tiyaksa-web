@@ -121,9 +121,6 @@ export function QuizInline() {
         {/* Header */}
         <div className="px-6 sm:px-8 pt-6 pb-5 border-b border-[#f0f3f0]">
           <div className="flex items-start justify-between mb-4 gap-3">
-            <p className="text-[14px] text-muted font-medium leading-snug pt-0.5">
-              {step < 4 ? 'Ответьте на 3 вопроса — получите предварительный расчёт' : ' '}
-            </p>
             <a href="/" aria-label="На главную"
               className="w-9 h-9 rounded-full hover:bg-[#f0f4f0] flex items-center justify-center transition-colors shrink-0">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#707A70" strokeWidth="2.2" strokeLinecap="round" aria-hidden>

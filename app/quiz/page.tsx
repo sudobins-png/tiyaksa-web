@@ -31,9 +31,6 @@ export default function QuizPage() {
             <h1 className="font-extrabold text-forest text-[26px] sm:text-[32px] leading-tight tracking-tight mb-2">
               Рассчитайте стоимость ремонта
             </h1>
-            <p className="text-[16px] text-subtle">
-              3 вопроса — предварительная смета в течение часа
-            </p>
           </div>
 
           {/* Quiz card */}

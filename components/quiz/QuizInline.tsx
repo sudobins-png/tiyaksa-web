@@ -209,7 +209,7 @@ export function QuizInline() {
                 </div>
 
                 <div className="mb-5">
-                  <p className="text-[12px] font-bold uppercase tracking-[.1em] text-forest/60 mb-3">
+                  <p className="text-[13px] font-bold uppercase tracking-[.08em] text-forest mb-3">
                     Куда отправить расчёт?
                   </p>
                   <MessengerSelector

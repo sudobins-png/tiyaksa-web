@@ -54,43 +54,49 @@ export function CaseSection() {
 
   return (
     <>
-      <section className="bg-[#f2f2f0] pt-10 pb-12">
-        <div className="max-w-[680px] mx-auto px-4">
+      <section className="bg-[#f2f2f0] py-14 md:py-[88px]">
+        <div className="max-w-content mx-auto px-6">
 
-          {/* Label */}
-          <p className="text-[12px] text-[#999] font-medium tracking-widest uppercase text-center mb-2">
-            Объект №168
-          </p>
+          {/* Heading block — text stays at a readable measure inside the wide container */}
+          <div className="max-w-[760px] mx-auto text-center">
+            {/* Label */}
+            <p className="text-[12px] text-[#999] font-medium tracking-widest uppercase mb-2">
+              Объект №168
+            </p>
 
-          {/* Title */}
-          <h2 className="font-extrabold text-[22px] sm:text-[30px] text-ink leading-tight text-center uppercase mb-4">
-            Ремонт квартиры на наб. канала Грибоедова в Петербурге
-          </h2>
+            {/* Title */}
+            <h2
+              className="font-extrabold text-ink leading-tight uppercase mb-4 tracking-[-0.01em]"
+              style={{ fontSize: 'clamp(22px,3vw,34px)' }}
+            >
+              Ремонт квартиры на наб. канала Грибоедова в Петербурге
+            </h2>
 
-          {/* Description */}
-          <p className="text-[14px] sm:text-[15px] text-[#555] leading-relaxed text-center mb-6">
-            Ремонт квартиры в Санкт-Петербурге с меблировкой и изготовлением мебели, с интерьером в стиле неоклассика, с прихожей, гардеробом, кухней-гостиной, спальней, кабинетом и санузлом.
-          </p>
+            {/* Description */}
+            <p className="text-[14px] md:text-[16px] text-[#555] leading-relaxed mb-7 md:mb-9">
+              Ремонт квартиры в Санкт-Петербурге с меблировкой и изготовлением мебели, с интерьером в стиле неоклассика, с прихожей, гардеробом, кухней-гостиной, спальней, кабинетом и санузлом.
+            </p>
+          </div>
 
           {/* Specs — 3 col grid */}
-          <div className="grid grid-cols-3 gap-2 mb-8">
+          <div className="grid grid-cols-3 gap-2 md:gap-4 max-w-[760px] mx-auto mb-8 md:mb-12">
             {SPECS.map((s) => (
-              <div key={s.label} className="bg-white rounded-[14px] px-3 py-3 flex flex-col items-center text-center gap-1.5">
-                <div className="w-8 h-8 rounded-[8px] bg-[#e8e4db] flex items-center justify-center shrink-0">
+              <div key={s.label} className="bg-white rounded-[14px] px-3 py-3 md:py-6 flex flex-col items-center text-center gap-1.5 md:gap-2">
+                <div className="w-8 h-8 md:w-11 md:h-11 rounded-[8px] md:rounded-[10px] bg-[#e8e4db] flex items-center justify-center shrink-0">
                   {s.icon}
                 </div>
-                <p className="text-[10px] text-[#999] leading-none">{s.label}</p>
-                <p className="font-bold text-[13px] sm:text-[14px] text-ink leading-tight">{s.value}</p>
+                <p className="text-[10px] md:text-[12px] text-[#999] leading-none">{s.label}</p>
+                <p className="font-bold text-[13px] md:text-[17px] text-ink leading-tight">{s.value}</p>
               </div>
             ))}
           </div>
 
           {/* Photo grid */}
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 md:gap-4">
             {LAYOUT.map((row, ri) => (
               <div
                 key={ri}
-                className="grid gap-2"
+                className="grid gap-2 md:gap-4"
                 style={{ gridTemplateColumns: `repeat(${row.cols}, 1fr)` }}
               >
                 {row.indices.map((idx) => (
@@ -98,7 +104,7 @@ export function CaseSection() {
                     key={idx}
                     type="button"
                     onClick={() => setLightbox(idx)}
-                    className="relative block w-full overflow-hidden rounded-[10px] bg-[#ddd] cursor-zoom-in"
+                    className="relative block w-full overflow-hidden rounded-[10px] md:rounded-[14px] bg-[#ddd] cursor-zoom-in"
                     style={{ aspectRatio: row.cols === 1 ? '16/9' : '4/3' }}
                     aria-label={`Фото ${idx + 1}`}
                   >
@@ -106,7 +112,11 @@ export function CaseSection() {
                       src={PHOTOS[idx]}
                       alt=""
                       fill
-                      sizes={row.cols === 1 ? '680px' : '(max-width: 680px) 33vw, 220px'}
+                      sizes={
+                        row.cols === 1
+                          ? '(max-width: 1200px) 100vw, 1152px'
+                          : `(max-width: 1200px) ${Math.round(100 / row.cols)}vw, ${Math.round(1152 / row.cols)}px`
+                      }
                       className="object-cover transition-transform duration-200 hover:scale-[1.03]"
                       priority={idx === 0}
                     />

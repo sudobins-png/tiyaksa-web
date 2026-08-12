@@ -25,14 +25,11 @@ export default function QuizPage() {
       <main className="flex-1 flex flex-col items-center px-4 py-8 sm:py-12">
         <div className="w-full max-w-[640px] lg:max-w-[1024px]">
           <div className="text-center mb-6 sm:mb-8">
-            <h1 className="font-extrabold text-[24px] sm:text-[32px] text-ink leading-tight tracking-tight mb-3">
+            <h1 className="font-extrabold text-[24px] sm:text-[32px] text-ink leading-tight tracking-tight uppercase mb-3">
               Ищете компанию для выполнения ремонта?
             </h1>
             <p className="text-[15px] sm:text-[16px] text-muted leading-snug">
-              Рассчитайте стоимость Вашего ремонта и получите консультацию от нашего специалиста!
-            </p>
-            <p className="text-[15px] sm:text-[16px] text-muted leading-snug mt-1">
-              Расчёт сметы и консультация <strong className="text-ink font-bold">бесплатные</strong> и ни к чему Вас не обязывают
+              Рассчитайте стоимость Вашего ремонта и получите консультацию от нашего специалиста. Расчёт сметы и консультация <strong className="text-ink font-bold">бесплатные</strong> и ни к чему Вас не обязывают.
             </p>
           </div>
 

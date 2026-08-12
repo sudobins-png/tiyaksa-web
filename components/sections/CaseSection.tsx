@@ -3,6 +3,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
+import { LeadModal } from '@/components/ui/LeadModal';
+import { managerInfo } from '@/data/content';
 
 const PHOTOS = Array.from({ length: 17 }, (_, i) => `/case/${i + 1}.jpg`);
 
@@ -27,6 +29,7 @@ const SPECS = [
 
 export function CaseSection() {
   const [lightbox, setLightbox] = useState<number | null>(null);
+  const [leadOpen, setLeadOpen] = useState(false);
   const dirRef = useRef(1); // 1 = forward, -1 = back
 
   const close = useCallback(() => setLightbox(null), []);
@@ -117,6 +120,50 @@ export function CaseSection() {
           </div>
         </div>
       </section>
+
+      {/* Manager CTA */}
+      <section className="bg-white py-10 px-4">
+        <div className="max-w-[680px] mx-auto">
+          <h2 className="font-bold text-[22px] sm:text-[28px] text-ink mb-6">
+            Ваш личный управляющий
+          </h2>
+
+          <div className="bg-[#f8faf8] border border-[#eef1ee] rounded-[20px] p-5 sm:p-7 flex flex-col sm:flex-row gap-5 items-center sm:items-start mb-6">
+            {/* Photo */}
+            <div className="w-[88px] h-[88px] sm:w-[100px] sm:h-[100px] rounded-full overflow-hidden shrink-0">
+              <Image
+                src="/lev-andreevich.jpeg"
+                alt="Лев — личный управляющий"
+                width={100}
+                height={100}
+                className="object-cover w-full h-full"
+              />
+            </div>
+
+            <div className="text-center sm:text-left">
+              <p className="font-bold text-[18px] text-ink">{managerInfo.name}</p>
+              <p className="text-[14px] text-muted mt-0.5">{managerInfo.title}</p>
+              <p className="text-[14px] text-subtle leading-relaxed mt-3 max-w-[480px]">
+                {managerInfo.text}
+              </p>
+            </div>
+          </div>
+
+          <p className="text-[15px] sm:text-[16px] text-[#444] leading-relaxed mb-5">
+            Проконсультируйтесь бесплатно с управляющим ТиЯКСа.Ремонт — он поможет подобрать материалы и посчитает смету за 30 минут.
+          </p>
+
+          <button
+            type="button"
+            onClick={() => setLeadOpen(true)}
+            className="w-full sm:w-auto bg-gold hover:bg-gold-dark text-ink font-bold text-[16px] px-8 py-[14px] rounded-[14px] shadow-gold-glow transition-all duration-200 hover:-translate-y-px border-none cursor-pointer"
+          >
+            Отправить заявку
+          </button>
+        </div>
+      </section>
+
+      {leadOpen && <LeadModal onClose={() => setLeadOpen(false)} source="quiz-manager" />}
 
       {/* Lightbox */}
       <AnimatePresence>

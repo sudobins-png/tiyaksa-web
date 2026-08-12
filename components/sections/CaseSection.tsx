@@ -4,8 +4,8 @@ const PHOTOS = Array.from({ length: 17 }, (_, i) => `/case/${i + 1}.jpg`);
 
 const SPECS = [
   { icon: 'type',  label: 'Вид ремонта', value: 'Дизайнерский' },
-  { icon: 'area',  label: 'Площадь',     value: '50 м²'        },
-  { icon: 'rooms', label: 'Кол-во комнат', value: '2'          },
+  { icon: 'area',  label: 'Площадь',     value: '96 м²'        },
+  { icon: 'rooms', label: 'Кол-во комнат', value: '3'          },
 ];
 
 export function CaseSection() {
@@ -19,10 +19,10 @@ export function CaseSection() {
             Объект №168
           </p>
           <h2 className="font-extrabold text-[26px] sm:text-[38px] text-ink leading-tight tracking-tight text-center uppercase mb-5">
-            Ремонт евродвушки в ЖК Приморский квартал
+            Ремонт квартиры на наб. канала Грибоедова в Петербурге
           </h2>
           <p className="text-[15px] sm:text-[17px] text-[#444] leading-relaxed text-center max-w-[680px] mx-auto mb-8">
-            Ремонт квартиры в Санкт-Петербурге с меблировкой и изготовлением мебели, в современном стиле, с прихожей, кухней-гостиной, спальней и санузлом.
+            Ремонт квартиры в Санкт-Петербурге с меблировкой и изготовлением мебели, с интерьером в стиле неоклассика, с прихожей, гардеробом, кухней-гостиной, спальней, кабинетом и санузлом.
           </p>
 
           {/* Specs */}

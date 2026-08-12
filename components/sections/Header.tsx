@@ -45,7 +45,7 @@ export function Header() {
             {siteConfig.phone}
           </a>
           <a
-            href="#calc"
+            href="#prices"
             className="bg-gold hover:bg-gold-dark text-ink font-bold text-[15px] px-[22px] py-3 rounded-xl whitespace-nowrap transition-all duration-200 shadow-gold-glow hover:-translate-y-px"
           >
             Рассчитать стоимость

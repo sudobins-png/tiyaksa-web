@@ -13,7 +13,7 @@ export function Stats() {
     >
       <div
         className="flex whitespace-nowrap py-[14px] motion-reduce:[animation-play-state:paused]"
-        style={{ animation: 'tiyaksa-marquee 12s linear infinite' }}
+        style={{ animation: 'tiyaksa-marquee var(--ticker-dur, 4s) linear infinite' }}
       >
         {TRACK.map((s, i) => (
           <span key={i} className="inline-flex items-baseline shrink-0 gap-3 px-10">
@@ -33,6 +33,8 @@ export function Stats() {
           0%   { transform: translateX(0); }
           100% { transform: translateX(calc(-100% / 3)); }
         }
+        :root { --ticker-dur: 4s; }
+        @media (min-width: 768px) { :root { --ticker-dur: 12s; } }
       `}</style>
     </div>
   );

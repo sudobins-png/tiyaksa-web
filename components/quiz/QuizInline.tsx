@@ -352,25 +352,34 @@ function StepTitle({ children }: { children: React.ReactNode }) {
 }
 
 /**
- * `wide` switches the card to a thumbnail-left row below `sm`. Steps whose options
- * have long labels use it: at 375px a 3-up grid leaves ~38px for the text, which
- * shreds words like «классическим».
+ * `wide` turns the card into a thumbnail-left row below `sm`, reverting to the
+ * normal tile from `sm` up. Steps with long option labels need it: three tiles
+ * across a 375px screen leave ~62px for the caption while «классическим» alone
+ * needs 95px, so the words used to break into vertical slivers. As a row the
+ * caption gets 139px and reads at 15px.
  */
 function PhotoCard({ label, photo, onClick, wide = false }:
   { label: string; photo: string; onClick: () => void; wide?: boolean }) {
   return (
     <button type="button" onClick={onClick}
       className={`flex ${wide ? 'flex-row sm:flex-col' : 'flex-col'} rounded-[14px] overflow-hidden border-2 border-[#eef1ee] hover:border-grove transition-all duration-150 cursor-pointer group text-left`}>
-      <div className={`relative aspect-[4/3] bg-[#eef1ee] ${wide ? 'w-[116px] shrink-0 sm:w-full' : 'w-full'}`}>
+      <div className={`relative aspect-[4/3] bg-[#eef1ee] ${wide ? 'w-[104px] shrink-0 sm:w-full' : 'w-full'}`}>
         <Image src={photo} alt={label} fill
-          sizes={wide ? '(max-width: 640px) 116px, 33vw' : '(max-width: 640px) 50vw, 33vw'}
+          sizes={wide ? '(max-width: 640px) 104px, 33vw' : '(max-width: 640px) 50vw, 33vw'}
           className="object-cover group-hover:scale-[1.04] transition-transform duration-200" />
       </div>
       <div className={`px-3 py-2.5 bg-white group-hover:bg-[#f5faf5] transition-colors flex gap-2 flex-1 min-w-0 ${wide ? 'items-center sm:items-start' : 'items-start'}`}>
-        <span className="w-4 h-4 mt-[2px] rounded-full border-2 border-[#c8d4c8] group-hover:border-grove shrink-0 transition-colors flex items-center justify-center">
+        <span className={`w-4 h-4 mt-[2px] rounded-full border-2 border-[#c8d4c8] group-hover:border-grove shrink-0 transition-colors ${wide ? 'hidden sm:flex' : 'flex'} items-center justify-center`}>
           <span className="w-[6px] h-[6px] rounded-full bg-transparent group-hover:bg-grove transition-colors" />
         </span>
-        <span className="font-semibold text-[13px] text-ink leading-tight min-w-0 flex-1 break-words">{label}</span>
+        <span className={`font-semibold text-ink leading-tight min-w-0 flex-1 break-words ${wide ? 'text-[15px] sm:text-[13px]' : 'text-[13px]'}`}>{label}</span>
+        {wide && (
+          <svg className="shrink-0 sm:hidden text-[#c8d4c8] group-hover:text-grove transition-colors"
+            width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <path d="M9 18l6-6-6-6" />
+          </svg>
+        )}
       </div>
     </button>
   );

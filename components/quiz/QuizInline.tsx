@@ -363,7 +363,7 @@ function PhotoCard({ label, photo, onClick }: { label: string; photo: string; on
         <span className="w-4 h-4 mt-[2px] rounded-full border-2 border-[#c8d4c8] group-hover:border-grove shrink-0 transition-colors flex items-center justify-center">
           <span className="w-[6px] h-[6px] rounded-full bg-transparent group-hover:bg-grove transition-colors" />
         </span>
-        <span className="font-semibold text-[13px] text-ink leading-tight min-w-0">{label}</span>
+        <span className="font-semibold text-[13px] text-ink leading-tight min-w-0 flex-1 break-words">{label}</span>
       </div>
     </button>
   );

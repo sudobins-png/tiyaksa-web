@@ -40,7 +40,7 @@ export default function QuizPage() {
         </div>
       </main>
 
-      <Footer />
+      <Footer hideMenu />
     </div>
   );
 }

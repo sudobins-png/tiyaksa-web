@@ -6,7 +6,7 @@ import { GridOverlay } from '@/components/ui/GridOverlay';
 import { siteConfig, footerLinks } from '@/data/content';
 import { PrivacyModal } from '@/components/ui/PrivacyModal';
 
-export function Footer() {
+export function Footer({ hideMenu = false }: { hideMenu?: boolean }) {
   const [modalOpen, setModalOpen] = useState(false);
   return (
     <footer className="relative overflow-hidden bg-forest">
@@ -50,16 +50,18 @@ export function Footer() {
           </div>
 
           {/* Links */}
-          <div className="flex-1 min-w-[160px]" style={{ flexBasis: '180px' }}>
-            <p className="font-semibold text-[13px] tracking-[.1em] uppercase text-sage mb-4">Меню</p>
-            <div className="flex flex-col gap-2">
-              {footerLinks.map((l) => (
-                <a key={l.href} href={l.href} className="text-white/80 text-base hover:text-white transition-colors">
-                  {l.label}
-                </a>
-              ))}
+          {!hideMenu && (
+            <div className="flex-1 min-w-[160px]" style={{ flexBasis: '180px' }}>
+              <p className="font-semibold text-[13px] tracking-[.1em] uppercase text-sage mb-4">Меню</p>
+              <div className="flex flex-col gap-2">
+                {footerLinks.map((l) => (
+                  <a key={l.href} href={l.href} className="text-white/80 text-base hover:text-white transition-colors">
+                    {l.label}
+                  </a>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Social — временно скрыто */}
           {/* <div className="flex-none">

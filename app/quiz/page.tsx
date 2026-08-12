@@ -23,9 +23,14 @@ export default function QuizPage() {
       {/* Main */}
       <main className="flex-1 flex flex-col items-center px-4 py-8 sm:py-12">
         <div className="w-full max-w-[640px] lg:max-w-[1024px]">
-          <p className="font-semibold text-[13px] tracking-[.12em] uppercase text-forest/50 leading-none text-center mb-6 sm:mb-8">
-            Ремонт квартир под ключ&nbsp;·&nbsp;Санкт-Петербург
-          </p>
+          <div className="text-center mb-6 sm:mb-8">
+            <p className="font-semibold text-[13px] tracking-[.12em] uppercase text-forest/50 leading-none">
+              Ремонт квартир под ключ
+            </p>
+            <p className="font-semibold text-[13px] tracking-[.12em] uppercase text-forest/50 leading-none mt-1">
+              Санкт-Петербург
+            </p>
+          </div>
 
           {/* Quiz card */}
           <QuizInline />

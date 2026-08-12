@@ -7,18 +7,32 @@ import { SectionHeading } from '@/components/ui/SectionHeading';
 
 const PHOTOS = Array.from({ length: 17 }, (_, i) => `/case/${i + 1}.jpg`);
 
-// Photo grid layout: groups of rows
-const LAYOUT: Array<{ cols: number; indices: number[] }> = [
-  { cols: 1, indices: [0] },
-  { cols: 3, indices: [1, 2, 3] },
-  { cols: 1, indices: [4] },
-  { cols: 2, indices: [5, 6] },
-  { cols: 3, indices: [7, 8, 9] },
-  { cols: 1, indices: [10] },
-  { cols: 2, indices: [11, 12] },
-  { cols: 3, indices: [13, 14, 15] },
-  { cols: 1, indices: [16] },
+/**
+ * Column spans over a shared 6-column grid: [mobile, desktop].
+ * 6 = full row, 3 = half (2-up), 2 = third (3-up).
+ *
+ * Mobile keeps the original 1 / 3 / 1 / 2 / 3 / 1 / 2 / 3 / 1 rhythm.
+ * Desktop uses rows of 3 and 2 only — no full-width photos — grouped as
+ * 3 / 3 / 3 / 2 / 3 / 3, which is exactly the 17 photos.
+ */
+const SPANS: Array<[mobile: number, desktop: number]> = [
+  [6, 2],                    // 0
+  [2, 2], [2, 2], [2, 2],    // 1–3
+  [6, 2],                    // 4
+  [3, 2], [3, 2],            // 5–6
+  [2, 2], [2, 2], [2, 3],    // 7–9
+  [6, 3],                    // 10
+  [3, 2], [3, 2],            // 11–12
+  [2, 2], [2, 2], [2, 2],    // 13–15
+  [6, 2],                    // 16
 ];
+
+const MOBILE_SPAN: Record<number, string> = {
+  2: 'col-span-2', 3: 'col-span-3', 6: 'col-span-6',
+};
+const DESKTOP_SPAN: Record<number, string> = {
+  2: 'md:col-span-2', 3: 'md:col-span-3',
+};
 
 const SPECS = [
   { label: 'Вид ремонта', value: 'Дизайнерский', icon: <IconType /> },
@@ -81,37 +95,27 @@ export function CaseSection() {
           </div>
 
           {/* Photo grid */}
-          <div className="flex flex-col gap-2 md:gap-4">
-            {LAYOUT.map((row, ri) => (
-              <div
-                key={ri}
-                className="grid gap-2 md:gap-4"
-                style={{ gridTemplateColumns: `repeat(${row.cols}, 1fr)` }}
-              >
-                {row.indices.map((idx) => (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => setLightbox(idx)}
-                    className="relative block w-full overflow-hidden rounded-[10px] md:rounded-[14px] bg-[#ddd] cursor-zoom-in"
-                    style={{ aspectRatio: row.cols === 1 ? '16/9' : '4/3' }}
-                    aria-label={`Фото ${idx + 1}`}
-                  >
-                    <Image
-                      src={PHOTOS[idx]}
-                      alt=""
-                      fill
-                      sizes={
-                        row.cols === 1
-                          ? '(max-width: 1200px) 100vw, 1152px'
-                          : `(max-width: 1200px) ${Math.round(100 / row.cols)}vw, ${Math.round(1152 / row.cols)}px`
-                      }
-                      className="object-cover transition-transform duration-200 hover:scale-[1.03]"
-                    />
-                  </button>
-                ))}
-              </div>
-            ))}
+          <div className="grid grid-cols-6 gap-2 md:gap-4">
+            {PHOTOS.map((src, idx) => {
+              const [m, d] = SPANS[idx];
+              return (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => setLightbox(idx)}
+                  className={`relative block w-full overflow-hidden rounded-[10px] md:rounded-[14px] bg-[#ddd] cursor-zoom-in ${MOBILE_SPAN[m]} ${DESKTOP_SPAN[d]} ${m === 6 ? 'aspect-[16/9] md:aspect-[4/3]' : 'aspect-[4/3]'}`}
+                  aria-label={`Фото ${idx + 1}`}
+                >
+                  <Image
+                    src={src}
+                    alt=""
+                    fill
+                    sizes={`(max-width: 768px) ${Math.round((m / 6) * 100)}vw, ${Math.round((1200 * d) / 6)}px`}
+                    className="object-cover transition-transform duration-200 hover:scale-[1.03]"
+                  />
+                </button>
+              );
+            })}
           </div>
         </div>
       </section>

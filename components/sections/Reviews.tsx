@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { reviews } from '@/data/content';
+import { SectionHeading } from '@/components/ui/SectionHeading';
 
 function Stars() {
   return (
@@ -17,12 +18,9 @@ export function Reviews() {
   return (
     <section className="bg-white">
       <div className="max-w-content mx-auto px-6 py-[88px]">
-        <h2
-          className="font-bold tracking-[-0.01em] mb-10 text-ink"
-          style={{ fontSize: 'clamp(30px,4vw,40px)' }}
-        >
+        <SectionHeading className="mb-8 md:mb-10">
           Что говорят клиенты
-        </h2>
+        </SectionHeading>
 
         <div
           className="grid gap-6"

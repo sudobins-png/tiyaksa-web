@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { pricingTiers, type PricingTier } from '@/data/pricing';
 import { motion, AnimatePresence } from 'framer-motion';
 import { QuizModal } from '@/components/quiz/QuizModal';
+import { SectionHeading } from '@/components/ui/SectionHeading';
 
 const SHOW_LIMIT = 5;
 
@@ -128,12 +129,9 @@ export function Pricing() {
   return (
     <section id="prices" className="bg-site border-t border-[#eef1ee]">
       <div className="max-w-content mx-auto px-6 py-[88px]">
-        <h2
-          className="font-bold tracking-[-0.01em] mb-10 text-ink"
-          style={{ fontSize: 'clamp(30px,4vw,40px)' }}
-        >
+        <SectionHeading className="mb-8 md:mb-10">
           Стоимость ремонта
-        </h2>
+        </SectionHeading>
 
         <div
           className="grid gap-6 items-start"

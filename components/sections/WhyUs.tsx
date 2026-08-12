@@ -1,4 +1,5 @@
 import { whyUsFeatures } from '@/data/content';
+import { SectionHeading } from '@/components/ui/SectionHeading';
 
 const icons: Record<string, React.ReactNode> = {
   person: (
@@ -52,12 +53,9 @@ export function WhyUs() {
   return (
     <section className="bg-grove-mint">
       <div className="max-w-content mx-auto px-6 py-12 md:py-[88px]">
-        <h2
-          className="font-bold tracking-[-0.01em] mb-6 md:mb-10 text-ink"
-          style={{ fontSize: 'clamp(26px,4vw,40px)' }}
-        >
+        <SectionHeading className="mb-6 md:mb-10">
           Почему ТиЯКСа.Ремонт
-        </h2>
+        </SectionHeading>
 
         {/* Mobile: compact list */}
         <div className="flex flex-col md:hidden divide-y divide-[#d4e3d4]">

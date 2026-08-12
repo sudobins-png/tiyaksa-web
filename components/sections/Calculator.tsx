@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { cn, formatMoney } from '@/lib/utils';
 import { LeadModal } from '@/components/ui/LeadModal';
+import { SectionHeading } from '@/components/ui/SectionHeading';
 import {
   calcRates,
   calcAptTypes,
@@ -25,12 +26,9 @@ export function Calculator() {
   return (
     <section id="calc" className="bg-site">
       <div className="max-w-[900px] mx-auto px-6 py-[88px]">
-        <h2
-          className="font-bold tracking-[-0.01em] mb-9 text-ink text-center"
-          style={{ fontSize: 'clamp(30px,4vw,40px)' }}
-        >
+        <SectionHeading className="mb-8 md:mb-9">
           Рассчитайте стоимость
-        </h2>
+        </SectionHeading>
 
         <div className="bg-white rounded-[20px] shadow-calc" style={{ padding: 'clamp(24px,4vw,44px)' }}>
 

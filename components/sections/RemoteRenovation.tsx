@@ -1,4 +1,5 @@
 import { GridOverlay } from '@/components/ui/GridOverlay';
+import { SectionHeading } from '@/components/ui/SectionHeading';
 import { remoteContent } from '@/data/content';
 
 const icons: Record<string, React.ReactNode> = {
@@ -42,16 +43,14 @@ export function RemoteRenovation() {
       />
 
       <div className="relative max-w-content mx-auto px-6 py-[88px]">
-        <p className="font-semibold text-[15px] tracking-[.1em] uppercase text-sage mb-[22px]">
-          {remoteContent.eyebrow}
-        </p>
-        <h2
-          className="font-bold leading-[1.12] tracking-[-0.01em] text-white mb-[18px] max-w-[800px] text-balance"
-          style={{ fontSize: 'clamp(28px,4vw,40px)' }}
+        <SectionHeading
+          tone="light"
+          className="mb-10 md:mb-12"
+          eyebrow={remoteContent.eyebrow}
+          subtitle={remoteContent.subtext}
         >
           {remoteContent.heading}
-        </h2>
-        <p className="text-xl text-white/80 mb-12 max-w-[640px]">{remoteContent.subtext}</p>
+        </SectionHeading>
 
         <div
           className="grid gap-[26px] mb-12"
@@ -66,12 +65,14 @@ export function RemoteRenovation() {
           ))}
         </div>
 
-        <a
-          href="#cta"
-          className="inline-block bg-gold hover:bg-gold-dark text-ink font-bold text-[17px] px-[30px] py-[17px] rounded-[14px] shadow-gold-glow transition-all duration-200 hover:-translate-y-0.5"
-        >
-          {remoteContent.cta}
-        </a>
+        <div className="text-center">
+          <a
+            href="#cta"
+            className="inline-block bg-gold hover:bg-gold-dark text-ink font-bold text-[17px] px-[30px] py-[17px] rounded-[14px] shadow-gold-glow transition-all duration-200 hover:-translate-y-0.5"
+          >
+            {remoteContent.cta}
+          </a>
+        </div>
       </div>
     </section>
   );

@@ -1,15 +1,13 @@
 import { steps } from '@/data/content';
+import { SectionHeading } from '@/components/ui/SectionHeading';
 
 export function HowWeWork() {
   return (
     <section id="steps" className="bg-white border-t border-[#eef1ee]">
       <div className="max-w-content mx-auto px-6 py-[88px]">
-        <h2
-          className="font-bold tracking-[-0.01em] mb-12 text-ink"
-          style={{ fontSize: 'clamp(30px,4vw,40px)' }}
-        >
+        <SectionHeading className="mb-10 md:mb-12">
           Как мы работаем
-        </h2>
+        </SectionHeading>
 
         <div className="flex flex-col gap-0">
           {steps.map((s, i) => {

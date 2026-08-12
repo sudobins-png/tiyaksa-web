@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { portfolioItems } from '@/data/content';
+import { SectionHeading } from '@/components/ui/SectionHeading';
 
 /* ── Lightbox ────────────────────────────────────────────────────── */
 interface LightboxProps {
@@ -252,12 +253,9 @@ export function Portfolio() {
   return (
     <section id="portfolio" className="bg-site border-t border-[#eef1ee]">
       <div className="max-w-content mx-auto px-6 py-[88px]">
-        <h2
-          className="font-bold tracking-[-0.01em] mb-10 text-ink"
-          style={{ fontSize: 'clamp(30px,4vw,40px)' }}
-        >
+        <SectionHeading className="mb-8 md:mb-10">
           Примеры готовых ремонтов
-        </h2>
+        </SectionHeading>
 
         <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
           {portfolioItems.map((p, i) => (

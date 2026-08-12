@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
+import { SectionHeading } from '@/components/ui/SectionHeading';
 
 const PHOTOS = Array.from({ length: 17 }, (_, i) => `/case/${i + 1}.jpg`);
 
@@ -58,25 +59,13 @@ export function CaseSection() {
         <div className="max-w-content mx-auto px-6">
 
           {/* Heading block — text stays at a readable measure inside the wide container */}
-          <div className="max-w-[760px] mx-auto text-center">
-            {/* Label */}
-            <p className="text-[12px] text-[#999] font-medium tracking-widest uppercase mb-2">
-              Объект №168
-            </p>
-
-            {/* Title */}
-            <h2
-              className="font-extrabold text-ink leading-tight uppercase mb-4 tracking-[-0.01em]"
-              style={{ fontSize: 'clamp(22px,3vw,34px)' }}
-            >
-              Ремонт квартиры на наб. канала Грибоедова в Петербурге
-            </h2>
-
-            {/* Description */}
-            <p className="text-[14px] md:text-[16px] text-[#555] leading-relaxed mb-7 md:mb-9">
-              Ремонт квартиры в Санкт-Петербурге с меблировкой и изготовлением мебели, с интерьером в стиле неоклассика, с прихожей, гардеробом, кухней-гостиной, спальней, кабинетом и санузлом.
-            </p>
-          </div>
+          <SectionHeading
+            className="mb-7 md:mb-9 max-w-[760px] mx-auto"
+            eyebrow="Объект №168"
+            subtitle="Ремонт квартиры в Санкт-Петербурге с меблировкой и изготовлением мебели, с интерьером в стиле неоклассика, с прихожей, гардеробом, кухней-гостиной, спальней, кабинетом и санузлом."
+          >
+            Ремонт квартиры на наб. канала Грибоедова в Петербурге
+          </SectionHeading>
 
           {/* Specs — 3 col grid */}
           <div className="grid grid-cols-3 gap-2 md:gap-4 max-w-[760px] mx-auto mb-8 md:mb-12">

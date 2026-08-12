@@ -17,7 +17,8 @@ export function ManagerCta() {
             style={{ fontSize: 'clamp(16px,2.6vw,30px)' }}
           >
             {/* pr compensates for the italic overhang, which otherwise collides with the next word */}
-            Проконсультируйтесь <span className="italic text-gold pr-[0.09em]">бесплатно</span> с управляющим ТиЯКСа.Ремонт
+            Проконсультируйтесь <span className="italic text-gold pr-[0.09em]">бесплатно</span> с управляющим{' '}
+            <span className="normal-case">ТиЯКСа.Ремонт</span>
           </p>
           <p className="m-0 mt-3 text-[15px] md:text-[17px] leading-snug text-white/75">
             Он поможет подобрать материалы и посчитает смету за 30 минут

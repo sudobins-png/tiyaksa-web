@@ -9,6 +9,7 @@ import { calcAptTypes, calcWorkTypes } from '@/data/pricing';
 import { PrivacyModal } from '@/components/ui/PrivacyModal';
 import { useToastStore } from '@/stores/toastStore';
 import { MessengerSelector, formatContact, MESSENGERS, type MessengerType } from '@/components/ui/MessengerSelector';
+import { SectionHeading } from '@/components/ui/SectionHeading';
 
 /* ── Pill ────────────────────────────────────────────────────────── */
 function Pill({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
@@ -87,15 +88,12 @@ export function FinalCTA() {
   return (
     <section id="cta" className="bg-grove-mint">
       <div className="max-w-[760px] mx-auto px-6 py-[88px]">
-        <h2
-          className="font-bold tracking-[-0.01em] text-forest text-center mb-3"
-          style={{ fontSize: 'clamp(30px,4vw,40px)' }}
+        <SectionHeading
+          className="mb-8 md:mb-10"
+          subtitle="Расскажите о квартире — получите смету и ответы на вопросы."
         >
           Обсудим ваш объект
-        </h2>
-        <p className="text-[19px] text-subtle text-center mb-10">
-          Расскажите о квартире — получите смету и ответы на вопросы.
-        </p>
+        </SectionHeading>
 
         <div className="bg-white rounded-[20px] shadow-[0_6px_30px_rgba(27,79,27,.1)]" style={{ padding: 'clamp(24px,4vw,40px)' }}>
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-7" noValidate>

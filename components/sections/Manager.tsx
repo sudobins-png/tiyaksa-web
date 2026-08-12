@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import type { ReactNode } from 'react';
 import { managerInfo, siteConfig } from '@/data/content';
+import { SectionHeading } from '@/components/ui/SectionHeading';
 
 interface ManagerProps {
   /** Optional CTA rendered inside the card, below the description. */
@@ -11,12 +12,9 @@ export function Manager({ cta }: ManagerProps) {
   return (
     <section className="bg-white">
       <div className="max-w-content mx-auto px-6 py-14 md:py-[88px]">
-        <h2
-          className="font-bold tracking-[-0.01em] mb-7 md:mb-10 text-ink"
-          style={{ fontSize: 'clamp(26px,4vw,40px)' }}
-        >
+        <SectionHeading className="mb-7 md:mb-10">
           Ваш личный управляющий
-        </h2>
+        </SectionHeading>
 
         <div
           className="bg-site border border-[#eef1ee] rounded-[20px]"

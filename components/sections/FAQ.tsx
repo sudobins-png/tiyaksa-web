@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { faqItems } from '@/data/faq';
 import { cn } from '@/lib/utils';
+import { SectionHeading } from '@/components/ui/SectionHeading';
 
 export function FAQ() {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
@@ -13,12 +14,9 @@ export function FAQ() {
   return (
     <section id="faq" className="bg-site border-t border-[#eef1ee]">
       <div className="max-w-[860px] mx-auto px-6 py-[88px]">
-        <h2
-          className="font-bold tracking-[-0.01em] mb-9 text-ink"
-          style={{ fontSize: 'clamp(30px,4vw,40px)' }}
-        >
+        <SectionHeading className="mb-8 md:mb-12">
           Частые вопросы
-        </h2>
+        </SectionHeading>
 
         <div className="flex flex-col gap-[14px]">
           {faqItems.map((f, i) => {

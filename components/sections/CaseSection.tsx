@@ -12,19 +12,17 @@ const PHOTOS = Array.from({ length: 17 }, (_, i) => `/case/${i + 1}.jpg`);
  * 6 = full row, 3 = half (2-up), 2 = third (3-up).
  *
  * Mobile keeps the original 1 / 3 / 1 / 2 / 3 / 1 / 2 / 3 / 1 rhythm.
- * Desktop uses rows of 3 and 2 only — no full-width photos — grouped as
- * 3 / 3 / 3 / 2 / 3 / 3, which is exactly the 17 photos.
+ * Desktop uses rows of 3 and 2 only — no full-width photos — alternating
+ * 3 / 2 / 3 / 2 / 3 / 2 / 2, which is exactly the 17 photos.
  */
 const SPANS: Array<[mobile: number, desktop: number]> = [
-  [6, 2],                    // 0
-  [2, 2], [2, 2], [2, 2],    // 1–3
-  [6, 2],                    // 4
-  [3, 2], [3, 2],            // 5–6
-  [2, 2], [2, 2], [2, 3],    // 7–9
-  [6, 3],                    // 10
-  [3, 2], [3, 2],            // 11–12
-  [2, 2], [2, 2], [2, 2],    // 13–15
-  [6, 2],                    // 16
+  [6, 2], [2, 2], [2, 2],    //  0–2   desktop row 1: 3-up
+  [2, 3], [6, 3],            //  3–4   desktop row 2: 2-up
+  [3, 2], [3, 2], [2, 2],    //  5–7   desktop row 3: 3-up
+  [2, 3], [2, 3],            //  8–9   desktop row 4: 2-up
+  [6, 2], [3, 2], [3, 2],    // 10–12  desktop row 5: 3-up
+  [2, 3], [2, 3],            // 13–14  desktop row 6: 2-up
+  [2, 3], [6, 3],            // 15–16  desktop row 7: 2-up
 ];
 
 const MOBILE_SPAN: Record<number, string> = {

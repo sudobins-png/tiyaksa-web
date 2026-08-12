@@ -4,9 +4,17 @@ on:
   push:
     branches: [main]
 
+# Deploys are idempotent — every run pulls whatever :latest points at — so a
+# newer push supersedes an older in-flight run. Cancelling it keeps two deploys
+# off the VPS at once, which is what wedged the SSH session on run #102.
+concurrency:
+  group: deploy-vps
+  cancel-in-progress: true
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: read
       packages: write
@@ -34,6 +42,10 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
+          # Without these the action waits indefinitely: a stuck session used to
+          # hang the job until the 6h default limit instead of failing fast.
+          timeout: 30s
+          command_timeout: 8m
           script: |
             cd /root/tiyaksa
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin

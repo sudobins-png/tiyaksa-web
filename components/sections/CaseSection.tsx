@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const PHOTOS = Array.from({ length: 17 }, (_, i) => `/case/${i + 1}.jpg`);
 
@@ -26,10 +27,19 @@ const SPECS = [
 
 export function CaseSection() {
   const [lightbox, setLightbox] = useState<number | null>(null);
+  const dirRef = useRef(1); // 1 = forward, -1 = back
 
   const close = useCallback(() => setLightbox(null), []);
-  const prev = useCallback(() => setLightbox((i) => (i !== null ? Math.max(0, i - 1) : null)), []);
-  const next = useCallback(() => setLightbox((i) => (i !== null ? Math.min(PHOTOS.length - 1, i + 1) : null)), []);
+
+  const prev = useCallback(() => {
+    dirRef.current = -1;
+    setLightbox((i) => (i !== null && i > 0 ? i - 1 : i));
+  }, []);
+
+  const next = useCallback(() => {
+    dirRef.current = 1;
+    setLightbox((i) => (i !== null && i < PHOTOS.length - 1 ? i + 1 : i));
+  }, []);
 
   useEffect(() => {
     if (lightbox === null) return;
@@ -109,72 +119,92 @@ export function CaseSection() {
       </section>
 
       {/* Lightbox */}
-      {lightbox !== null && (
-        <div
-          className="fixed inset-0 z-[300] bg-black/92 flex items-center justify-center"
-          onClick={close}
-        >
-          {/* Image */}
-          <div
-            className="relative w-full h-full max-w-[100vw] max-h-[100dvh]"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <Image
-              src={PHOTOS[lightbox]}
-              alt=""
-              fill
-              className="object-contain"
-              sizes="100vw"
-              priority
-            />
-          </div>
-
-          {/* Close */}
-          <button
-            type="button"
+      <AnimatePresence>
+        {lightbox !== null && (
+          <motion.div
+            key="overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.22 }}
+            className="fixed inset-0 z-[300] bg-black/85 flex items-center justify-center"
             onClick={close}
-            aria-label="Закрыть"
-            className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" aria-hidden>
-              <path d="M18 6 6 18M6 6l12 12" />
-            </svg>
-          </button>
+            {/* Sliding image */}
+            <AnimatePresence mode="wait" custom={dirRef.current}>
+              <motion.div
+                key={lightbox}
+                custom={dirRef.current}
+                variants={{
+                  enter: (d: number) => ({ opacity: 0, x: d * 60 }),
+                  center: { opacity: 1, x: 0 },
+                  exit:  (d: number) => ({ opacity: 0, x: d * -60 }),
+                }}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.22, ease: 'easeOut' }}
+                className="relative w-full h-full"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Image
+                  src={PHOTOS[lightbox]}
+                  alt=""
+                  fill
+                  className="object-contain"
+                  sizes="100vw"
+                  priority
+                />
+              </motion.div>
+            </AnimatePresence>
 
-          {/* Prev */}
-          {lightbox > 0 && (
+            {/* Close */}
             <button
               type="button"
-              onClick={(e) => { e.stopPropagation(); prev(); }}
-              aria-label="Предыдущее фото"
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+              onClick={close}
+              aria-label="Закрыть"
+              className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 flex items-center justify-center transition-colors backdrop-blur-sm"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                <path d="M15 18l-6-6 6-6" />
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" aria-hidden>
+                <path d="M18 6 6 18M6 6l12 12" />
               </svg>
             </button>
-          )}
 
-          {/* Next */}
-          {lightbox < PHOTOS.length - 1 && (
-            <button
-              type="button"
-              onClick={(e) => { e.stopPropagation(); next(); }}
-              aria-label="Следующее фото"
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                <path d="M9 18l6-6-6-6" />
-              </svg>
-            </button>
-          )}
+            {/* Prev */}
+            {lightbox > 0 && (
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); prev(); }}
+                aria-label="Предыдущее фото"
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/50 hover:bg-black/70 flex items-center justify-center transition-colors backdrop-blur-sm"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M15 18l-6-6 6-6" />
+                </svg>
+              </button>
+            )}
 
-          {/* Counter */}
-          <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/60 text-[13px] tabular-nums">
-            {lightbox + 1} / {PHOTOS.length}
-          </p>
-        </div>
-      )}
+            {/* Next */}
+            {lightbox < PHOTOS.length - 1 && (
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); next(); }}
+                aria-label="Следующее фото"
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/50 hover:bg-black/70 flex items-center justify-center transition-colors backdrop-blur-sm"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </button>
+            )}
+
+            {/* Counter */}
+            <p className="absolute bottom-5 left-1/2 -translate-x-1/2 text-white/70 text-[13px] tabular-nums bg-black/30 px-3 py-1 rounded-full backdrop-blur-sm">
+              {lightbox + 1} / {PHOTOS.length}
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

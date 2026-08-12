@@ -359,11 +359,11 @@ function PhotoCard({ label, photo, onClick }: { label: string; photo: string; on
         <Image src={photo} alt={label} fill sizes="(max-width: 640px) 50vw, 33vw"
           className="object-cover group-hover:scale-[1.04] transition-transform duration-200" />
       </div>
-      <div className="px-3 py-2.5 bg-white group-hover:bg-[#f5faf5] transition-colors flex items-center gap-2">
-        <span className="w-4 h-4 rounded-full border-2 border-[#c8d4c8] group-hover:border-grove shrink-0 transition-colors flex items-center justify-center">
+      <div className="px-3 py-2.5 bg-white group-hover:bg-[#f5faf5] transition-colors flex items-start gap-2">
+        <span className="w-4 h-4 mt-[2px] rounded-full border-2 border-[#c8d4c8] group-hover:border-grove shrink-0 transition-colors flex items-center justify-center">
           <span className="w-[6px] h-[6px] rounded-full bg-transparent group-hover:bg-grove transition-colors" />
         </span>
-        <span className="font-semibold text-[13px] text-ink leading-tight">{label}</span>
+        <span className="font-semibold text-[13px] text-ink leading-tight min-w-0">{label}</span>
       </div>
     </button>
   );

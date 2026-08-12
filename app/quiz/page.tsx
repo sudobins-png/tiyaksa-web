@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { QuizInline } from '@/components/quiz/QuizInline';
 import { Footer } from '@/components/sections/Footer';
-import { GridOverlay } from '@/components/ui/GridOverlay';
 
 export const metadata: Metadata = {
   title: 'Расчёт стоимости ремонта — ТиЯКСа.Ремонт',
@@ -21,19 +20,13 @@ export default function QuizPage() {
         </a>
       </header>
 
-      {/* Eyebrow banner */}
-      <div className="relative bg-forest overflow-hidden">
-        <GridOverlay />
-        <div className="relative px-6 py-4">
-          <p className="font-semibold text-[13px] tracking-[.12em] uppercase text-sage leading-none">
-            Ремонт квартир под ключ&nbsp;·&nbsp;Санкт-Петербург
-          </p>
-        </div>
-      </div>
-
       {/* Main */}
       <main className="flex-1 flex flex-col items-center px-4 py-8 sm:py-12">
         <div className="w-full max-w-[640px] lg:max-w-[1024px]">
+          <p className="font-semibold text-[13px] tracking-[.12em] uppercase text-forest/50 leading-none text-center mb-6 sm:mb-8">
+            Ремонт квартир под ключ&nbsp;·&nbsp;Санкт-Петербург
+          </p>
+
           {/* Quiz card */}
           <QuizInline />
         </div>

@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { QuizInline } from '@/components/quiz/QuizInline';
 import { CaseSection } from '@/components/sections/CaseSection';
+import { Manager } from '@/components/sections/Manager';
+import { ManagerCta } from '@/components/sections/ManagerCta';
 import { Footer } from '@/components/sections/Footer';
 
 export const metadata: Metadata = {
@@ -39,6 +41,8 @@ export default function QuizPage() {
       </main>
 
       <CaseSection />
+
+      <Manager cta={<ManagerCta />} />
 
       <Footer hideMenu />
     </div>

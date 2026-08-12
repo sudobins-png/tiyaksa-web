@@ -54,7 +54,7 @@ export function CaseSection() {
 
   return (
     <>
-      <section className="bg-[#f2f2f0] py-14 md:py-[88px]">
+      <section className="bg-site border-t border-[#eef1ee] py-14 md:py-[88px]">
         <div className="max-w-content mx-auto px-6">
 
           {/* Heading block — text stays at a readable measure inside the wide container */}
@@ -81,8 +81,8 @@ export function CaseSection() {
           {/* Specs — 3 col grid */}
           <div className="grid grid-cols-3 gap-2 md:gap-4 max-w-[760px] mx-auto mb-8 md:mb-12">
             {SPECS.map((s) => (
-              <div key={s.label} className="bg-white rounded-[14px] px-3 py-3 md:py-6 flex flex-col items-center text-center gap-1.5 md:gap-2">
-                <div className="w-8 h-8 md:w-11 md:h-11 rounded-[8px] md:rounded-[10px] bg-[#e8e4db] flex items-center justify-center shrink-0">
+              <div key={s.label} className="bg-white border border-[#eef1ee] rounded-[14px] px-3 py-3 md:py-6 flex flex-col items-center text-center gap-1.5 md:gap-2">
+                <div className="w-8 h-8 md:w-11 md:h-11 rounded-[8px] md:rounded-[10px] bg-grove-mint flex items-center justify-center shrink-0">
                   {s.icon}
                 </div>
                 <p className="text-[10px] md:text-[12px] text-[#999] leading-none">{s.label}</p>
@@ -118,7 +118,6 @@ export function CaseSection() {
                           : `(max-width: 1200px) ${Math.round(100 / row.cols)}vw, ${Math.round(1152 / row.cols)}px`
                       }
                       className="object-cover transition-transform duration-200 hover:scale-[1.03]"
-                      priority={idx === 0}
                     />
                   </button>
                 ))}

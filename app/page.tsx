@@ -5,6 +5,7 @@ import { Portfolio }        from '@/components/sections/Portfolio';
 import { HowWeWork }        from '@/components/sections/HowWeWork';
 import { Pricing }          from '@/components/sections/Pricing';
 import { WhyUs }            from '@/components/sections/WhyUs';
+import { CaseSection }      from '@/components/sections/CaseSection';
 import { Reviews }          from '@/components/sections/Reviews';
 import { LeadForm }         from '@/components/sections/LeadForm';
 import { Calculator }       from '@/components/sections/Calculator';
@@ -23,6 +24,7 @@ export default function HomePage() {
         <Stats />
         <Portfolio />
         <WhyUs />
+        <CaseSection />
         <Pricing />
         <HowWeWork />
         <Reviews />

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { QuizInline } from '@/components/quiz/QuizInline';
+import { CaseSection } from '@/components/sections/CaseSection';
 import { Footer } from '@/components/sections/Footer';
 
 export const metadata: Metadata = {
@@ -39,6 +40,8 @@ export default function QuizPage() {
           <QuizInline />
         </div>
       </main>
+
+      <CaseSection />
 
       <Footer hideMenu />
     </div>

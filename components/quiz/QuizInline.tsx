@@ -214,9 +214,9 @@ export function QuizInline() {
             {step === 3 && (
               <StepWrap key="s3" dir={dir}>
                 <StepTitle>Каким вы хотите видеть свой интерьер?</StepTitle>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {STYLE_OPTIONS.map((opt) => (
-                    <PhotoCard key={opt.label} label={opt.label} photo={opt.photo}
+                    <PhotoCard key={opt.label} label={opt.label} photo={opt.photo} wide
                       onClick={() => { setInteriorStyle(opt.label); next(); }} />
                   ))}
                 </div>
@@ -227,9 +227,9 @@ export function QuizInline() {
             {step === 4 && (
               <StepWrap key="s4" dir={dir}>
                 <StepTitle>Какие тона в интерьере вы предпочитаете?</StepTitle>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {TONE_OPTIONS.map((opt) => (
-                    <PhotoCard key={opt.label} label={opt.label} photo={opt.photo}
+                    <PhotoCard key={opt.label} label={opt.label} photo={opt.photo} wide
                       onClick={() => { setColorTone(opt.label); next(); }} />
                   ))}
                 </div>
@@ -351,15 +351,22 @@ function StepTitle({ children }: { children: React.ReactNode }) {
   return <h2 className="font-bold text-[22px] text-ink mb-5">{children}</h2>;
 }
 
-function PhotoCard({ label, photo, onClick }: { label: string; photo: string; onClick: () => void }) {
+/**
+ * `wide` switches the card to a thumbnail-left row below `sm`. Steps whose options
+ * have long labels use it: at 375px a 3-up grid leaves ~38px for the text, which
+ * shreds words like «классическим».
+ */
+function PhotoCard({ label, photo, onClick, wide = false }:
+  { label: string; photo: string; onClick: () => void; wide?: boolean }) {
   return (
     <button type="button" onClick={onClick}
-      className="flex flex-col rounded-[14px] overflow-hidden border-2 border-[#eef1ee] hover:border-grove transition-all duration-150 cursor-pointer group text-left">
-      <div className="relative w-full aspect-[4/3] bg-[#eef1ee]">
-        <Image src={photo} alt={label} fill sizes="(max-width: 640px) 50vw, 33vw"
+      className={`flex ${wide ? 'flex-row sm:flex-col' : 'flex-col'} rounded-[14px] overflow-hidden border-2 border-[#eef1ee] hover:border-grove transition-all duration-150 cursor-pointer group text-left`}>
+      <div className={`relative aspect-[4/3] bg-[#eef1ee] ${wide ? 'w-[116px] shrink-0 sm:w-full' : 'w-full'}`}>
+        <Image src={photo} alt={label} fill
+          sizes={wide ? '(max-width: 640px) 116px, 33vw' : '(max-width: 640px) 50vw, 33vw'}
           className="object-cover group-hover:scale-[1.04] transition-transform duration-200" />
       </div>
-      <div className="px-3 py-2.5 bg-white group-hover:bg-[#f5faf5] transition-colors flex items-start gap-2">
+      <div className={`px-3 py-2.5 bg-white group-hover:bg-[#f5faf5] transition-colors flex gap-2 flex-1 min-w-0 ${wide ? 'items-center sm:items-start' : 'items-start'}`}>
         <span className="w-4 h-4 mt-[2px] rounded-full border-2 border-[#c8d4c8] group-hover:border-grove shrink-0 transition-colors flex items-center justify-center">
           <span className="w-[6px] h-[6px] rounded-full bg-transparent group-hover:bg-grove transition-colors" />
         </span>

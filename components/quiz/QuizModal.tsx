@@ -40,6 +40,12 @@ const TONE_OPTIONS = [
   { label: 'Светлые', photo: '/quiz/tone-light.jpg'   },
 ];
 
+const RESULT_BENEFITS = [
+  'Ориентир по бюджету и срокам',
+  'Консультацию по дизайну и комплектации',
+  'Рекомендации по вашему ремонту',
+];
+
 const DESIGN_OPTIONS = [
   { label: 'Да, уже есть',           sub: 'Готов приступить к реализации' },
   { label: 'Нет, нужно разработать', sub: 'Хочу получить дизайн-проект от вас' },
@@ -278,6 +284,7 @@ export function QuizModal({ onClose }: QuizModalProps) {
             {step === 6 && (
               <StepWrap key="s6" dir={dir}>
                 <StepTitle>Ваш расчёт готов!</StepTitle>
+                <BenefitsCard />
                 <div className="flex flex-wrap gap-2 mb-5">
                   {aptType       && <Chip>{aptType}</Chip>}
                   {rooms         && <Chip>{rooms}</Chip>}
@@ -428,6 +435,25 @@ function BackBtn({ onClick }: { onClick: () => void }) {
       className="mt-4 text-[14px] text-muted hover:text-forest transition-colors cursor-pointer bg-transparent border-none p-0">
       ← Назад
     </button>
+  );
+}
+
+function BenefitsCard() {
+  return (
+    <div className="rounded-[14px] border border-[#e4e9e4] bg-site px-4 py-3.5 mb-5">
+      <p className="text-[13px] text-muted mb-2.5">Вы получите:</p>
+      <ul className="list-none flex flex-col gap-2 m-0 p-0">
+        {RESULT_BENEFITS.map((b) => (
+          <li key={b} className="flex items-start gap-2.5">
+            <svg className="shrink-0 mt-[3px] text-gold" width="14" height="14" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M20 6 9 17l-5-5" />
+            </svg>
+            <span className="text-[14px] text-ink leading-snug">{b}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 

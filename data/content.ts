@@ -17,7 +17,6 @@ export const navItems = [
   { label: 'Работы',       href: '#portfolio' },
   { label: 'Этапы',        href: '#steps'     },
   { label: 'Цены',         href: '#prices'    },
-  { label: 'Калькулятор',  href: '#calc'      },
   { label: 'Вопросы',      href: '#faq'       },
 ] as const;
 
@@ -183,6 +182,5 @@ export const footerLinks = [
   { label: 'Работы',      href: '#portfolio' },
   { label: 'Этапы',       href: '#steps'     },
   { label: 'Цены',        href: '#prices'    },
-  { label: 'Калькулятор', href: '#calc'      },
   { label: 'FAQ',         href: '#faq'       },
 ] as const;

@@ -35,32 +35,35 @@ export function Contacts() {
           />
 
           {/* Card — overlays the map from md up, stacks under it on mobile */}
-          <div className="md:absolute md:top-6 md:right-6 md:bottom-6 md:w-[430px] md:rounded-[20px] bg-forest p-6 md:p-8 md:overflow-y-auto">
-            <h2 className="m-0 font-bold text-white leading-tight tracking-[-0.01em]" style={{ fontSize: 'clamp(26px,3vw,38px)' }}>
+          {/* From md up the card is boxed by the map's height, so the desktop
+              type scale is a size down from mobile's — the whole card has to
+              fit in 572px without an inner scrollbar. */}
+          <div className="md:absolute md:top-6 md:right-6 md:bottom-6 md:w-[430px] md:rounded-[20px] bg-forest p-6 md:p-7">
+            <h2 className="m-0 font-bold text-white leading-tight tracking-[-0.01em]" style={{ fontSize: 'clamp(26px,2.1vw,28px)' }}>
               Наши контакты
             </h2>
-            <p className="m-0 mt-3 text-[15px] md:text-[16px] leading-relaxed text-white/70">
+            <p className="m-0 mt-2.5 text-[15px] md:text-[14px] leading-relaxed text-white/70">
               Мы на связи, чтобы обсудить ваш объект, показать кейсы и предложить лучший сценарий ремонта
             </p>
 
-            <h3 className="m-0 mt-7 mb-4 font-bold text-[20px] md:text-[22px] text-white">Связь с нами</h3>
+            <h3 className="m-0 mt-6 md:mt-5 mb-3 font-bold text-[20px] md:text-[17px] text-white">Связь с нами</h3>
 
-            <ul className="list-none m-0 p-0 flex flex-col gap-5">
+            <ul className="list-none m-0 p-0 flex flex-col gap-4 md:gap-3.5">
               {PHONES.map((p) => (
                 <li key={p.href}>
                   <a href={p.href} className="flex items-center gap-3 text-white hover:text-gold transition-colors">
-                    <span className="shrink-0 w-9 h-9 rounded-[10px] bg-gold flex items-center justify-center">
+                    <span className="shrink-0 w-9 h-9 md:w-8 md:h-8 rounded-[10px] bg-gold flex items-center justify-center">
                       <IconPhone />
                     </span>
                     <span className="min-w-0">
-                      <span className="block font-semibold text-[17px] md:text-[19px]">{p.value}</span>
-                      {p.label && <span className="block text-[12px] text-white/50">{p.label}</span>}
+                      <span className="block font-semibold text-[17px] md:text-[16px]">{p.value}</span>
+                      {p.label && <span className="block text-[12px] md:text-[11px] text-white/50">{p.label}</span>}
                     </span>
                   </a>
 
                   {/* Same number is reachable in these messengers */}
-                  <div className="mt-2 ml-12 flex items-center gap-2">
-                    <span className="text-[11px] text-white/45">Пишите:</span>
+                  <div className="mt-2 md:mt-1.5 ml-12 md:ml-11 flex items-center gap-2">
+                    <span className="text-[11px] md:text-[10px] text-white/45">Пишите:</span>
                     <IconWhatsApp />
                     <IconTelegram />
                     <IconMax />
@@ -70,13 +73,13 @@ export function Contacts() {
 
             </ul>
 
-            <div className="mt-7 pt-6 border-t border-white/15">
-              <h3 className="m-0 mb-3 font-bold text-[20px] md:text-[22px] text-white">Режим работы</h3>
-              <address className="not-italic text-[15px] md:text-[16px] text-white/70 leading-relaxed">
+            <div className="mt-6 md:mt-5 pt-5 md:pt-4 border-t border-white/15">
+              <h3 className="m-0 mb-2 font-bold text-[20px] md:text-[17px] text-white">Режим работы</h3>
+              <address className="not-italic text-[15px] md:text-[14px] text-white/70 leading-relaxed">
                 {siteConfig.address}
                 <span className="block">{siteConfig.addressNote}</span>
               </address>
-              <p className="m-0 mt-4 text-[15px] md:text-[16px] text-white/70 leading-relaxed">
+              <p className="m-0 mt-3 md:mt-2.5 text-[15px] md:text-[14px] text-white/70 leading-relaxed">
                 {siteConfig.workingHours}
               </p>
             </div>
@@ -98,8 +101,8 @@ function IconPhone() {
 // Brand marks — the literal hexes are the messengers' own colours, not design tokens.
 function IconWhatsApp() {
   return (
-    <span className="w-[22px] h-[22px] rounded-[6px] bg-[#25D366] flex items-center justify-center" title="WhatsApp">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff" aria-label="WhatsApp" role="img">
+    <span className="w-[22px] h-[22px] md:w-5 md:h-5 rounded-[6px] bg-[#25D366] flex items-center justify-center" title="WhatsApp">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="#fff" aria-label="WhatsApp" role="img">
         <path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.75.46 3.45 1.32 4.95L2 22l5.3-1.39a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.44 9.9-9.9 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.05-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.41a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24Zm4.52-6.17c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.15.16-.29.18-.53.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.44.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.47c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.06s.89 2.39 1.01 2.55c.12.17 1.74 2.66 4.22 3.73.59.25 1.05.4 1.41.52.59.19 1.13.16 1.56.1.47-.07 1.47-.6 1.68-1.18.2-.58.2-1.08.14-1.18-.06-.11-.22-.17-.47-.29Z" />
       </svg>
     </span>
@@ -108,8 +111,8 @@ function IconWhatsApp() {
 
 function IconTelegram() {
   return (
-    <span className="w-[22px] h-[22px] rounded-[6px] bg-[#2AABEE] flex items-center justify-center" title="Telegram">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff" aria-label="Telegram" role="img">
+    <span className="w-[22px] h-[22px] md:w-5 md:h-5 rounded-[6px] bg-[#2AABEE] flex items-center justify-center" title="Telegram">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="#fff" aria-label="Telegram" role="img">
         <path d="M21.6 4.2 2.9 11.4c-.9.35-.9 1.62.01 1.95l4.6 1.66 1.77 5.3c.24.7 1.14.87 1.62.31l2.5-2.86 4.7 3.45c.6.44 1.45.11 1.6-.62l3.1-14.7c.16-.77-.6-1.4-1.2-1.69Zm-3.5 3.1-7.9 6.9c-.2.18-.32.42-.35.68l-.27 2.4-1.3-3.9 9.82-6.08Z" />
       </svg>
     </span>
@@ -119,7 +122,7 @@ function IconTelegram() {
 function IconMax() {
   return (
     <span
-      className="h-[22px] px-1.5 rounded-[6px] bg-white/15 flex items-center justify-center font-bold text-[10px] tracking-wide text-white"
+      className="h-[22px] md:h-5 px-1.5 rounded-[6px] bg-white/15 flex items-center justify-center font-bold text-[10px] md:text-[9px] tracking-wide text-white"
       title="MAX"
     >
       MAX

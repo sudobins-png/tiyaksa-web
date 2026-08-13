@@ -7,7 +7,7 @@ import { Pricing }          from '@/components/sections/Pricing';
 import { WhyUs }            from '@/components/sections/WhyUs';
 import { CaseSection }      from '@/components/sections/CaseSection';
 import { Reviews }          from '@/components/sections/Reviews';
-import { LeadForm }         from '@/components/sections/LeadForm';
+import { EstimateAudit }    from '@/components/sections/EstimateAudit';
 import { Calculator }       from '@/components/sections/Calculator';
 import { RemoteRenovation } from '@/components/sections/RemoteRenovation';
 import { Manager }          from '@/components/sections/Manager';
@@ -29,7 +29,7 @@ export default function HomePage() {
         <Pricing />
         <HowWeWork />
         <Reviews />
-        <LeadForm />
+        <EstimateAudit />
         <Manager />
         {/* <Calculator /> */}
         <RemoteRenovation />

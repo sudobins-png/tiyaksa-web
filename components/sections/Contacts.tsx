@@ -4,9 +4,17 @@ import { siteConfig } from '@/data/content';
  * Same Yandex constructor as the embed script, but as a map-widget iframe.
  * The script form hardcodes width=1043/height=646, which overflows a 375px
  * screen; the iframe fills whatever box we give it.
+ *
+ * `ll`/`z` override the view the constructor was saved with: its centre sits
+ * at 30.3164 while the placemark is at 30.2715, so on a wide frame the pin
+ * merely drifts left, but in a 327px-wide one it falls off the edge entirely.
+ * Centring on the placemark keeps it visible at every width — on desktop it
+ * lands well clear of the card that overlays the right-hand side.
  */
+const PLACEMARK = '30.271473%2C59.945938';
 const MAP_SRC =
-  'https://yandex.ru/map-widget/v1/?um=constructor%3Ae2cf80aa2d17b1a1ce1fc1c8d6edaaea6045f4220d5fb90444df48c773150030&source=constructor&lang=ru_RU';
+  'https://yandex.ru/map-widget/v1/?um=constructor%3Ae2cf80aa2d17b1a1ce1fc1c8d6edaaea6045f4220d5fb90444df48c773150030' +
+  `&source=constructor&lang=ru_RU&ll=${PLACEMARK}&z=15`;
 
 export function Contacts() {
   return (

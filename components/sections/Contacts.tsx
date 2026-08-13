@@ -68,14 +68,6 @@ export function Contacts() {
                 </li>
               ))}
 
-              <li>
-                <a href={`mailto:${siteConfig.email}`} className="flex items-center gap-3 text-white hover:text-gold transition-colors">
-                  <span className="shrink-0 w-9 h-9 rounded-[10px] bg-white/10 flex items-center justify-center">
-                    <IconMail />
-                  </span>
-                  <span className="font-semibold text-[16px] md:text-[17px] break-all">{siteConfig.email}</span>
-                </a>
-              </li>
             </ul>
 
             <div className="mt-7 pt-6 border-t border-white/15">
@@ -99,15 +91,6 @@ function IconPhone() {
   return (
     <svg width="17" height="17" viewBox="0 0 20 20" fill="none" aria-hidden>
       <path d="M4.5 2C4.5 2 3 2 2 3.5C1 5 1.5 7 3 9C4.5 11 7 13.5 9 15C11 16.5 13 17 14.5 16C16 15 16 13.5 16 13.5L13.5 11L11.5 12.5C11.5 12.5 9.5 11.5 8 10C6.5 8.5 5.5 6.5 5.5 6.5L7 4.5L4.5 2Z" fill="#1A1D1A" />
-    </svg>
-  );
-}
-
-function IconMail() {
-  return (
-    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <rect x="2" y="4" width="20" height="16" rx="2" />
-      <path d="m2 7 10 6 10-6" />
     </svg>
   );
 }

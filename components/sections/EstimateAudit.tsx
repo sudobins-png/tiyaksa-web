@@ -2,25 +2,39 @@
 
 import { useState } from 'react';
 import { EstimateModal } from '@/components/ui/EstimateModal';
+import { GridOverlay } from '@/components/ui/GridOverlay';
 
 export function EstimateAudit() {
   const [open, setOpen] = useState(false);
 
   return (
-    <section id="estimate" className="bg-grove-mint">
-      <div className="max-w-[720px] mx-auto px-6 py-14 md:py-[88px] text-center">
-        <div className="w-14 h-14 mx-auto mb-6 md:mb-7 flex items-center justify-center text-forest">
+    <section id="estimate" className="relative overflow-hidden bg-forest">
+      <GridOverlay />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute"
+        style={{
+          right: '-140px', top: '-110px',
+          width: '400px', height: '400px',
+          border: '2px solid rgba(255,255,255,.07)',
+          borderRadius: '32px',
+          transform: 'rotate(45deg)',
+        }}
+      />
+
+      <div className="relative max-w-[720px] mx-auto px-6 py-14 md:py-[88px] text-center">
+        <div className="w-14 h-14 mx-auto mb-6 md:mb-7 flex items-center justify-center text-sage">
           <IconReceipt />
         </div>
 
         <h2
-          className="m-0 font-bold text-ink leading-[1.15] tracking-[-0.01em] text-balance"
+          className="m-0 font-bold text-white leading-[1.15] tracking-[-0.01em] text-balance"
           style={{ fontSize: 'clamp(26px,4vw,40px)' }}
         >
           Уже делали расчёт в других компаниях?
         </h2>
 
-        <p className="m-0 mt-4 md:mt-5 mx-auto max-w-[540px] text-[16px] md:text-[18px] leading-relaxed text-subtle">
+        <p className="m-0 mt-4 md:mt-5 mx-auto max-w-[540px] text-[16px] md:text-[18px] leading-relaxed text-white/70">
           Отправьте нам файл со сметой, и мы сделаем расчёт по нашему прайсу.
           А также проведём аудит на ошибки и скрытые работы.
         </p>

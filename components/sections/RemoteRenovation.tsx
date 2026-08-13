@@ -1,42 +1,40 @@
-import { GridOverlay } from '@/components/ui/GridOverlay';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { remoteContent } from '@/data/content';
 
 const icons: Record<string, React.ReactNode> = {
   video: (
     <svg width="42" height="42" viewBox="0 0 40 40" fill="none" aria-hidden>
-      <rect x="5" y="11" width="22" height="18" rx="3" stroke="#fff" strokeWidth="2" />
-      <path d="M27 17l8-4v14l-8-4" stroke="#fff" strokeWidth="2" strokeLinejoin="round" />
+      <rect x="5" y="11" width="22" height="18" rx="3" stroke="#1B4F1B" strokeWidth="2" />
+      <path d="M27 17l8-4v14l-8-4" stroke="#1B4F1B" strokeWidth="2" strokeLinejoin="round" />
       <path d="M14 16l6 4-6 4z" fill="#F0B429" />
     </svg>
   ),
   checklist: (
     <svg width="42" height="42" viewBox="0 0 40 40" fill="none" aria-hidden>
-      <rect x="9" y="6" width="22" height="28" rx="3" stroke="#fff" strokeWidth="2" />
+      <rect x="9" y="6" width="22" height="28" rx="3" stroke="#1B4F1B" strokeWidth="2" />
       <path d="M14 20l4 4 8-8" stroke="#F0B429" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   ),
   chat: (
     <svg width="42" height="42" viewBox="0 0 40 40" fill="none" aria-hidden>
-      <path d="M6 10a3 3 0 013-3h22a3 3 0 013 3v14a3 3 0 01-3 3H16l-8 6v-6H9a3 3 0 01-3-3z" stroke="#fff" strokeWidth="2" strokeLinejoin="round" />
-      <circle cx="15" cy="17" r="1.8" fill="#fff" />
+      <path d="M6 10a3 3 0 013-3h22a3 3 0 013 3v14a3 3 0 01-3 3H16l-8 6v-6H9a3 3 0 01-3-3z" stroke="#1B4F1B" strokeWidth="2" strokeLinejoin="round" />
+      <circle cx="15" cy="17" r="1.8" fill="#1B4F1B" />
       <circle cx="22" cy="17" r="1.8" fill="#F0B429" />
-      <circle cx="29" cy="17" r="1.8" fill="#fff" />
+      <circle cx="29" cy="17" r="1.8" fill="#1B4F1B" />
     </svg>
   ),
 };
 
 export function RemoteRenovation() {
   return (
-    <section id="удаленный-ремонт" className="relative overflow-hidden bg-forest">
-      <GridOverlay />
+    <section id="удаленный-ремонт" className="relative overflow-hidden bg-grove-mint">
       <div
         aria-hidden
         className="pointer-events-none absolute"
         style={{
           left: '-150px', bottom: '-120px',
           width: '420px', height: '420px',
-          border: '2px solid rgba(255,255,255,.07)',
+          border: '2px solid rgba(27,79,27,.10)',
           borderRadius: '32px',
           transform: 'rotate(45deg)',
         }}
@@ -44,7 +42,6 @@ export function RemoteRenovation() {
 
       <div className="relative max-w-content mx-auto px-6 py-[88px]">
         <SectionHeading
-          tone="light"
           className="mb-10 md:mb-12"
           eyebrow={remoteContent.eyebrow}
           subtitle={remoteContent.subtext}
@@ -59,8 +56,8 @@ export function RemoteRenovation() {
           {remoteContent.features.map((f) => (
             <div key={f.title}>
               <div className="mb-4">{icons[f.icon]}</div>
-              <h3 className="font-bold text-[19px] text-white mb-1">{f.title}</h3>
-              <p className="mt-2 text-base text-white/65 leading-[1.5]">{f.text}</p>
+              <h3 className="font-bold text-[19px] text-ink mb-1">{f.title}</h3>
+              <p className="mt-2 text-base text-subtle leading-[1.5]">{f.text}</p>
             </div>
           ))}
         </div>

@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import { z } from 'zod';
 import { useToastStore } from '@/stores/toastStore';
+import { PrivacyModal } from '@/components/ui/PrivacyModal';
 import {
   ACCEPT_ATTR,
   ALLOWED_LABEL,
@@ -31,6 +32,7 @@ interface EstimateModalProps {
 export function EstimateModal({ onClose }: EstimateModalProps) {
   const [file, setFile] = useState<File | null>(null);
   const [fileError, setFileError] = useState<string | null>(null);
+  const [privacyOpen, setPrivacyOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const showToast = useToastStore((s) => s.show);
 
@@ -114,6 +116,7 @@ export function EstimateModal({ onClose }: EstimateModalProps) {
     'w-full bg-[#f7f9f7] border border-[#e4e9e4] focus:border-grove rounded-xl px-5 py-4 text-base outline-none transition-colors duration-200 placeholder:text-[#b0b8b0]';
 
   return (
+    <>
     <motion.div
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.15 }}
       className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/55"
@@ -204,11 +207,22 @@ export function EstimateModal({ onClose }: EstimateModalProps) {
             </button>
 
             <p className="text-[12px] text-[#9aa39a] leading-relaxed m-0">
-              Нажимая на кнопку «Отправить заявку», я даю согласие на обработку своих персональных данных.
+              Нажимая на кнопку «Отправить заявку»,{' '}
+              <button type="button" onClick={() => setPrivacyOpen(true)}
+                className="underline hover:text-forest transition-colors bg-transparent border-none p-0 text-[12px] text-[#9aa39a] cursor-pointer">
+                я даю согласие на обработку своих персональных данных
+              </button>
+              .
             </p>
           </form>
         </div>
       </motion.div>
     </motion.div>
+
+    {/* Sibling of the overlay, not a child: nested inside, a click on the
+        policy would bubble to the overlay's onClick and close this modal too.
+        PrivacyModal sits at z-[300], above this one. */}
+    {privacyOpen && <PrivacyModal onClose={() => setPrivacyOpen(false)} />}
+    </>
   );
 }

@@ -3,13 +3,34 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => ({}));
 
-  const { name, phone, message, source } = body as Record<string, string>;
+  const { name, phone, message, source, website, aptType, workType, area } =
+    body as Record<string, string>;
+
+  // Honeypot. Every form ships a hidden `website` field that only a bot fills in.
+  // Answer 200 so the bot cannot tell it was filtered, but send nothing.
+  if (website) {
+    console.warn('[lead] honeypot triggered, dropping submission from', source ?? 'unknown');
+    return NextResponse.json({ ok: true });
+  }
+
+  if (!name && !phone) {
+    return NextResponse.json({ error: 'empty submission' }, { status: 400 });
+  }
+
+  // These arrive as top-level fields from the quiz and the CTA form; they used to
+  // be destructured away here, so the answers never reached Telegram.
+  const params = [
+    aptType  && `Объект: ${aptType}`,
+    workType && `Тип работ: ${workType}`,
+    area     && `Площадь: ${area}`,
+  ].filter(Boolean).join(' · ');
 
   const text = [
     '📋 Новая заявка — ТиЯКСа.Ремонт',
     '',
     `Имя: ${name ?? '—'}`,
     `Контакт: ${phone ?? '—'}`,
+    params  ? `Параметры: ${params}`    : null,
     message ? `Комментарий: ${message}` : null,
     '',
     `Источник: ${source ?? 'сайт'}`,

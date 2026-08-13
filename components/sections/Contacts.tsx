@@ -79,8 +79,14 @@ export function Contacts() {
             </ul>
 
             <div className="mt-7 pt-6 border-t border-white/15">
-              <h3 className="m-0 mb-3 font-bold text-[20px] md:text-[22px] text-white">Где мы работаем</h3>
-              <p className="m-0 text-[15px] md:text-[16px] text-white/70 leading-relaxed">{siteConfig.address}</p>
+              <h3 className="m-0 mb-3 font-bold text-[20px] md:text-[22px] text-white">Режим работы</h3>
+              <address className="not-italic text-[15px] md:text-[16px] text-white/70 leading-relaxed">
+                {siteConfig.address}
+                <span className="block">{siteConfig.addressNote}</span>
+              </address>
+              <p className="m-0 mt-4 text-[15px] md:text-[16px] text-white/70 leading-relaxed">
+                {siteConfig.workingHours}
+              </p>
             </div>
           </div>
         </div>

@@ -19,6 +19,11 @@ export const metadata: Metadata = {
     'Ремонт квартир под ключ в Санкт-Петербурге. Фиксированная смета, видеоотчёты каждую неделю, управляющая компания. Гарантия 3 года.',
   keywords: 'ремонт квартир СПб, ремонт под ключ, ТиЯКСа, ремонт Санкт-Петербург',
   icons: { icon: '/favicon.ico' },
+  // Set here rather than a hand-written <meta> in <head> below so every page
+  // gets it: Next.js merges parent metadata into child pages (e.g. /quiz's
+  // own title/description) automatically, a hand-rolled tag in this file's
+  // <head> would not.
+  verification: { yandex: '99f0f3b15150b670' },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

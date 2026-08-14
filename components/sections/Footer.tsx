@@ -23,15 +23,19 @@ export function Footer({ hideMenu = false }: { hideMenu?: boolean }) {
         }}
       />
 
-      <div className="relative max-w-content mx-auto px-6" style={{ paddingTop: '64px', paddingBottom: '36px' }}>
-        <div className="flex flex-wrap gap-10 justify-between mb-11">
+      <div
+        className="relative max-w-content mx-auto px-6"
+        style={{ paddingTop: hideMenu ? '40px' : '64px', paddingBottom: '36px' }}
+      >
+        {/* Neither column grows: with hideMenu there is only the brand block,
+            and a lone flex-1 item stretches the row full-width for nothing,
+            leaving the bare logo stranded in a wide empty strip. */}
+        <div className={`flex flex-wrap gap-10 justify-between ${hideMenu ? 'mb-6' : 'mb-11'}`}>
           {/* Brand */}
-          <div className="flex-1 min-w-[260px]" style={{ flexBasis: '300px' }}>
+          <div className="flex-none min-w-[260px]" style={{ flexBasis: '300px' }}>
             <Logo variant="light" className="mb-[18px]" />
           </div>
 
-          {/* Links. Not flex-1: with the contacts column gone, growing would park
-              the menu mid-row instead of letting justify-between push it right. */}
           {!hideMenu && (
             <div className="flex-none min-w-[160px]">
               <p className="font-semibold text-[13px] tracking-[.1em] uppercase text-sage mb-4">Меню</p>

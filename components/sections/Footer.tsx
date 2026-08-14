@@ -30,28 +30,10 @@ export function Footer({ hideMenu = false }: { hideMenu?: boolean }) {
             <Logo variant="light" className="mb-[18px]" />
           </div>
 
-          {/* Contacts */}
-          <div className="flex-1 min-w-[200px]" style={{ flexBasis: '220px' }}>
-            <p className="font-semibold text-[13px] tracking-[.1em] uppercase text-sage mb-4">Контакты</p>
-            <div className="flex flex-col gap-[10px]">
-              <a href={siteConfig.phoneHref} className="text-white font-semibold text-[17px] hover:text-sage transition-colors">
-                {siteConfig.phone}
-              </a>
-              <div className="flex flex-col gap-0.5">
-                <a href={siteConfig.consultantPhoneHref} className="text-white font-semibold text-[17px] hover:text-sage transition-colors">
-                  {siteConfig.consultantPhone}
-                </a>
-                <span className="text-sage text-[12px] font-medium tracking-wide">{siteConfig.consultantLabel}</span>
-              </div>
-              <a href={`https://${siteConfig.website}`} className="text-white/80 text-base hover:text-white transition-colors">
-                {siteConfig.website}
-              </a>
-            </div>
-          </div>
-
-          {/* Links */}
+          {/* Links. Not flex-1: with the contacts column gone, growing would park
+              the menu mid-row instead of letting justify-between push it right. */}
           {!hideMenu && (
-            <div className="flex-1 min-w-[160px]" style={{ flexBasis: '180px' }}>
+            <div className="flex-none min-w-[160px]">
               <p className="font-semibold text-[13px] tracking-[.1em] uppercase text-sage mb-4">Меню</p>
               <div className="flex flex-col gap-2">
                 {footerLinks.map((l) => (

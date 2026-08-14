@@ -3,10 +3,10 @@
 import { useState } from 'react';
 import { Logo } from '@/components/ui/Logo';
 import { GridOverlay } from '@/components/ui/GridOverlay';
-import { siteConfig, footerLinks } from '@/data/content';
+import { siteConfig } from '@/data/content';
 import { PrivacyModal } from '@/components/ui/PrivacyModal';
 
-export function Footer({ hideMenu = false }: { hideMenu?: boolean }) {
+export function Footer() {
   const [modalOpen, setModalOpen] = useState(false);
   return (
     <footer className="relative overflow-hidden bg-forest">
@@ -23,49 +23,8 @@ export function Footer({ hideMenu = false }: { hideMenu?: boolean }) {
         }}
       />
 
-      <div
-        className="relative max-w-content mx-auto px-6"
-        style={{ paddingTop: hideMenu ? '40px' : '64px', paddingBottom: '36px' }}
-      >
-        {/* Neither column grows: with hideMenu there is only the brand block,
-            and a lone flex-1 item stretches the row full-width for nothing,
-            leaving the bare logo stranded in a wide empty strip. */}
-        <div className={`flex flex-wrap gap-10 justify-between ${hideMenu ? 'mb-6' : 'mb-11'}`}>
-          {/* Brand */}
-          <div className="flex-none min-w-[260px]" style={{ flexBasis: '300px' }}>
-            <Logo variant="light" className="mb-[18px]" />
-          </div>
-
-          {!hideMenu && (
-            <div className="flex-none min-w-[160px]">
-              <p className="font-semibold text-[13px] tracking-[.1em] uppercase text-sage mb-4">Меню</p>
-              <div className="flex flex-col gap-2">
-                {footerLinks.map((l) => (
-                  <a key={l.href} href={l.href} className="text-white/80 text-base hover:text-white transition-colors">
-                    {l.label}
-                  </a>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Social — временно скрыто */}
-          {/* <div className="flex-none">
-            <p className="font-semibold text-[13px] tracking-[.1em] uppercase text-sage mb-4">Мы в сети</p>
-            <div className="flex gap-3">
-              {(['VK', 'Telegram', 'YouTube'] as const).map((name) => (
-                <a
-                  key={name}
-                  href="#"
-                  aria-label={name}
-                  className="w-[46px] h-[46px] rounded-full bg-grove hover:bg-grove-light flex items-center justify-center transition-all duration-200 hover:-translate-y-0.5"
-                >
-                  <SocialIcon name={name} />
-                </a>
-              ))}
-            </div>
-          </div> */}
-        </div>
+      <div className="relative max-w-content mx-auto px-6" style={{ paddingTop: '40px', paddingBottom: '36px' }}>
+        <Logo variant="light" className="mb-6" />
 
         <div className="border-t border-white/[0.14] pt-6 text-[13px] text-white/50 flex flex-col gap-1">
           <p className="m-0">{siteConfig.copyright}</p>
@@ -82,16 +41,5 @@ export function Footer({ hideMenu = false }: { hideMenu?: boolean }) {
 
       {modalOpen && <PrivacyModal onClose={() => setModalOpen(false)} />}
     </footer>
-  );
-}
-
-function SocialIcon({ name }: { name: string }) {
-  // Placeholder diamond icon for all social networks
-  return (
-    <svg width="22" height="22" viewBox="0 0 44 44" fill="none" aria-hidden>
-      <path d="M22 5.5 L38 22 L22 38.5 L6 22 Z" stroke="#fff" strokeWidth="2.2" strokeLinejoin="round" />
-      <path d="M22 13 L29 19 V29 H15 V19 Z" stroke="#fff" strokeWidth="2.2" strokeLinejoin="round" />
-      <circle cx="22" cy="23.5" r="2" fill="#F0B429" />
-    </svg>
   );
 }

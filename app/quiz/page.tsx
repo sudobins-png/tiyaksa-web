@@ -44,7 +44,7 @@ export default function QuizPage() {
 
       <Manager cta={<ManagerCta />} />
 
-      <Footer hideMenu />
+      <Footer />
     </div>
   );
 }

@@ -180,9 +180,3 @@ export const remoteContent = {
   ],
 } as const;
 
-export const footerLinks = [
-  { label: 'Работы',      href: '#portfolio' },
-  { label: 'Этапы',       href: '#steps'     },
-  { label: 'Цены',        href: '#prices'    },
-  { label: 'FAQ',         href: '#faq'       },
-] as const;

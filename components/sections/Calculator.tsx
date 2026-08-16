@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { cn, formatMoney } from '@/lib/utils';
 import { LeadModal } from '@/components/ui/LeadModal';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { LEAD_SOURCES } from '@/lib/config/leadSources';
 import {
   calcRates,
   calcAptTypes,
@@ -112,7 +113,7 @@ export function Calculator() {
         </div>
       </div>
 
-      {modalOpen && <LeadModal onClose={() => setModalOpen(false)} source="calculator" />}
+      {modalOpen && <LeadModal onClose={() => setModalOpen(false)} source={LEAD_SOURCES.calculator} />}
     </section>
   );
 }

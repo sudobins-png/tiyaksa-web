@@ -6,6 +6,7 @@ import { pricingTiers, type PricingTier } from '@/data/pricing';
 import { motion, AnimatePresence } from 'framer-motion';
 import { QuizModal } from '@/components/quiz/QuizModal';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { LEAD_SOURCES } from '@/lib/config/leadSources';
 
 const SHOW_LIMIT = 5;
 
@@ -145,7 +146,7 @@ export function Pricing() {
         <p className="mt-7 text-muted text-[15px]">Точная стоимость — после бесплатного замера.</p>
       </div>
 
-      {modalOpen && <QuizModal onClose={() => setModalOpen(false)} />}
+      {modalOpen && <QuizModal onClose={() => setModalOpen(false)} source={LEAD_SOURCES.quizPricingCta} />}
     </section>
   );
 }

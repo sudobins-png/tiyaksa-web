@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { GridOverlay } from '@/components/ui/GridOverlay';
 import { LeadModal } from '@/components/ui/LeadModal';
+import { LEAD_SOURCES } from '@/lib/config/leadSources';
 import { heroContent } from '@/data/content';
 
 function PriceBadge({ className = '' }: { className?: string }) {
@@ -100,7 +101,7 @@ export function Hero() {
         </div>
       </div>
 
-      {modalOpen && <LeadModal onClose={() => setModalOpen(false)} source="hero" />}
+      {modalOpen && <LeadModal onClose={() => setModalOpen(false)} source={LEAD_SOURCES.hero} />}
     </section>
   );
 }

@@ -11,6 +11,7 @@ import { useToastStore } from '@/stores/toastStore';
 import { PrivacyModal } from '@/components/ui/PrivacyModal';
 import { MessengerSelector, formatContact, MESSENGERS, type MessengerType } from '@/components/ui/MessengerSelector';
 import { CalculatingStep } from '@/components/quiz/CalculatingStep';
+import { LEAD_SOURCES } from '@/lib/config/leadSources';
 
 const OBJECT_TYPE_OPTIONS = [
   { label: 'Новостройка',      photo: '/quiz/novostroyka.jpg'       },
@@ -121,7 +122,7 @@ export function QuizInline() {
           name:    data.name,
           phone:   !isTelegram ? data.contact : '—',
           website: data.website,
-          source:  'quiz-page',
+          source:  LEAD_SOURCES.quizPage,
           aptType,
           message: [
             rooms         && `Комнат: ${rooms}`,

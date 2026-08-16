@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { leadSourceLabel } from '@/lib/config/leadSources';
 
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => ({}));
@@ -33,7 +34,7 @@ export async function POST(req: NextRequest) {
     params  ? `Параметры: ${params}`    : null,
     message ? `Комментарий: ${message}` : null,
     '',
-    `Источник: ${source ?? 'сайт'}`,
+    `Источник: ${leadSourceLabel(source)}`,
   ].filter(Boolean).join('\n');
 
   const token = process.env.TELEGRAM_BOT_TOKEN;

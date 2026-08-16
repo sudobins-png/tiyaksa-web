@@ -10,6 +10,7 @@ import { PrivacyModal } from '@/components/ui/PrivacyModal';
 import { useToastStore } from '@/stores/toastStore';
 import { MessengerSelector, formatContact, MESSENGERS, type MessengerType } from '@/components/ui/MessengerSelector';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { LEAD_SOURCES } from '@/lib/config/leadSources';
 
 /* ── Pill ────────────────────────────────────────────────────────── */
 function Pill({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
@@ -66,7 +67,7 @@ export function FinalCTA() {
         body: JSON.stringify({
           ...data,
           phone:  !isTelegram ? data.phone : '—',
-          source: 'cta-form',
+          source: LEAD_SOURCES.ctaForm,
           aptType, workType, area,
           message: [
             data.message,

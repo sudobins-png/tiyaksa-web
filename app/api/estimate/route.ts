@@ -5,6 +5,7 @@ import {
   isAllowedExtension,
   type AllowedExtension,
 } from '@/lib/config/upload';
+import { LEAD_SOURCES, LEAD_SOURCE_LABELS } from '@/lib/config/leadSources';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -184,7 +185,7 @@ export async function POST(req: NextRequest) {
     message ? `Комментарий: ${message}` : null,
     document ? `Файл: ${document.filename}` : 'Файл: не приложен',
     '',
-    'Источник: estimate-audit',
+    `Источник: ${LEAD_SOURCE_LABELS[LEAD_SOURCES.estimateAudit]}`,
   ].filter(Boolean).join('\n');
 
   try {

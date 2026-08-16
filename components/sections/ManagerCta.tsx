@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { LeadModal } from '@/components/ui/LeadModal';
+import { LEAD_SOURCES } from '@/lib/config/leadSources';
 
 export function ManagerCta() {
   const [open, setOpen] = useState(false);
@@ -34,7 +35,7 @@ export function ManagerCta() {
         </button>
       </div>
 
-      {open && <LeadModal onClose={() => setOpen(false)} source="quiz-manager" />}
+      {open && <LeadModal onClose={() => setOpen(false)} source={LEAD_SOURCES.quizManager} />}
     </>
   );
 }

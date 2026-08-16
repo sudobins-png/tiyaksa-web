@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useState, useRef, useCallback } from 'react';
+import { usePathname } from 'next/navigation';
 import { QuizModal } from './QuizModal';
+import { LEAD_SOURCES } from '@/lib/config/leadSources';
 
 const SESSION_KEY     = 'tiyaksa_quiz_shown';
 const IDLE_TIMEOUT_MS = 10_000; // мобайл: 10 с бездействия
@@ -11,6 +13,11 @@ export function ExitIntentQuiz() {
   const shownRef        = useRef(false);
   const openRef         = useRef(false); // актуальное состояние open без пересоздания хендлеров
   const idleTimerRef    = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // На /quiz страница уже целиком — квиз; всплывающая копия поверх неё
+  // только путает и дублирует форму, которую пользователь и так видит.
+  const pathname = usePathname();
+  const excluded = pathname?.startsWith('/quiz') ?? false;
 
   // синхронизируем openRef с open
   useEffect(() => { openRef.current = open; }, [open]);
@@ -25,6 +32,8 @@ export function ExitIntentQuiz() {
   }, []);
 
   useEffect(() => {
+    if (excluded) return;
+
     const isMobile = () => window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 
     /* ── Desktop: мышь уходит вверх к адресной строке ── */
@@ -59,8 +68,8 @@ export function ExitIntentQuiz() {
       IDLE_EVENTS.forEach((ev) => window.removeEventListener(ev, resetIdle));
       if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
     };
-  }, [maybeShow]);
+  }, [maybeShow, excluded]);
 
   if (!open) return null;
-  return <QuizModal onClose={() => setOpen(false)} />;
+  return <QuizModal onClose={() => setOpen(false)} source={LEAD_SOURCES.quizExitIntent} />;
 }

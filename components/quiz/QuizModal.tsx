@@ -10,6 +10,7 @@ import { useToastStore } from '@/stores/toastStore';
 import { PrivacyModal } from '@/components/ui/PrivacyModal';
 import { MessengerSelector, formatContact, MESSENGERS, type MessengerType } from '@/components/ui/MessengerSelector';
 import { CalculatingStep } from '@/components/quiz/CalculatingStep';
+import type { LeadSource } from '@/lib/config/leadSources';
 
 const OBJECT_TYPE_OPTIONS = [
   { label: 'Новостройка',      photo: '/quiz/novostroyka.jpg'      },
@@ -67,9 +68,14 @@ const slide = {
   exit:   (dir: number) => ({ opacity: 0, x: dir > 0 ? -44 : 44 }),
 };
 
-export interface QuizModalProps { onClose: () => void; }
+export interface QuizModalProps {
+  onClose: () => void;
+  /** Which trigger opened this popup — the pricing CTA and exit-intent are
+   *  the same modal, so the Telegram report can't tell them apart otherwise. */
+  source: LeadSource;
+}
 
-export function QuizModal({ onClose }: QuizModalProps) {
+export function QuizModal({ onClose, source }: QuizModalProps) {
   const [step,          setStep]          = useState(0);
   const [dir,           setDir]           = useState(1);
   const [aptType,       setAptType]       = useState('');
@@ -135,7 +141,7 @@ export function QuizModal({ onClose }: QuizModalProps) {
           name:    data.name,
           phone:   !isTelegram ? data.contact : '—',
           website: data.website,
-          source:  'quiz',
+          source,
           aptType,
           message: [
             rooms         && `Комнат: ${rooms}`,

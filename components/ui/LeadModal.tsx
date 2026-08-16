@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { leadSchema, type LeadValues } from '@/lib/validators/contact';
 import { useToastStore } from '@/stores/toastStore';
 import { MessengerSelector, formatContact, MESSENGERS, type MessengerType } from '@/components/ui/MessengerSelector';
+import { getStoredUtmParams } from '@/lib/utils/utm';
 
 const POLICY_PARAGRAPHS = [
   'Настоящее Пользовательское соглашение является публичным документом администратора сайта tiyaksa.ru (далее – Администратор) и определяет порядок использования посетителями (далее — Посетитель) сайта tiyaksa.ru, принадлежащего Администратору, и обработки, хранения и иного использования информации, получаемой Администратором от Посетителя на сайте Администратора.',
@@ -74,6 +75,7 @@ export function LeadModal({ onClose, source }: LeadModalProps) {
             data.message,
             isTelegram ? `Связь: ${messengerLabel} — ${data.phone}` : `Связь: ${messengerLabel}`,
           ].filter(Boolean).join(' · '),
+          ...getStoredUtmParams(),
         }),
       });
       if (!res.ok) { showToast('Ошибка отправки. Позвоните нам напрямую.'); return; }

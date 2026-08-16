@@ -11,6 +11,7 @@ import { useToastStore } from '@/stores/toastStore';
 import { MessengerSelector, formatContact, MESSENGERS, type MessengerType } from '@/components/ui/MessengerSelector';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
+import { getStoredUtmParams } from '@/lib/utils/utm';
 
 /* ── Pill ────────────────────────────────────────────────────────── */
 function Pill({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
@@ -73,6 +74,7 @@ export function FinalCTA() {
             data.message,
             isTelegram ? `Связь: ${messengerLabel} — ${data.phone}` : `Связь: ${messengerLabel}`,
           ].filter(Boolean).join(' · '),
+          ...getStoredUtmParams(),
         }),
       });
       if (!res.ok) { showToast('Ошибка отправки. Позвоните нам напрямую.'); return; }

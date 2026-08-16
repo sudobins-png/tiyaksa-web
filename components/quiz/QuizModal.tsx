@@ -11,6 +11,7 @@ import { PrivacyModal } from '@/components/ui/PrivacyModal';
 import { MessengerSelector, formatContact, MESSENGERS, type MessengerType } from '@/components/ui/MessengerSelector';
 import { CalculatingStep } from '@/components/quiz/CalculatingStep';
 import type { LeadSource } from '@/lib/config/leadSources';
+import { getStoredUtmParams } from '@/lib/utils/utm';
 
 const OBJECT_TYPE_OPTIONS = [
   { label: 'Новостройка',      photo: '/quiz/novostroyka.jpg'      },
@@ -151,6 +152,7 @@ export function QuizModal({ onClose, source }: QuizModalProps) {
             hasDesign     && `Дизайн-проект: ${hasDesign}`,
             isTelegram ? `Связь: ${messengerLabel} — ${data.contact}` : `Связь: ${messengerLabel}`,
           ].filter(Boolean).join(' · ') || undefined,
+          ...getStoredUtmParams(),
         }),
       });
       if (!res.ok) { showToast('Ошибка отправки. Позвоните нам напрямую.'); return; }

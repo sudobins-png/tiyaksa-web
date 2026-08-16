@@ -16,6 +16,7 @@ import {
   isAllowedExtension,
   formatBytes,
 } from '@/lib/config/upload';
+import { getStoredUtmParams } from '@/lib/utils/utm';
 
 const schema = z.object({
   name:    z.string().min(2, 'Введите имя (минимум 2 символа)'),
@@ -91,6 +92,9 @@ export function EstimateModal({ onClose }: EstimateModalProps) {
     if (data.message) payload.append('message', data.message);
     if (data.website) payload.append('website', data.website);
     if (file) payload.append('file', file);
+    Object.entries(getStoredUtmParams()).forEach(([key, value]) => {
+      if (value) payload.append(key, value);
+    });
 
     let res: Response;
     try {

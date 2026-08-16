@@ -6,6 +6,8 @@ import {
   type AllowedExtension,
 } from '@/lib/config/upload';
 import { LEAD_SOURCES, LEAD_SOURCE_LABELS } from '@/lib/config/leadSources';
+import { cleanText, cleanLine } from '@/lib/utils/sanitize';
+import { UTM_KEYS } from '@/lib/utils/utm';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -71,19 +73,8 @@ const SIGNATURE_CHECKS: Record<AllowedExtension, (buf: Buffer) => boolean> = {
 };
 
 /* ------------------------------------------------------------------ *
- * Sanitising
+ * Sanitising — cleanText lives in lib/utils/sanitize.ts, shared with /api/lead
  * ------------------------------------------------------------------ */
-
-/** Strips control characters, collapses whitespace, caps the length. */
-function cleanText(value: unknown, max: number): string {
-  if (typeof value !== 'string') return '';
-  return value
-    // eslint-disable-next-line no-control-regex
-    .replace(/[\u0000-\u0009\u000B-\u001F\u007F-\u009F]/g, '')
-    .replace(/[ \t]+/g, ' ')
-    .trim()
-    .slice(0, max);
-}
 
 /**
  * The uploaded name is never used for a filesystem path — nothing is written to
@@ -127,14 +118,14 @@ export async function POST(req: NextRequest) {
   }
 
   // Honeypot — a bot fills the hidden field. Answer 200 so it cannot probe.
-  if (cleanText(form.get('website'), 200)) {
+  if (cleanLine(form.get('website'), 200)) {
     console.warn('[estimate] honeypot triggered from', ip);
     return NextResponse.json({ ok: true });
   }
 
-  const name    = cleanText(form.get('name'), 100);
-  const phone   = cleanText(form.get('phone'), 60);
-  const message = cleanText(form.get('message'), 700);
+  const name    = cleanLine(form.get('name'), 100);
+  const phone   = cleanLine(form.get('phone'), 60);
+  const message = cleanText(form.get('message'), 700); // the one field allowed to be multi-line
 
   if (name.length < 2 || phone.length < 3) {
     return NextResponse.json({ error: 'invalid fields' }, { status: 400 });
@@ -176,6 +167,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'not configured' }, { status: 500 });
   }
 
+  // Same utm_* capture as /api/lead — see lib/utils/utm.ts. cleanLine, not
+  // cleanText: a newline in a UTM value must not forge an extra line here.
+  const utm = UTM_KEYS
+    .map((key) => {
+      const value = cleanLine(form.get(key), 150);
+      return value && `${key}=${value}`;
+    })
+    .filter(Boolean)
+    .join(' · ');
+
   // No parse_mode anywhere below, so user text is never interpreted as markup.
   const text = [
     '📄 Смета на пересчёт — ТиЯКСа.Ремонт',
@@ -184,6 +185,7 @@ export async function POST(req: NextRequest) {
     `Контакт: ${phone}`,
     message ? `Комментарий: ${message}` : null,
     document ? `Файл: ${document.filename}` : 'Файл: не приложен',
+    utm ? `UTM-метки: ${utm}` : null,
     '',
     `Источник: ${LEAD_SOURCE_LABELS[LEAD_SOURCES.estimateAudit]}`,
   ].filter(Boolean).join('\n');

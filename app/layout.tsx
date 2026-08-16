@@ -4,6 +4,7 @@ import Script from 'next/script';
 import { Toaster } from '@/components/ui/Toaster';
 import { CookieBanner } from '@/components/ui/CookieBanner';
 import { ExitIntentQuiz } from '@/components/quiz/ExitIntentQuiz';
+import { UtmCapture } from '@/components/ui/UtmCapture';
 import './globals.css';
 
 const inter = Inter({
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div><img src="https://mc.yandex.ru/watch/111307528" style={{position:'absolute',left:'-9999px'}} alt="" /></div>
         </noscript>
         {children}
+        <UtmCapture />
         <Toaster />
         <CookieBanner />
         <ExitIntentQuiz />

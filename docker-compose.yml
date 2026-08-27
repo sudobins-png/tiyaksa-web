@@ -7,6 +7,10 @@ services:
     environment:
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
       - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      # Outbound to Telegram's IP range is blocked from this VPS's network — see
+      # lib/server/telegram.ts. Relays through an HTTP proxy on a second VPS
+      # instead. Unset (or blank) falls back to a direct connection.
+      - TELEGRAM_PROXY_URL=${TELEGRAM_PROXY_URL:-}
     networks:
       - n8n_default
     labels:

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { leadSourceLabel } from '@/lib/config/leadSources';
 import { cleanText, cleanLine } from '@/lib/utils/sanitize';
 import { UTM_KEYS } from '@/lib/utils/utm';
+import { telegramFetch } from '@/lib/server/telegram';
 
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => ({}));
@@ -69,7 +70,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const tgRes = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    const tgRes = await telegramFetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ chat_id: chatId, text }),

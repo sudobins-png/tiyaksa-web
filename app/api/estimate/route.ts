@@ -8,6 +8,10 @@ import {
 import { LEAD_SOURCES, LEAD_SOURCE_LABELS } from '@/lib/config/leadSources';
 import { cleanText, cleanLine } from '@/lib/utils/sanitize';
 import { UTM_KEYS } from '@/lib/utils/utm';
+import { telegramFetch } from '@/lib/server/telegram';
+// undici's own FormData, not the ambient global one — telegramFetch's
+// RequestInit type comes from undici and only structurally matches its own.
+import { FormData as UndiciFormData } from 'undici';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -192,7 +196,7 @@ export async function POST(req: NextRequest) {
 
   try {
     if (document) {
-      const payload = new FormData();
+      const payload = new UndiciFormData();
       payload.append('chat_id', chatId);
       payload.append('caption', text.slice(0, 1024));
       payload.append(
@@ -201,7 +205,7 @@ export async function POST(req: NextRequest) {
         document.filename,
       );
 
-      const res = await fetch(`https://api.telegram.org/bot${token}/sendDocument`, {
+      const res = await telegramFetch(`https://api.telegram.org/bot${token}/sendDocument`, {
         method: 'POST',
         body: payload,
       });
@@ -210,7 +214,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'telegram error' }, { status: 502 });
       }
     } else {
-      const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      const res = await telegramFetch(`https://api.telegram.org/bot${token}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ chat_id: chatId, text }),

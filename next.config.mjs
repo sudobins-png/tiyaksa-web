@@ -4,6 +4,11 @@ const nextConfig = {
   experimental: {
     optimizeCss: true,
   },
+  images: {
+    remotePatterns: [
+      { protocol: 'https', hostname: 'tiyaksa.ru', pathname: '/blog/wp-content/**' },
+    ],
+  },
 };
 
 export default nextConfig;

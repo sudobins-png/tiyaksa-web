@@ -78,3 +78,103 @@ input[type='range']::-moz-range-thumb {
   box-shadow: 0 2px 8px rgba(27, 79, 27, 0.35);
   cursor: pointer;
 }
+
+/* ── Blog article content (raw HTML from WordPress, /blog/[slug]) ── */
+.article-content {
+  color: var(--c-ink);
+  font-size: 16px;
+  line-height: 1.75;
+}
+.article-content > * + * {
+  margin-top: 1.25em;
+}
+.article-content h2 {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin-top: 2em;
+}
+.article-content h3 {
+  font-size: 19px;
+  font-weight: 700;
+  margin-top: 1.75em;
+}
+.article-content a {
+  color: var(--c-grove);
+  text-decoration: underline;
+  text-decoration-color: rgba(46, 125, 50, 0.35);
+  text-underline-offset: 2px;
+}
+.article-content a:hover {
+  color: var(--c-forest);
+}
+.article-content ul,
+.article-content ol {
+  padding-left: 1.4em;
+}
+.article-content li + li {
+  margin-top: 0.5em;
+}
+.article-content img {
+  border-radius: 16px;
+  max-width: 100%;
+  height: auto;
+}
+.article-content blockquote {
+  border-left: 3px solid var(--c-gold);
+  padding-left: 1.1em;
+  color: var(--c-subtle);
+  font-style: italic;
+}
+.article-content strong {
+  color: var(--c-ink);
+}
+
+/* Table of contents block emitted by the n8n content-generation prompt */
+.article-content .toc {
+  background: var(--c-mint);
+  border-radius: 16px;
+  padding: 20px 24px;
+}
+.article-content .toc::before {
+  content: 'Содержание';
+  display: block;
+  font-weight: 800;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--c-forest);
+  margin-bottom: 10px;
+}
+.article-content .toc ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+.article-content .toc li + li {
+  margin-top: 6px;
+}
+.article-content .toc a {
+  text-decoration: none;
+  color: var(--c-subtle);
+  font-size: 14px;
+}
+.article-content .toc a:hover {
+  color: var(--c-forest);
+}
+
+/* Accent callout block emitted by the n8n content-generation prompt */
+.article-content .tiyaksa-note {
+  background: #fdf6e3;
+  border: 1px solid rgba(240, 180, 41, 0.35);
+  border-left: 4px solid var(--c-gold);
+  border-radius: 12px;
+  padding: 16px 20px;
+  font-size: 15px;
+}
+.article-content .tiyaksa-note p {
+  margin: 0;
+}
+.article-content .tiyaksa-note p + p {
+  margin-top: 0.6em;
+}

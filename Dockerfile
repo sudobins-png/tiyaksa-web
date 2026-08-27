@@ -1,5 +1,9 @@
 FROM node:20-alpine AS base
-RUN npm install -g pnpm
+# Pinned: an unpinned `npm install -g pnpm` grabs whatever is newest on the
+# registry at build time, so the exact same commit can build fine one day and
+# fail the next (frozen-lockfile validation drifted between pnpm 10 and 11).
+# Matches the pnpm version pnpm-lock.yaml was actually generated with.
+RUN npm install -g pnpm@10
 
 FROM base AS deps
 RUN apk add --no-cache libc6-compat

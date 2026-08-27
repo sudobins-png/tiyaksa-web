@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import { Header } from '@/components/sections/Header';
+import { BlogHeader } from '@/components/sections/BlogHeader';
 import { Footer } from '@/components/sections/Footer';
 import { fetchPostBySlug, getFeaturedImage, getMetaDescription, stripHtml } from '@/lib/server/wordpress';
 
@@ -36,7 +36,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   return (
     <>
-      <Header />
+      <BlogHeader />
       <main style={{ paddingTop: '71px' }} className="min-h-dvh bg-site">
         <article className="max-w-[760px] mx-auto px-6 py-12 sm:py-16">
           {image ? (

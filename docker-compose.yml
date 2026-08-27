@@ -11,6 +11,9 @@ services:
       # lib/server/telegram.ts. Relays through an HTTP proxy on a second VPS
       # instead. Unset (or blank) falls back to a direct connection.
       - TELEGRAM_PROXY_URL=${TELEGRAM_PROXY_URL:-}
+      # Headless WordPress blog backend. Must be an internal address (this VPS
+      # can't hairpin back to its own public domain — see lib/server/wordpress.ts)
+      - WORDPRESS_API_URL=${WORDPRESS_API_URL:-http://127.0.0.1:8091/blog/wp-json}
     volumes:
       # Persists lib/server/leadLog.ts's JSONL lead log across redeploys —
       # the container's own filesystem is discarded on every `up -d`.

@@ -5,6 +5,13 @@
  * under /blog is rendered by this Next.js app). Posts are published there by
  * an n8n flow, so there is no build-time list of slugs — pages are rendered
  * on demand and cached via fetch's `next.revalidate`.
+ *
+ * In production WORDPRESS_API_URL must point at an internal address (e.g.
+ * http://127.0.0.1:8091/blog/wp-json) rather than the public domain: this
+ * app runs on the same VPS as WordPress, and that VPS cannot hairpin a
+ * request back to its own public IP (confirmed with a raw curl from the
+ * host itself — a distinct issue from the Telegram IP-range block, see
+ * telegram.ts). The public-domain default below only works for local dev.
  */
 const WORDPRESS_API_URL = process.env.WORDPRESS_API_URL ?? 'https://tiyaksa.ru/blog/wp-json';
 

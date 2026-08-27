@@ -9,6 +9,7 @@ import { LEAD_SOURCES, LEAD_SOURCE_LABELS } from '@/lib/config/leadSources';
 import { cleanText, cleanLine } from '@/lib/utils/sanitize';
 import { UTM_KEYS } from '@/lib/utils/utm';
 import { telegramFetch } from '@/lib/server/telegram';
+import { appendLeadLog } from '@/lib/server/leadLog';
 // undici's own FormData, not the ambient global one — telegramFetch's
 // RequestInit type comes from undici and only structurally matches its own.
 import { FormData as UndiciFormData } from 'undici';
@@ -165,12 +166,6 @@ export async function POST(req: NextRequest) {
     document = { buffer, filename: safeFilename(file.name, ext) };
   }
 
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
-  if (!token || !chatId) {
-    return NextResponse.json({ error: 'not configured' }, { status: 500 });
-  }
-
   // Same utm_* capture as /api/lead — see lib/utils/utm.ts. cleanLine, not
   // cleanText: a newline in a UTM value must not forge an extra line here.
   const utm = UTM_KEYS
@@ -180,6 +175,20 @@ export async function POST(req: NextRequest) {
     })
     .filter(Boolean)
     .join(' · ');
+
+  const logBase = {
+    route: 'estimate' as const,
+    source: LEAD_SOURCE_LABELS[LEAD_SOURCES.estimateAudit],
+    name, phone, message, utm,
+    file: document?.filename,
+  };
+
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  if (!token || !chatId) {
+    await appendLeadLog({ ...logBase, delivered: false, error: 'TELEGRAM_BOT_TOKEN/CHAT_ID not configured' });
+    return NextResponse.json({ error: 'not configured' }, { status: 500 });
+  }
 
   // No parse_mode anywhere below, so user text is never interpreted as markup.
   const text = [
@@ -210,7 +219,9 @@ export async function POST(req: NextRequest) {
         body: payload,
       });
       if (!res.ok) {
-        console.error('[estimate] Telegram sendDocument failed:', res.status, await res.text());
+        const detail = await res.text();
+        console.error('[estimate] Telegram sendDocument failed:', res.status, detail);
+        await appendLeadLog({ ...logBase, delivered: false, error: `telegram ${res.status}: ${detail.slice(0, 300)}` });
         return NextResponse.json({ error: 'telegram error' }, { status: 502 });
       }
     } else {
@@ -220,14 +231,19 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({ chat_id: chatId, text }),
       });
       if (!res.ok) {
-        console.error('[estimate] Telegram sendMessage failed:', res.status, await res.text());
+        const detail = await res.text();
+        console.error('[estimate] Telegram sendMessage failed:', res.status, detail);
+        await appendLeadLog({ ...logBase, delivered: false, error: `telegram ${res.status}: ${detail.slice(0, 300)}` });
         return NextResponse.json({ error: 'telegram error' }, { status: 502 });
       }
     }
   } catch (err) {
     console.error('[estimate] fetch error:', err);
+    await appendLeadLog({ ...logBase, delivered: false, error: err instanceof Error ? err.message : String(err) });
     return NextResponse.json({ error: 'fetch failed' }, { status: 502 });
   }
+
+  await appendLeadLog({ ...logBase, delivered: true });
 
   return NextResponse.json({ ok: true });
 }

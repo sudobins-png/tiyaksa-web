@@ -11,6 +11,10 @@ services:
       # lib/server/telegram.ts. Relays through an HTTP proxy on a second VPS
       # instead. Unset (or blank) falls back to a direct connection.
       - TELEGRAM_PROXY_URL=${TELEGRAM_PROXY_URL:-}
+    volumes:
+      # Persists lib/server/leadLog.ts's JSONL lead log across redeploys —
+      # the container's own filesystem is discarded on every `up -d`.
+      - ./data:/app/data
     networks:
       - n8n_default
     labels:

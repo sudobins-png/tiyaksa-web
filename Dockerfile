@@ -32,6 +32,12 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 RUN chown -R nextjs:nodejs ./node_modules
 
+# Where lib/server/leadLog.ts appends the JSONL lead log. Must be a mounted
+# volume (see docker-compose.yml) — anything else here is discarded on the
+# next deploy, the exact problem this log exists to avoid.
+RUN mkdir -p /app/data && chown nextjs:nodejs /app/data
+VOLUME /app/data
+
 USER nextjs
 EXPOSE 3000
 ENV PORT=3000

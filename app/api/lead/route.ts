@@ -3,6 +3,9 @@ import { leadSourceLabel } from '@/lib/config/leadSources';
 import { cleanText, cleanLine } from '@/lib/utils/sanitize';
 import { UTM_KEYS } from '@/lib/utils/utm';
 import { telegramFetch } from '@/lib/server/telegram';
+import { appendLeadLog } from '@/lib/server/leadLog';
+
+export const runtime = 'nodejs'; // appendLeadLog needs node:fs
 
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => ({}));
@@ -62,10 +65,17 @@ export async function POST(req: NextRequest) {
     `Источник: ${leadSourceLabel(source)}`,
   ].filter(Boolean).join('\n');
 
+  const logBase = {
+    route: 'lead' as const,
+    source: leadSourceLabel(source),
+    name, phone, message, params, utm,
+  };
+
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
 
   if (!token || !chatId) {
+    await appendLeadLog({ ...logBase, delivered: false, error: 'TELEGRAM_BOT_TOKEN/CHAT_ID not configured' });
     return NextResponse.json({ error: 'not configured' }, { status: 500 });
   }
 
@@ -79,12 +89,15 @@ export async function POST(req: NextRequest) {
     const tgBody = await tgRes.text();
     if (!tgRes.ok) {
       console.error('[lead] Telegram error:', tgRes.status, tgBody);
+      await appendLeadLog({ ...logBase, delivered: false, error: `telegram ${tgRes.status}: ${tgBody.slice(0, 300)}` });
       return NextResponse.json({ error: 'telegram error', detail: tgBody }, { status: 500 });
     }
   } catch (err) {
     console.error('[lead] fetch error:', err);
+    await appendLeadLog({ ...logBase, delivered: false, error: err instanceof Error ? err.message : String(err) });
     return NextResponse.json({ error: 'fetch failed' }, { status: 500 });
   }
 
+  await appendLeadLog({ ...logBase, delivered: true });
   return NextResponse.json({ ok: true });
 }

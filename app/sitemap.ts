@@ -18,7 +18,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const posts = await fetchAllPostSlugs();
   const blogRoutes: MetadataRoute.Sitemap = posts.map((post) => ({
     url: `${BASE_URL}/blog/${post.slug}`,
-    lastModified: post.modified_gmt,
+    // modified_gmt from WP is UTC but has no offset ("2026-08-28T12:34:56")
+    // — `new Date()` on that string parses it as local time, and Google
+    // Search Console rejects the resulting lastmod as an invalid date.
+    lastModified: new Date(`${post.modified_gmt}Z`),
     changeFrequency: 'monthly',
     priority: 0.7,
   }));

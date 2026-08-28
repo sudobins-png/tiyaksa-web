@@ -54,6 +54,39 @@ export async function fetchPosts(page = 1, perPage = 12): Promise<WpPostList> {
   return { posts, totalPages };
 }
 
+export interface WpPostSitemapEntry {
+  slug: string;
+  modified_gmt: string;
+}
+
+/**
+ * Every post's slug + last-modified date, for sitemap.ts. Paginates through
+ * the full set at 100/page (there are 100+ posts already and it keeps
+ * growing via n8n) and asks WP for only these two fields to keep each page
+ * small — the sitemap route itself is cached (see app/sitemap.ts's own
+ * `revalidate`), so this only actually hits WP a few times an hour.
+ */
+export async function fetchAllPostSlugs(): Promise<WpPostSitemapEntry[]> {
+  const all: WpPostSitemapEntry[] = [];
+  let page = 1;
+
+  while (true) {
+    const url = `${WORDPRESS_API_URL}/wp/v2/posts?per_page=100&page=${page}&_fields=slug,modified_gmt`;
+    const res = await fetch(url, { next: { revalidate: REVALIDATE_SECONDS } });
+    if (res.status === 400) break; // past the last page
+    if (!res.ok) throw new Error(`WordPress API error: ${res.status}`);
+
+    const posts = (await res.json()) as WpPostSitemapEntry[];
+    all.push(...posts);
+
+    const totalPages = Number(res.headers.get('X-WP-TotalPages') ?? '1');
+    if (page >= totalPages) break;
+    page += 1;
+  }
+
+  return all;
+}
+
 export async function fetchPostBySlug(slug: string): Promise<WpPost | null> {
   const url = `${WORDPRESS_API_URL}/wp/v2/posts?slug=${encodeURIComponent(slug)}&_embed`;
   const res = await fetch(url, { next: { revalidate: REVALIDATE_SECONDS } });

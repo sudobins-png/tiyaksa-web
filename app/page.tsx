@@ -13,6 +13,7 @@ import { RemoteRenovation } from '@/components/sections/RemoteRenovation';
 import { Manager }          from '@/components/sections/Manager';
 import { FAQ }              from '@/components/sections/FAQ';
 import { FinalCTA }         from '@/components/sections/FinalCTA';
+import { BlogTeaser }       from '@/components/sections/BlogTeaser';
 import { Contacts }         from '@/components/sections/Contacts';
 import { Footer }           from '@/components/sections/Footer';
 
@@ -35,6 +36,7 @@ export default function HomePage() {
         <RemoteRenovation />
         <FAQ />
         <FinalCTA />
+        <BlogTeaser />
         <Contacts />
       </main>
       <Footer />

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { BlogHeader } from '@/components/sections/BlogHeader';
 import { Footer } from '@/components/sections/Footer';
-import { fetchPosts, getFeaturedImage, stripHtml } from '@/lib/server/wordpress';
+import { fetchPosts, getFeaturedImage, getPreviewText } from '@/lib/server/wordpress';
 
 export const metadata: Metadata = {
   title: 'Блог о ремонте квартир в Санкт-Петербурге — ТиЯКСа.Ремонт',
@@ -60,7 +60,7 @@ export default async function BlogPage({
                         dangerouslySetInnerHTML={{ __html: post.title.rendered }}
                       />
                       <p className="text-muted text-[14px] leading-relaxed line-clamp-3">
-                        {stripHtml(post.excerpt.rendered)}
+                        {getPreviewText(post)}
                       </p>
                     </div>
                   </Link>

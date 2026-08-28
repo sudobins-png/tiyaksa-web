@@ -72,12 +72,30 @@ export function stripHtml(html: string): string {
 }
 
 /**
+ * A short plain-text preview of the article body, for card excerpts and as
+ * the meta-description fallback. Built from content.rendered rather than
+ * WP's own excerpt.rendered: the n8n content prompt opens every article with
+ * a `.toc` block (a literal "Содержание" heading + the section list), and
+ * WordPress's auto-excerpt is just the first N words of the raw content —
+ * so excerpt.rendered is "Содержание <section titles...> <real intro>"
+ * with no way to separate the two. Stripping the .toc block first, here,
+ * gets the same text a human summary would start with.
+ */
+export function getPreviewText(post: WpPost, maxLength = 160): string {
+  const withoutToc = post.content.rendered.replace(/<nav[^>]*\bclass="[^"]*\btoc\b[^"]*"[^>]*>[\s\S]*?<\/nav>/i, '');
+  const text = stripHtml(withoutToc);
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, maxLength).replace(/\s+\S*$/, '')}…`;
+}
+
+/**
  * RankMath's own meta description, if the n8n flow's "Set RankMath Meta"
- * step wrote one and RankMath has that field registered for REST output.
- * WordPress doesn't expose it by default, so this falls back to the excerpt.
+ * step wrote one — see wp-content/mu-plugins/rankmath-rest.php on the WP
+ * server, which registers this field (and rank_math_title/focus_keyword)
+ * for REST. Falls back to the article preview when it's empty.
  */
 export function getMetaDescription(post: WpPost): string {
-  const rankMath = post.meta?.rankMathDescription;
+  const rankMath = post.meta?.rank_math_description;
   if (typeof rankMath === 'string' && rankMath.trim()) return rankMath.trim();
-  return stripHtml(post.excerpt.rendered).slice(0, 160).trim();
+  return getPreviewText(post);
 }

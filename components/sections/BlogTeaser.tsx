@@ -54,7 +54,7 @@ export async function BlogTeaser() {
             href="/blog"
             className="inline-flex items-center justify-center font-semibold text-[15px] px-7 py-[13px] rounded-xl border-[1.5px] border-forest text-forest hover:bg-forest hover:text-white transition-colors duration-200"
           >
-            Все статьи
+            ТиЯКСа.Блог
           </Link>
         </div>
       </div>

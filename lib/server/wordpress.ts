@@ -132,3 +132,60 @@ export function getMetaDescription(post: WpPost): string {
   if (typeof rankMath === 'string' && rankMath.trim()) return rankMath.trim();
   return getPreviewText(post);
 }
+
+interface JsonLdGraphNode {
+  '@type'?: string;
+  [key: string]: unknown;
+}
+
+interface JsonLdSchema {
+  '@context'?: string;
+  '@graph'?: JsonLdGraphNode[];
+  [key: string]: unknown;
+}
+
+interface FaqEntry {
+  question: string;
+  answer: string;
+}
+
+/**
+ * Combined JSON-LD for a post's `<script type="application/ld+json">`, built
+ * from the `tiyaksa_schema` and `tiyaksa_faq` meta fields the n8n content
+ * flow writes at publish time (see mu-plugins/tiyaksa-schema-rest.php on the
+ * WP server). Both are JSON serialized to a string by n8n, so they need
+ * parsing here — and posts published before this field existed simply won't
+ * have them, so any failure just means no JSON-LD for that post rather than
+ * a broken page.
+ */
+export function getArticleJsonLd(post: WpPost): JsonLdSchema | null {
+  const rawSchema = post.meta?.tiyaksa_schema;
+  if (typeof rawSchema !== 'string' || !rawSchema.trim()) return null;
+
+  try {
+    const schema = JSON.parse(rawSchema) as JsonLdSchema;
+    const graph = Array.isArray(schema['@graph']) ? [...schema['@graph']] : [];
+
+    const rawFaq = post.meta?.tiyaksa_faq;
+    if (typeof rawFaq === 'string' && rawFaq.trim()) {
+      const faq = JSON.parse(rawFaq) as FaqEntry[];
+      if (Array.isArray(faq) && faq.length > 0) {
+        graph.push({
+          '@type': 'FAQPage',
+          mainEntity: faq.map((item) => ({
+            '@type': 'Question',
+            name: item.question,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: item.answer,
+            },
+          })),
+        });
+      }
+    }
+
+    return { ...schema, '@graph': graph };
+  } catch {
+    return null;
+  }
+}

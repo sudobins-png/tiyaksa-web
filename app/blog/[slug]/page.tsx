@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { BlogHeader } from '@/components/sections/BlogHeader';
 import { Footer } from '@/components/sections/Footer';
-import { fetchPostBySlug, getFeaturedImage, getMetaDescription, stripHtml } from '@/lib/server/wordpress';
+import { fetchPostBySlug, getArticleJsonLd, getFeaturedImage, getMetaDescription, stripHtml } from '@/lib/server/wordpress';
 
 interface PageProps {
   params: { slug: string };
@@ -33,10 +33,17 @@ export default async function BlogPostPage({ params }: PageProps) {
   if (!post) notFound();
 
   const image = getFeaturedImage(post);
+  const jsonLd = getArticleJsonLd(post);
 
   return (
     <>
       <BlogHeader />
+      {jsonLd ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      ) : null}
       <main style={{ paddingTop: '71px' }} className="min-h-dvh bg-site">
         <article className="max-w-[760px] mx-auto px-6 py-12 sm:py-16">
           {image ? (

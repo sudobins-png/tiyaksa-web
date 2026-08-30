@@ -26,6 +26,19 @@ services:
       - "traefik.http.routers.tiyaksa.entrypoints=websecure"
       - "traefik.http.routers.tiyaksa.tls.certresolver=mytlschallenge"
       - "traefik.http.services.tiyaksa.loadbalancer.server.port=3000"
+      # www.tiyaksa.ru had no router at all — it fell through to Traefik's
+      # self-signed default cert and a 404. Same pattern already used for
+      # бартеравто.рф's own www redirect on this VPS. The router matches an
+      # exact Host, so the unescaped "." in the regex only ever sees
+      # www.tiyaksa.ru — no YAML/regex backslash-escaping ambiguity.
+      - "traefik.http.routers.tiyaksa-www.rule=Host(`www.tiyaksa.ru`)"
+      - "traefik.http.routers.tiyaksa-www.entrypoints=websecure"
+      - "traefik.http.routers.tiyaksa-www.tls.certresolver=mytlschallenge"
+      - "traefik.http.routers.tiyaksa-www.service=tiyaksa"
+      - "traefik.http.routers.tiyaksa-www.middlewares=tiyaksa-www-redirect"
+      - "traefik.http.middlewares.tiyaksa-www-redirect.redirectregex.regex=^https://www.tiyaksa.ru/(.*)"
+      - "traefik.http.middlewares.tiyaksa-www-redirect.redirectregex.replacement=https://tiyaksa.ru/$${1}"
+      - "traefik.http.middlewares.tiyaksa-www-redirect.redirectregex.permanent=true"
 
 networks:
   n8n_default:

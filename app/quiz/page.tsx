@@ -8,6 +8,7 @@ import { Footer } from '@/components/sections/Footer';
 export const metadata: Metadata = {
   title: 'Расчёт стоимости ремонта — ТиЯКСа.Ремонт',
   description: 'Ответьте на вопросы и получите предварительный расчёт стоимости ремонта в Санкт-Петербурге.',
+  alternates: { canonical: '/quiz' },
 };
 
 export default function QuizPage() {

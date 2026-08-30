@@ -15,11 +15,21 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  // Lets every page below declare `alternates.canonical` as a path
+  // ('/blog/foo') instead of hardcoding the domain — and gives this default
+  // a base to resolve against for the root layout's own canonical.
+  metadataBase: new URL('https://tiyaksa.ru'),
   title: 'ТиЯКСа.Ремонт — Ремонт квартир в Санкт-Петербурге',
   description:
     'Ремонт квартир под ключ в Санкт-Петербурге. Фиксированная смета, видеоотчёты каждую неделю, управляющая компания. Гарантия 3 года.',
   keywords: 'ремонт квартир СПб, ремонт под ключ, ТиЯКСа, ремонт Санкт-Петербург',
   icons: { icon: '/favicon.ico' },
+  // Home page's canonical — any child page that sets its own `alternates`
+  // replaces this outright (Next.js does not deep-merge that key), so /quiz,
+  // /blog etc. below all declare their own. No trailing slash anywhere:
+  // matches app/sitemap.ts, and next.config.mjs doesn't set trailingSlash,
+  // so that's genuinely the URL Next serves for `/`.
+  alternates: { canonical: '/' },
   // Set here rather than a hand-written <meta> in <head> below so every page
   // gets it: Next.js merges parent metadata into child pages (e.g. /quiz's
   // own title/description) automatically, a hand-rolled tag in this file's

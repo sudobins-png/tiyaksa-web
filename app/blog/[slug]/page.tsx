@@ -25,6 +25,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description,
       images: image ? [image.source_url] : undefined,
     },
+    // No trailing slash — matches app/sitemap.ts's `${BASE_URL}/blog/${slug}`
+    // and next.config.mjs's default (unset) trailingSlash.
+    alternates: { canonical: `/blog/${params.slug}` },
   };
 }
 

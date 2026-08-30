@@ -5,17 +5,28 @@ import { BlogHeader } from '@/components/sections/BlogHeader';
 import { Footer } from '@/components/sections/Footer';
 import { fetchPosts, getFeaturedImage, getPreviewText } from '@/lib/server/wordpress';
 
-export const metadata: Metadata = {
-  title: 'Блог о ремонте квартир в Санкт-Петербурге — ТиЯКСа.Ремонт',
-  description:
-    'Статьи о ремонте: советы, разбор материалов, цены и реальные кейсы от ТиЯКСа.Ремонт.',
-};
+interface BlogPageProps {
+  searchParams: { page?: string };
+}
+
+// Self-referencing canonical per page, not everything collapsed onto page 1:
+// paginated listings genuinely differ in content, and Google's own guidance
+// (since dropping rel=next/prev in 2019) is to canonicalize each page to
+// itself. Collapsing /blog?page=2 onto /blog would just recreate the
+// "duplicate, no canonical chosen" problem this ticket exists to fix.
+export function generateMetadata({ searchParams }: BlogPageProps): Metadata {
+  const page = Math.max(1, Number(searchParams.page) || 1);
+  return {
+    title: 'Блог о ремонте квартир в Санкт-Петербурге — ТиЯКСа.Ремонт',
+    description:
+      'Статьи о ремонте: советы, разбор материалов, цены и реальные кейсы от ТиЯКСа.Ремонт.',
+    alternates: { canonical: page > 1 ? `/blog?page=${page}` : '/blog' },
+  };
+}
 
 export default async function BlogPage({
   searchParams,
-}: {
-  searchParams: { page?: string };
-}) {
+}: BlogPageProps) {
   const page = Math.max(1, Number(searchParams.page) || 1);
   const { posts, totalPages } = await fetchPosts(page);
 

@@ -1,6 +1,7 @@
 'use client';
 
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { PRICE_LIST } from '@/data/priceList';
 
 function formatPrice(item: { price?: number; approxFrom?: boolean }): string {
@@ -10,7 +11,17 @@ function formatPrice(item: { price?: number; approxFrom?: boolean }): string {
 }
 
 export function PriceTable() {
+  const searchParams = useSearchParams();
   const [active, setActive] = useState(PRICE_LIST[0].slug);
+
+  // Deep-link from the homepage teaser's «Все цены» links (?category=slug).
+  useEffect(() => {
+    const requested = searchParams.get('category');
+    if (requested && PRICE_LIST.some((c) => c.slug === requested)) {
+      setActive(requested);
+    }
+  }, [searchParams]);
+
   const category = PRICE_LIST.find((c) => c.slug === active) ?? PRICE_LIST[0];
 
   return (

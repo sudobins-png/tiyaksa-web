@@ -20,7 +20,7 @@ export function PriceTeaser() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {categories.map((cat) => (
-            <div key={cat.slug} className="bg-white rounded-2xl shadow-card p-6 flex flex-col gap-4">
+            <div key={cat.slug} className="bg-white rounded-2xl shadow-card p-6 flex flex-col gap-4 h-full">
               <h3 className="m-0 font-bold text-[17px] text-ink">{cat.name}</h3>
               <div>
                 {cat.items
@@ -43,6 +43,12 @@ export function PriceTeaser() {
                     </div>
                   ))}
               </div>
+              <Link
+                href={`/price?category=${cat.slug}`}
+                className="mt-auto self-end text-[13px] font-semibold text-terracotta hover:underline"
+              >
+                Все цены →
+              </Link>
             </div>
           ))}
         </div>

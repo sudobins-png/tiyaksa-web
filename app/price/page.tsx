@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import { BlogHeader } from '@/components/sections/BlogHeader';
 import { Footer } from '@/components/sections/Footer';
 import { PriceTable } from '@/components/sections/PriceTable';
@@ -20,16 +21,15 @@ export default function PricePage() {
             <div className="font-manrope font-semibold text-[12px] tracking-[0.16em] text-terracotta uppercase mb-4">
               Прайс-лист
             </div>
-            <h1 className="m-0 mb-4 font-unbounded font-semibold text-[30px] lg:text-[40px] leading-[1.15] text-charcoal">
+            <h1 className="m-0 font-unbounded font-semibold text-[30px] lg:text-[40px] leading-[1.15] text-charcoal">
               Цены на ремонт квартир в Санкт-Петербурге
             </h1>
-            <p className="m-0 font-manrope text-[16px] lg:text-[17px] leading-[1.6] text-taupe-dark">
-              Полный прайс по видам работ — без формы «рассчитайте смету» и звонка менеджера. Капитальный ремонт под ключ — от 12 500 ₽/м². Итоговая смета фиксируется в договоре после замера.
-            </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-10 lg:gap-14 items-start">
-            <PriceTable />
+            <Suspense fallback={null}>
+              <PriceTable />
+            </Suspense>
             <PriceCalculator />
           </div>
         </div>

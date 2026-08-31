@@ -18,7 +18,7 @@ export function PriceTeaser() {
       <div className="max-w-content mx-auto px-6 py-12 md:py-[88px]">
         <SectionHeading className="mb-8 md:mb-10">Прайс-лист на ремонт квартир</SectionHeading>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {categories.map((cat) => (
             <div key={cat.slug} className="bg-white rounded-2xl shadow-card p-6 flex flex-col gap-4">
               <h3 className="m-0 font-bold text-[17px] text-ink">{cat.name}</h3>

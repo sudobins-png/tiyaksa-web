@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-import { BlogHeader } from '@/components/sections/BlogHeader';
+import { Header } from '@/components/sections/Header';
 import { Footer } from '@/components/sections/Footer';
 import { PriceTable } from '@/components/sections/PriceTable';
 import { Calculator } from '@/components/sections/Calculator';
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 export default function PricePage() {
   return (
     <>
-      <BlogHeader />
+      <Header />
       <main style={{ paddingTop: '71px' }} className="min-h-dvh bg-site">
         <div className="max-w-content mx-auto px-6 py-14 lg:py-20">
           <h1 className="m-0 mb-12 lg:mb-14 font-extrabold text-[28px] sm:text-[40px] text-ink tracking-tight leading-tight">

@@ -22,7 +22,7 @@ export function Header() {
       style={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(10px)' }}>
 
       <div className="max-w-content mx-auto px-6 py-[14px] flex items-center justify-between gap-5">
-        <Link href="#top">
+        <Link href="/#top">
           <Logo variant="dark" />
         </Link>
 
@@ -45,7 +45,7 @@ export function Header() {
             {siteConfig.phone}
           </a>
           <a
-            href="#prices"
+            href="/#prices"
             className="bg-gold hover:bg-gold-dark text-ink font-bold text-[15px] px-[22px] py-3 rounded-xl whitespace-nowrap transition-all duration-200 shadow-gold-glow hover:-translate-y-px"
           >
             Рассчитать стоимость
@@ -123,7 +123,7 @@ export function Header() {
               <span className="text-muted text-[13px] mt-0.5">{siteConfig.consultantLabel}</span>
             </div>
             <a
-              href="#cta"
+              href="/#cta"
               onClick={() => setMenuOpen(false)}
               className="bg-gold text-ink font-bold text-base py-[15px] rounded-xl text-center mt-1.5"
             >

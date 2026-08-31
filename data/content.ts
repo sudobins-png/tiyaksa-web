@@ -16,10 +16,10 @@ export const siteConfig = {
 } as const;
 
 export const navItems = [
-  { label: 'Работы',       href: '#portfolio' },
-  { label: 'Этапы',        href: '#steps'     },
-  { label: 'Цены',         href: '/price'     },
-  { label: 'Вопросы',      href: '#faq'       },
+  { label: 'Работы',       href: '/#portfolio' },
+  { label: 'Этапы',        href: '/#steps'     },
+  { label: 'Цены',         href: '/price'      },
+  { label: 'Вопросы',      href: '/#faq'       },
 ] as const;
 
 export const heroContent = {

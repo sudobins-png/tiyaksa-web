@@ -88,6 +88,18 @@ export const PRICE_LIST: PriceCategory[] = [
       { name: 'Консультация дизайнера с выездом', unit: 'выезд', price: 3500, approxFrom: true },
     ],
   },
+  {
+    // Источник: https://cleanline-spb.ru/klining-tseny-price-list/#private —
+    // у клининговой компании нет зачёркнутой/акционной цены, только «от».
+    slug: 'cleaning',
+    name: 'Клининг',
+    items: [
+      { name: 'Уборка квартир после ремонта', unit: 'м²', price: 155, approxFrom: true },
+      { name: 'Уборка квартир после ремонта (до 45 м²)', unit: 'м²', price: 170, approxFrom: true },
+      { name: 'Генеральная уборка квартир', unit: 'м²', price: 145, approxFrom: true },
+      { name: 'Повседневная уборка квартир', unit: 'м²', price: 90, approxFrom: true },
+    ],
+  },
 ];
 
 // Категории «Машинная штукатурка» и «Приёмка новостройки» исключены из

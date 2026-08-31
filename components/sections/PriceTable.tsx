@@ -26,15 +26,12 @@ export function PriceTable() {
 
   return (
     <div>
-      {/* Darkening overlay hints the row scrolls. Both the wrapper AND the
-          scroll row bleed full-width (-mx-6, with px-6 as inner padding on
-          the row so chips still inset from the edge while scrolling) — the
-          wrapper alone bleeding wasn't enough: the row stayed padding-inset,
-          so the overlay's outer edge hung over blank space past the row's
-          real (button) content instead of over a tab. */}
-      <div className="relative -mx-6 mb-8 lg:mx-0">
+      {/* Fades the row's own edge toward transparent to hint it scrolls —
+          see .edge-fade-x in globals.css for why this masks the real tabs
+          instead of overlaying a separate coloured gradient. */}
+      <div className="-mx-6 mb-8 lg:mx-0">
         <div
-          className="no-scrollbar flex gap-2 overflow-x-auto px-6 pb-1 lg:flex-wrap lg:overflow-visible lg:px-0 lg:pb-0"
+          className="edge-fade-x no-scrollbar flex gap-2 overflow-x-auto px-6 pb-1 lg:flex-wrap lg:overflow-visible lg:px-0 lg:pb-0"
           role="tablist"
           aria-label="Категории прайс-листа"
         >
@@ -55,7 +52,6 @@ export function PriceTable() {
             </button>
           ))}
         </div>
-        <div className="pointer-events-none absolute right-0 top-0 bottom-1 w-12 bg-gradient-to-l from-black/40 to-transparent lg:hidden" />
       </div>
 
       {category.items.length === 0 ? (

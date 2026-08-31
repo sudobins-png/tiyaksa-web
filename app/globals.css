@@ -49,6 +49,23 @@ a:hover {
   display: none;
 }
 
+/* ── Fade a scrollable row's own edge toward transparent (mobile tab
+   strips etc.) — masks the row's real pixels instead of layering a
+   separate coloured overlay, so it never mismatches whatever colour
+   sits at the edge (a plain gradient overlay does, e.g. a dark active
+   tab vs. white inactive ones). Disabled once the row stops scrolling
+   (desktop wrap layout). ── */
+.edge-fade-x {
+  -webkit-mask-image: linear-gradient(to left, transparent, black 40px);
+  mask-image: linear-gradient(to left, transparent, black 40px);
+}
+@media (min-width: 1024px) {
+  .edge-fade-x {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
+
 /* ── Range input ── */
 input[type='range'] {
   -webkit-appearance: none;

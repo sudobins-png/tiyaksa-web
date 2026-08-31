@@ -26,33 +26,34 @@ export function PriceTable() {
 
   return (
     <div>
-      {/* Inset shadow (not a solid overlay) hints the row scrolls, without
-          painting a flat colour across whichever chip sits at the edge —
-          a solid gradient there looked broken over the dark-green active
-          tab. Shadow direction is fixed to the container's own box, so it
-          reads correctly at any scroll position. */}
-      <div
-        className="no-scrollbar flex gap-2 overflow-x-auto -mx-6 px-6 pb-1 mb-8 lg:mx-0 lg:flex-wrap lg:overflow-visible lg:px-0 lg:pb-0 lg:shadow-none"
-        style={{ boxShadow: 'inset -24px 0 16px -16px rgba(0,0,0,0.18)' }}
-        role="tablist"
-        aria-label="Категории прайс-листа"
-      >
-        {PRICE_LIST.map((cat) => (
-          <button
-            key={cat.slug}
-            type="button"
-            role="tab"
-            aria-selected={cat.slug === active}
-            onClick={() => setActive(cat.slug)}
-            className={
-              cat.slug === active
-                ? 'shrink-0 whitespace-nowrap text-[14px] font-semibold px-[18px] py-2.5 rounded-xl border-[1.5px] border-forest bg-forest text-white cursor-pointer shadow-[0_3px_12px_rgba(27,79,27,.22)]'
-                : 'shrink-0 whitespace-nowrap text-[14px] font-semibold px-[18px] py-2.5 rounded-xl border-[1.5px] border-[#d3ddd3] bg-white text-forest cursor-pointer transition-colors hover:border-forest'
-            }
-          >
-            {cat.name}
-          </button>
-        ))}
+      {/* Darkening overlay hints the row scrolls. The wrapper itself (not
+          just the scroll row) bleeds full-width via -mx-6, so `right-0` on
+          the overlay lands flush against the actual screen edge instead of
+          the page's own inner padding. */}
+      <div className="relative -mx-6 px-6 mb-8 lg:mx-0 lg:px-0">
+        <div
+          className="no-scrollbar flex gap-2 overflow-x-auto pb-1 lg:flex-wrap lg:overflow-visible lg:pb-0"
+          role="tablist"
+          aria-label="Категории прайс-листа"
+        >
+          {PRICE_LIST.map((cat) => (
+            <button
+              key={cat.slug}
+              type="button"
+              role="tab"
+              aria-selected={cat.slug === active}
+              onClick={() => setActive(cat.slug)}
+              className={
+                cat.slug === active
+                  ? 'shrink-0 whitespace-nowrap text-[14px] font-semibold px-[18px] py-2.5 rounded-xl border-[1.5px] border-forest bg-forest text-white cursor-pointer shadow-[0_3px_12px_rgba(27,79,27,.22)]'
+                  : 'shrink-0 whitespace-nowrap text-[14px] font-semibold px-[18px] py-2.5 rounded-xl border-[1.5px] border-[#d3ddd3] bg-white text-forest cursor-pointer transition-colors hover:border-forest'
+              }
+            >
+              {cat.name}
+            </button>
+          ))}
+        </div>
+        <div className="pointer-events-none absolute right-0 top-0 bottom-1 w-12 bg-gradient-to-l from-black/40 to-transparent lg:hidden" />
       </div>
 
       {category.items.length === 0 ? (

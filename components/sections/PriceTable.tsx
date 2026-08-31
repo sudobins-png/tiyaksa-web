@@ -59,7 +59,7 @@ export function PriceTable() {
                 <Fragment key={item.name}>
                   {showSectionHeader && (
                     <tr key={`${item.section}-header`}>
-                      <td colSpan={3} className="pt-6 pb-2 text-[13px] font-bold text-charcoal">
+                      <td colSpan={3} className={`${i === 0 ? 'pt-0' : 'pt-8'} pb-3 text-[16px] font-bold uppercase tracking-[0.04em] text-terracotta`}>
                         {item.section}
                       </td>
                     </tr>

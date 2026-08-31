@@ -40,6 +40,15 @@ a:hover {
   color: var(--c-forest);
 }
 
+/* ── Hide scrollbar (horizontal swipe sliders) ── */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* ── Range input ── */
 input[type='range'] {
   -webkit-appearance: none;

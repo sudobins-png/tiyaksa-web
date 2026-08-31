@@ -15,6 +15,8 @@ export const LEAD_SOURCES = {
   quizPricingCta: 'pricing-cta',
   quizExitIntent: 'exit-intent',
   estimateAudit:  'estimate-audit',
+  priceCalculator: 'price-calculator',
+  priceTeaser:     'price-teaser',
 } as const;
 
 export type LeadSource = (typeof LEAD_SOURCES)[keyof typeof LEAD_SOURCES];
@@ -28,6 +30,8 @@ export const LEAD_SOURCE_LABELS: Record<LeadSource, string> = {
   [LEAD_SOURCES.quizPricingCta]: 'Блок «Стоимость ремонта» — кнопка в тарифе',
   [LEAD_SOURCES.quizExitIntent]: 'Всплывающий квиз при уходе с сайта',
   [LEAD_SOURCES.estimateAudit]:  'Форма «Уже делали расчёт» — загрузка сметы',
+  [LEAD_SOURCES.priceCalculator]: 'Страница /price — блок «Быстрый расчёт»',
+  [LEAD_SOURCES.priceTeaser]:     'Главная — тизер прайс-листа',
 };
 
 export function leadSourceLabel(source: string | undefined | null): string {

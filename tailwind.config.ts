@@ -26,9 +26,24 @@ const config: Config = {
         subtle: '#4a544a',
         sage: '#8DBE2E',
         site: '#F9FAFB',
+        // «Экосистема ТиЯКСа» + прайс-лист palette — deliberately distinct
+        // from the green/gold tokens above (own section, own brand feel).
+        charcoal: {
+          DEFAULT: '#17181a',
+          card: '#1e1f22',
+        },
+        terracotta: '#b3552e',
+        cream: '#f6f3ef',
+        taupe: {
+          DEFAULT: '#9b958d',
+          dark: '#5c5750',
+          light: '#8a8580',
+        },
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        unbounded: ['var(--font-unbounded)', 'sans-serif'],
+        manrope: ['var(--font-manrope)', 'system-ui', 'sans-serif'],
       },
       maxWidth: {
         content: '1200px',

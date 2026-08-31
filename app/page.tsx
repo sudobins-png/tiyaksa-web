@@ -1,9 +1,11 @@
 import { Header }           from '@/components/sections/Header';
 import { Hero }             from '@/components/sections/Hero';
 import { Stats }            from '@/components/sections/Stats';
+import { Ecosystem }        from '@/components/sections/Ecosystem';
 import { Portfolio }        from '@/components/sections/Portfolio';
 import { HowWeWork }        from '@/components/sections/HowWeWork';
 import { Pricing }          from '@/components/sections/Pricing';
+import { PriceTeaser }      from '@/components/sections/PriceTeaser';
 import { WhyUs }            from '@/components/sections/WhyUs';
 import { CaseSection }      from '@/components/sections/CaseSection';
 import { Reviews }          from '@/components/sections/Reviews';
@@ -24,10 +26,12 @@ export default function HomePage() {
       <main id="top" style={{ paddingTop: '71px' }}>
         <Hero />
         <Stats />
+        <Ecosystem />
         <Portfolio />
         <WhyUs />
         <CaseSection />
         <Pricing />
+        <PriceTeaser />
         <HowWeWork />
         <Reviews />
         <EstimateAudit />

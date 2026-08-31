@@ -1,0 +1,259 @@
+'use client';
+
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+
+interface EcosystemItem {
+  title: string;
+  description: string;
+  icon: ReactNode;
+}
+
+const iconProps = {
+  viewBox: '0 0 24 24',
+  fill: 'none',
+  stroke: 'currentColor',
+  strokeWidth: 1.5,
+  strokeLinecap: 'round' as const,
+  strokeLinejoin: 'round' as const,
+};
+
+const ITEMS: EcosystemItem[] = [
+  {
+    title: 'Ремонт под ключ',
+    description: 'Демонтаж, черновые и чистовые работы, сантехника, электрика — один подрядчик от и до.',
+    icon: (
+      <svg {...iconProps}>
+        <path d="M4 11l8-6 8 6" />
+        <path d="M6 10v9a1 1 0 001 1h10a1 1 0 001-1v-9" />
+        <circle cx="10.5" cy="15" r="1.6" />
+        <path d="M12 15h4" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Демонтаж',
+    description: 'Разборка перегородок и старой отделки, вывоз мусора — до начала чистовых работ.',
+    icon: (
+      <svg {...iconProps}>
+        <rect x="3" y="3" width="7" height="7" rx="1" transform="rotate(-45 6.5 6.5)" />
+        <path d="M9 9l8 8" />
+        <path d="M15 15l4 4" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Перепланировка',
+    description: 'Проект и согласование с БТИ и жилищной инспекцией — берём процесс на себя.',
+    icon: (
+      <svg {...iconProps}>
+        <rect x="3" y="4" width="18" height="16" rx="1" />
+        <path d="M3 12h8M11 4v8M11 12v8" />
+        <path d="M15 8h3M15 16h3" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Напольные покрытия',
+    description:
+      'Для кухни, гостиной, спальни, ванной или загородного дома. Российские и зарубежные бренды — дешевле, чем в магазине.',
+    icon: (
+      <svg {...iconProps}>
+        <rect x="3" y="6" width="8" height="4" />
+        <rect x="13" y="6" width="8" height="4" />
+        <rect x="3" y="14" width="8" height="4" />
+        <rect x="13" y="14" width="8" height="4" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Умный дом',
+    description: 'Управление светом, климатом и безопасностью со смартфона.',
+    icon: (
+      <svg {...iconProps}>
+        <path d="M4 11l8-6 8 6" />
+        <path d="M6 10v9a1 1 0 001 1h10a1 1 0 001-1v-9" />
+        <path d="M9.5 16a3.5 3.5 0 015 0" />
+        <circle cx="12" cy="19" r="0.6" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Мебелировка',
+    description: 'Кухни и встроенная мебель по вашему или предложенному проекту.',
+    icon: (
+      <svg {...iconProps}>
+        <rect x="5" y="3" width="14" height="18" rx="1" />
+        <path d="M12 3v18" />
+        <circle cx="9.5" cy="12" r="0.6" fill="currentColor" stroke="none" />
+        <circle cx="14.5" cy="12" r="0.6" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Клининг',
+    description: 'Генеральная уборка после ремонта — заезжаете в чистую квартиру.',
+    icon: (
+      <svg {...iconProps}>
+        <rect x="8" y="9" width="8" height="12" rx="1.5" />
+        <path d="M11 9V6a1 1 0 011-1h1a1 1 0 011 1v3" />
+        <path d="M13 3h3M15 3v2" />
+        <path d="M11 13h4M11 17h4" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Недвижимость',
+    description: 'Поможем найти квартиру под ремонт или сдать готовую.',
+    icon: (
+      <svg {...iconProps}>
+        <circle cx="7" cy="15" r="3" />
+        <path d="M9.5 12.5L19 3" />
+        <path d="M16 6l2 2" />
+        <path d="M18 4l2 2" />
+      </svg>
+    ),
+  },
+];
+
+const SUBTITLE = 'Всё, что нужно от поиска объекта до ремонта под ключ — под контролем одной компании.';
+
+function Card({ item, size = 'desktop' }: { item: EcosystemItem; size?: 'desktop' | 'mobile' }) {
+  const mobile = size === 'mobile';
+  return (
+    <div
+      className={
+        mobile
+          ? 'flex-none w-[240px] flex flex-col gap-3.5 bg-charcoal-card border border-white/[0.08] p-[22px]'
+          : 'flex flex-col gap-4 bg-charcoal-card border border-white/[0.08] p-7'
+      }
+      style={mobile ? { scrollSnapAlign: 'start' } : undefined}
+    >
+      <div className={mobile ? 'text-taupe [&>svg]:w-[26px] [&>svg]:h-[26px]' : 'text-taupe [&>svg]:w-7 [&>svg]:h-7'}>
+        {item.icon}
+      </div>
+      <div className="flex items-center gap-2.5">
+        <span className="w-4 h-px bg-terracotta shrink-0" />
+        <h3
+          className={
+            mobile
+              ? 'm-0 font-unbounded font-medium text-[16px] leading-[1.3] text-cream'
+              : 'm-0 font-unbounded font-medium text-[19px] leading-[1.3] text-cream'
+          }
+        >
+          {item.title}
+        </h3>
+      </div>
+      <p
+        className={
+          mobile
+            ? 'm-0 font-manrope text-[13px] leading-[1.5] text-taupe'
+            : 'm-0 font-manrope text-[14px] leading-[1.55] text-taupe'
+        }
+      >
+        {item.description}
+      </p>
+    </div>
+  );
+}
+
+function BrandBlock() {
+  return (
+    <div className="flex items-center justify-center p-6">
+      <div className="flex flex-col items-center gap-2.5 text-center">
+        <div className="font-unbounded font-bold text-[34px] tracking-[0.01em] text-cream px-2.5">
+          ЭКОСИСТЕМА
+        </div>
+        <div className="font-manrope font-semibold text-[13px] tracking-[0.18em] text-taupe uppercase">
+          ТиЯКСа
+        </div>
+        <div className="w-[60px] h-px bg-terracotta mt-3.5" />
+        <p className="mt-3.5 max-w-[300px] font-manrope text-[13px] leading-[1.5] text-taupe">
+          {SUBTITLE}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function MobileSlider() {
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting);
+        if (visible.length === 0) return;
+        const closest = visible.reduce((best, e) => (e.intersectionRatio > best.intersectionRatio ? e : best));
+        const index = cardRefs.current.findIndex((el) => el === closest.target);
+        if (index !== -1) setActive(index);
+      },
+      { root: slider, threshold: [0.5, 0.75, 1] }
+    );
+
+    cardRefs.current.forEach((el) => el && observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <>
+      <div
+        ref={sliderRef}
+        className="no-scrollbar flex gap-3.5 overflow-x-auto pb-2"
+        style={{ scrollSnapType: 'x mandatory' }}
+      >
+        {ITEMS.map((item, i) => (
+          <div key={item.title} ref={(el) => { cardRefs.current[i] = el; }}>
+            <Card item={item} size="mobile" />
+          </div>
+        ))}
+      </div>
+      <div className="flex justify-center gap-1.5 mt-5" aria-hidden>
+        {ITEMS.map((_, i) => (
+          <span
+            key={i}
+            className={
+              i === active
+                ? 'h-[5px] w-4 rounded-[3px] bg-terracotta transition-all duration-200'
+                : 'h-[5px] w-[5px] rounded-full bg-white/[0.18] transition-all duration-200'
+            }
+          />
+        ))}
+      </div>
+    </>
+  );
+}
+
+export function Ecosystem() {
+  return (
+    <section className="bg-charcoal">
+      <div className="max-w-content mx-auto px-5 sm:px-6 lg:px-20 py-12 lg:py-[88px]">
+        {/* Mobile / tablet — title + subtitle + horizontal slider */}
+        <div className="lg:hidden">
+          <h2 className="m-0 mb-2 font-unbounded font-semibold text-[26px] leading-[1.2] text-cream">
+            Экосистема ТиЯКСа
+          </h2>
+          <p className="m-0 mb-6 font-manrope text-[14px] leading-[1.55] text-taupe">{SUBTITLE}</p>
+          <MobileSlider />
+        </div>
+
+        {/* Desktop — 3×3 grid with center brand block */}
+        <div className="hidden lg:grid grid-cols-3 gap-6">
+          <Card item={ITEMS[0]} />
+          <Card item={ITEMS[1]} />
+          <Card item={ITEMS[2]} />
+          <Card item={ITEMS[3]} />
+          <BrandBlock />
+          <Card item={ITEMS[4]} />
+          <Card item={ITEMS[5]} />
+          <Card item={ITEMS[6]} />
+          <Card item={ITEMS[7]} />
+        </div>
+      </div>
+    </section>
+  );
+}

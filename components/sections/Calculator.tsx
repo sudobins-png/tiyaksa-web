@@ -13,7 +13,7 @@ import {
   highEstimateFactor,
 } from '@/data/pricing';
 
-export function Calculator() {
+export function Calculator({ heading = 'Рассчитайте стоимость' }: { heading?: string }) {
   const [aptType, setAptType]     = useState<string>('Новостройка');
   const [area, setArea]           = useState<number>(60);
   const [workType, setWorkType]   = useState<string>('Капитальный');
@@ -28,7 +28,7 @@ export function Calculator() {
     <section id="calc" className="bg-site">
       <div className="max-w-[900px] mx-auto px-6 py-[88px]">
         <SectionHeading className="mb-8 md:mb-9">
-          Рассчитайте стоимость
+          {heading}
         </SectionHeading>
 
         <div className="bg-white rounded-[20px] shadow-calc" style={{ padding: 'clamp(24px,4vw,44px)' }}>

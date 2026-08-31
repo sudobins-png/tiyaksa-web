@@ -36,8 +36,8 @@ export function PriceTable() {
             onClick={() => setActive(cat.slug)}
             className={
               cat.slug === active
-                ? 'font-manrope text-[14px] font-semibold px-[18px] py-2.5 bg-charcoal text-cream border border-charcoal cursor-pointer'
-                : 'font-manrope text-[14px] font-semibold px-[18px] py-2.5 bg-transparent text-taupe-dark border border-charcoal/[0.14] cursor-pointer hover:border-charcoal/30 transition-colors'
+                ? 'text-[14px] font-semibold px-[18px] py-2.5 rounded-xl border-[1.5px] border-forest bg-forest text-white cursor-pointer shadow-[0_3px_12px_rgba(27,79,27,.22)]'
+                : 'text-[14px] font-semibold px-[18px] py-2.5 rounded-xl border-[1.5px] border-[#d3ddd3] bg-white text-forest cursor-pointer transition-colors hover:border-forest'
             }
           >
             {cat.name}
@@ -46,18 +46,18 @@ export function PriceTable() {
       </div>
 
       {category.items.length === 0 ? (
-        <p className="font-manrope text-[15px] text-taupe-light">Раздел наполняется — прайс появится здесь в ближайшее время.</p>
+        <p className="text-[15px] text-muted">Раздел наполняется — прайс появится здесь в ближайшее время.</p>
       ) : (
-        <table className="w-full border-collapse font-manrope">
+        <table className="w-full border-collapse">
           <thead>
             <tr>
-              <th className="text-left text-[12px] tracking-[0.08em] uppercase text-taupe-light font-semibold pb-3 border-b border-charcoal/[0.12]">
+              <th className="text-left text-[12px] tracking-[0.08em] uppercase text-muted font-semibold pb-3 border-b border-[#eef1ee]">
                 Работа
               </th>
-              <th className="text-left text-[12px] tracking-[0.08em] uppercase text-taupe-light font-semibold pb-3 border-b border-charcoal/[0.12]">
+              <th className="text-left text-[12px] tracking-[0.08em] uppercase text-muted font-semibold pb-3 border-b border-[#eef1ee]">
                 Ед. изм.
               </th>
-              <th className="text-right text-[12px] tracking-[0.08em] uppercase text-taupe-light font-semibold pb-3 border-b border-charcoal/[0.12]">
+              <th className="text-right text-[12px] tracking-[0.08em] uppercase text-muted font-semibold pb-3 border-b border-[#eef1ee]">
                 Цена
               </th>
             </tr>
@@ -70,17 +70,17 @@ export function PriceTable() {
                 <Fragment key={item.name}>
                   {showSectionHeader && (
                     <tr key={`${item.section}-header`}>
-                      <td colSpan={3} className={`${i === 0 ? 'pt-0' : 'pt-8'} pb-3 text-[16px] font-bold uppercase tracking-[0.04em] text-terracotta`}>
+                      <td colSpan={3} className={`${i === 0 ? 'pt-0' : 'pt-8'} pb-3 text-[16px] font-bold uppercase tracking-[0.04em] text-forest`}>
                         {item.section}
                       </td>
                     </tr>
                   )}
                   <tr key={item.name}>
-                    <td className="py-3.5 border-b border-charcoal/[0.08] text-[15px] text-charcoal">{item.name}</td>
-                    <td className="py-3.5 border-b border-charcoal/[0.08] text-[15px] text-taupe-light">{item.unit}</td>
-                    <td className="py-3.5 border-b border-charcoal/[0.08] text-[15px] text-charcoal font-semibold text-right whitespace-nowrap">
+                    <td className="py-3.5 border-b border-[#eef1ee] text-[15px] text-ink">{item.name}</td>
+                    <td className="py-3.5 border-b border-[#eef1ee] text-[15px] text-muted">{item.unit}</td>
+                    <td className="py-3.5 border-b border-[#eef1ee] text-[15px] text-ink font-semibold text-right whitespace-nowrap">
                       {item.price === undefined ? (
-                        <span className="text-taupe-light font-normal italic">уточняется</span>
+                        <span className="text-muted font-normal italic">уточняется</span>
                       ) : (
                         formatPrice(item)
                       )}

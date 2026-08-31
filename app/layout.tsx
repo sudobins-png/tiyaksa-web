@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Unbounded, Manrope } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import Script from 'next/script';
 import { Toaster } from '@/components/ui/Toaster';
 import { CookieBanner } from '@/components/ui/CookieBanner';
@@ -11,22 +11,6 @@ const inter = Inter({
   subsets: ['cyrillic', 'latin'],
   weight: ['400', '500', '600', '700', '800'],
   variable: '--font-inter',
-  display: 'swap',
-});
-
-// «Экосистема ТиЯКСа» + прайс-лист section headings/body — kept as separate
-// font families rather than swapping the whole site's `--font-inter`.
-const unbounded = Unbounded({
-  subsets: ['cyrillic', 'latin'],
-  weight: ['500', '600', '700'],
-  variable: '--font-unbounded',
-  display: 'swap',
-});
-
-const manrope = Manrope({
-  subsets: ['cyrillic', 'latin'],
-  weight: ['400', '500', '600'],
-  variable: '--font-manrope',
   display: 'swap',
 });
 
@@ -55,7 +39,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ru" className={`${inter.variable} ${unbounded.variable} ${manrope.variable}`}>
+    <html lang="ru" className={inter.variable}>
       <head>
         <Script id="ym-init" strategy="afterInteractive">{`
           (function(m,e,t,r,i,k,a){

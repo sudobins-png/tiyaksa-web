@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { BlogHeader } from '@/components/sections/BlogHeader';
 import { Footer } from '@/components/sections/Footer';
 import { PriceTable } from '@/components/sections/PriceTable';
-import { PriceCalculator } from '@/components/sections/PriceCalculator';
+import { Calculator } from '@/components/sections/Calculator';
 
 export const metadata: Metadata = {
   title: 'Прайс-лист на ремонт квартир — ТиЯКСа.Ремонт',
@@ -15,25 +15,20 @@ export default function PricePage() {
   return (
     <>
       <BlogHeader />
-      <main style={{ paddingTop: '71px' }} className="min-h-dvh bg-white">
-        <div className="max-w-content mx-auto px-5 sm:px-6 lg:px-20 py-14 lg:py-20">
-          <div className="max-w-[760px] mb-12 lg:mb-14">
-            <div className="font-manrope font-semibold text-[12px] tracking-[0.16em] text-terracotta uppercase mb-4">
-              Прайс-лист
-            </div>
-            <h1 className="m-0 font-unbounded font-semibold text-[30px] lg:text-[40px] leading-[1.15] text-charcoal">
-              Цены на ремонт квартир в Санкт-Петербурге
-            </h1>
-          </div>
+      <main style={{ paddingTop: '71px' }} className="min-h-dvh bg-site">
+        <div className="max-w-content mx-auto px-6 py-14 lg:py-20">
+          <h1 className="m-0 mb-12 lg:mb-14 font-extrabold text-[28px] sm:text-[40px] text-ink tracking-tight leading-tight">
+            Цены на ремонт квартир в Санкт-Петербурге
+          </h1>
 
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-10 lg:gap-14 items-start">
-            <Suspense fallback={null}>
-              <PriceTable />
-            </Suspense>
-            <PriceCalculator />
-          </div>
+          <Suspense fallback={null}>
+            <PriceTable />
+          </Suspense>
         </div>
       </main>
+
+      <Calculator heading="Калькулятор ремонта квартиры" />
+
       <Footer />
     </>
   );

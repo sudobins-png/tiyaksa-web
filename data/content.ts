@@ -18,7 +18,7 @@ export const siteConfig = {
 export const navItems = [
   { label: 'Работы',       href: '#portfolio' },
   { label: 'Этапы',        href: '#steps'     },
-  { label: 'Цены',         href: '#prices'    },
+  { label: 'Цены',         href: '/price'     },
   { label: 'Вопросы',      href: '#faq'       },
 ] as const;
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { PRICE_LIST } from '@/data/priceList';
 
 function formatPrice(item: { price?: number; approxFrom?: boolean }): string {
@@ -52,19 +52,32 @@ export function PriceTable() {
             </tr>
           </thead>
           <tbody>
-            {category.items.map((item) => (
-              <tr key={item.name}>
-                <td className="py-3.5 border-b border-charcoal/[0.08] text-[15px] text-charcoal">{item.name}</td>
-                <td className="py-3.5 border-b border-charcoal/[0.08] text-[15px] text-taupe-light">{item.unit}</td>
-                <td className="py-3.5 border-b border-charcoal/[0.08] text-[15px] text-charcoal font-semibold text-right whitespace-nowrap">
-                  {item.price === undefined ? (
-                    <span className="text-taupe-light font-normal italic">уточняется</span>
-                  ) : (
-                    formatPrice(item)
+            {category.items.map((item, i) => {
+              const prevSection = i > 0 ? category.items[i - 1].section : undefined;
+              const showSectionHeader = item.section && item.section !== prevSection;
+              return (
+                <Fragment key={item.name}>
+                  {showSectionHeader && (
+                    <tr key={`${item.section}-header`}>
+                      <td colSpan={3} className="pt-6 pb-2 text-[13px] font-bold text-charcoal">
+                        {item.section}
+                      </td>
+                    </tr>
                   )}
-                </td>
-              </tr>
-            ))}
+                  <tr key={item.name}>
+                    <td className="py-3.5 border-b border-charcoal/[0.08] text-[15px] text-charcoal">{item.name}</td>
+                    <td className="py-3.5 border-b border-charcoal/[0.08] text-[15px] text-taupe-light">{item.unit}</td>
+                    <td className="py-3.5 border-b border-charcoal/[0.08] text-[15px] text-charcoal font-semibold text-right whitespace-nowrap">
+                      {item.price === undefined ? (
+                        <span className="text-taupe-light font-normal italic">уточняется</span>
+                      ) : (
+                        formatPrice(item)
+                      )}
+                    </td>
+                  </tr>
+                </Fragment>
+              );
+            })}
           </tbody>
         </table>
       )}

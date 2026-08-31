@@ -4,13 +4,12 @@ const TRACK = [...stats, ...stats, ...stats];
 
 export function Stats() {
   return (
-    <div
-      className="bg-[#162216] overflow-hidden relative"
-      style={{
-        maskImage: 'linear-gradient(to right, transparent 0, black 80px, black calc(100% - 80px), transparent 100%)',
-        WebkitMaskImage: 'linear-gradient(to right, transparent 0, black 80px, black calc(100% - 80px), transparent 100%)',
-      }}
-    >
+    <div className="bg-[#162216] overflow-hidden relative">
+      {/* Edge fades to the ticker's own dark bg — not mask-image: that fades
+          the element itself to transparent, revealing the page's light bg
+          behind it instead of staying dark. */}
+      <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[#162216] to-transparent z-10" />
+      <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[#162216] to-transparent z-10" />
       <div
         className="flex whitespace-nowrap py-[14px] motion-reduce:[animation-play-state:paused]"
         style={{ animation: 'tiyaksa-marquee var(--ticker-dur, 4s) linear infinite' }}

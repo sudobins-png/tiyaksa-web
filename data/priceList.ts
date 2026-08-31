@@ -464,15 +464,56 @@ export const PRICE_LIST: PriceCategory[] = [
     ],
   },
   {
-    // Источник: https://cleanline-spb.ru/klining-tseny-price-list/#private —
-    // у клининговой компании нет зачёркнутой/акционной цены, только «от».
+    // Источник: таблица «Цены на клининг для частных лиц» —
+    // https://cleanline-spb.ru/klining-tseny-price-list/#private — у
+    // клининговой компании нет зачёркнутой/акционной цены, только «от».
+    // Позиции «после пожара» / «после смерти» из исходной таблицы намеренно
+    // не переносим — не подходят по тону для страницы ремонтной компании,
+    // и цена там всё равно не указана («оценивается по результатам осмотра»).
     slug: 'cleaning',
     name: 'Клининг',
     items: [
-      { name: 'Уборка квартир после ремонта', unit: 'м²', price: 155, approxFrom: true, teaser: true },
-      { name: 'Уборка квартир после ремонта (до 45 м²)', unit: 'м²', price: 170, approxFrom: true, teaser: true },
-      { name: 'Генеральная уборка квартир', unit: 'м²', price: 145, approxFrom: true, teaser: true },
-      { name: 'Повседневная уборка квартир', unit: 'м²', price: 90, approxFrom: true, teaser: true },
+      { name: 'Генеральная уборка квартир', unit: 'м²', price: 145, approxFrom: true, teaser: true, section: 'Уборка квартир' },
+      { name: 'Генеральная уборка квартир (до 45 м²)', unit: 'м²', price: 160, approxFrom: true, section: 'Уборка квартир' },
+      { name: 'Уборка квартир после ремонта', unit: 'м²', price: 155, approxFrom: true, teaser: true, section: 'Уборка квартир' },
+      { name: 'Уборка квартир после ремонта (до 45 м²)', unit: 'м²', price: 170, approxFrom: true, teaser: true, section: 'Уборка квартир' },
+      { name: 'Повседневная (ежедневная) уборка квартир', unit: 'м²', price: 90, approxFrom: true, teaser: true, section: 'Уборка квартир' },
+      { name: 'Повседневная уборка квартир (до 40 м²)', unit: 'м²', price: 100, approxFrom: true, section: 'Уборка квартир' },
+      { name: 'Экстрим-уборка', unit: 'м²', price: 650, approxFrom: true, section: 'Уборка квартир' },
+      { name: 'VIP-уборка квартиры', unit: 'м²', price: 550, approxFrom: true, section: 'Уборка квартир' },
+
+      { name: 'Генеральная уборка дома', unit: 'м²', price: 135, approxFrom: true, section: 'Уборка дома, коттеджа' },
+      { name: 'Генеральная уборка дома (до 100 м²)', unit: 'м²', price: 145, approxFrom: true, section: 'Уборка дома, коттеджа' },
+      { name: 'Генеральная уборка коттеджа', unit: 'м²', price: 135, approxFrom: true, section: 'Уборка дома, коттеджа' },
+      { name: 'Генеральная уборка коттеджа (до 200 м²)', unit: 'м²', price: 145, approxFrom: true, section: 'Уборка дома, коттеджа' },
+      { name: 'Уборка дома после ремонта', unit: 'м²', price: 145, approxFrom: true, section: 'Уборка дома, коттеджа' },
+      { name: 'Уборка дома после ремонта (до 100 м²)', unit: 'м²', price: 155, approxFrom: true, section: 'Уборка дома, коттеджа' },
+      { name: 'Уборка коттеджа после ремонта', unit: 'м²', price: 145, approxFrom: true, section: 'Уборка дома, коттеджа' },
+      { name: 'Уборка коттеджа после ремонта (до 200 м²)', unit: 'м²', price: 155, approxFrom: true, section: 'Уборка дома, коттеджа' },
+      { name: 'Повседневная уборка дома', unit: 'м²', price: 90, approxFrom: true, section: 'Уборка дома, коттеджа' },
+      { name: 'Повседневная уборка коттеджа', unit: 'м²', price: 90, approxFrom: true, section: 'Уборка дома, коттеджа' },
+      { name: 'VIP-уборка дома', unit: 'м²', price: 500, approxFrom: true, section: 'Уборка дома, коттеджа' },
+      { name: 'VIP-уборка коттеджа', unit: 'м²', price: 500, approxFrom: true, section: 'Уборка дома, коттеджа' },
+
+      { name: 'Нанесение полироли на мебель', unit: 'м²', price: 50, approxFrom: true, section: 'Дополнительные услуги' },
+      { name: 'Полировка паркета', unit: 'м²', price: 250, approxFrom: true, section: 'Дополнительные услуги' },
+      { name: 'Полировка ламината', unit: 'м²', price: 180, approxFrom: true, section: 'Дополнительные услуги' },
+      { name: 'Мойка холодильника', unit: 'шт', price: 800, approxFrom: true, section: 'Дополнительные услуги' },
+      { name: 'Мойка микроволновой печи', unit: 'шт', price: 500, approxFrom: true, section: 'Дополнительные услуги' },
+      { name: 'Мойка духовки', unit: 'шт', price: 800, approxFrom: true, section: 'Дополнительные услуги' },
+      { name: 'Мойка кухонного фартука', unit: 'м²', price: 230, approxFrom: true, section: 'Дополнительные услуги' },
+      { name: 'Мытьё плиты', unit: 'шт', price: 500, approxFrom: true, section: 'Дополнительные услуги' },
+      { name: 'Мытьё раковины', unit: 'шт', price: 500, approxFrom: true, section: 'Дополнительные услуги' },
+      { name: 'Мытьё посуды (1 раковина)', unit: 'шт', price: 650, approxFrom: true, section: 'Дополнительные услуги' },
+      { name: 'Выведение пятна на обоях', unit: '—', section: 'Дополнительные услуги' },
+      { name: 'Выведение пятна на полу', unit: '—', section: 'Дополнительные услуги' },
+      { name: 'Мытьё люстр', unit: 'шт', price: 1300, approxFrom: true, section: 'Дополнительные услуги' },
+      { name: 'Глажка одежды, белья', unit: '—', section: 'Дополнительные услуги' },
+      { name: 'Чистка штор', unit: '—', section: 'Дополнительные услуги' },
+
+      { name: 'Стремянка', unit: 'шт', price: 500, approxFrom: true, section: 'Дополнительное оборудование' },
+      { name: 'Парогенератор', unit: 'услуга', price: 1500, approxFrom: true, section: 'Дополнительное оборудование' },
+      { name: 'Роторная машина', unit: 'услуга', price: 3000, approxFrom: true, section: 'Дополнительное оборудование' },
     ],
   },
 ];

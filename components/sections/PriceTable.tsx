@@ -26,7 +26,11 @@ export function PriceTable() {
 
   return (
     <div>
-      <div className="flex gap-2.5 flex-wrap mb-8" role="tablist" aria-label="Категории прайс-листа">
+      <div
+        className="no-scrollbar flex gap-2 overflow-x-auto -mx-6 px-6 pb-1 lg:mx-0 lg:flex-wrap lg:overflow-visible lg:px-0 lg:pb-0 mb-8"
+        role="tablist"
+        aria-label="Категории прайс-листа"
+      >
         {PRICE_LIST.map((cat) => (
           <button
             key={cat.slug}
@@ -36,8 +40,8 @@ export function PriceTable() {
             onClick={() => setActive(cat.slug)}
             className={
               cat.slug === active
-                ? 'text-[14px] font-semibold px-[18px] py-2.5 rounded-xl border-[1.5px] border-forest bg-forest text-white cursor-pointer shadow-[0_3px_12px_rgba(27,79,27,.22)]'
-                : 'text-[14px] font-semibold px-[18px] py-2.5 rounded-xl border-[1.5px] border-[#d3ddd3] bg-white text-forest cursor-pointer transition-colors hover:border-forest'
+                ? 'shrink-0 whitespace-nowrap text-[14px] font-semibold px-[18px] py-2.5 rounded-xl border-[1.5px] border-forest bg-forest text-white cursor-pointer shadow-[0_3px_12px_rgba(27,79,27,.22)]'
+                : 'shrink-0 whitespace-nowrap text-[14px] font-semibold px-[18px] py-2.5 rounded-xl border-[1.5px] border-[#d3ddd3] bg-white text-forest cursor-pointer transition-colors hover:border-forest'
             }
           >
             {cat.name}

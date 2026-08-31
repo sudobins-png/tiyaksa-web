@@ -5,6 +5,16 @@ import { Footer } from '@/components/sections/Footer';
 import { PriceTable } from '@/components/sections/PriceTable';
 import { Calculator } from '@/components/sections/Calculator';
 
+// Источник: раздел «Примечание» на https://www.prorabneva.ru/price — то же
+// самое, что и остальные цены на этой странице; формулировки слегка
+// причёсаны под наш тон.
+const PRICE_NOTES = [
+  'Цены указаны для стен высотой до 2,7 м.',
+  'Минимальная стоимость заказа — 300 000 ₽.',
+  'Стоимость работ не включает расходные материалы.',
+  'Наценка на работы по индивидуальному дизайн-проекту — 20–30% в зависимости от сложности.',
+];
+
 export const metadata: Metadata = {
   title: 'Прайс-лист на ремонт квартир — ТиЯКСа.Ремонт',
   description: 'Цены на ремонт квартир в Санкт-Петербурге по видам работ. Капитальный ремонт под ключ — от 12 500 ₽/м².',
@@ -24,6 +34,20 @@ export default function PricePage() {
           <Suspense fallback={null}>
             <PriceTable />
           </Suspense>
+
+          <div className="mt-12 lg:mt-14 pt-8 border-t border-[#eef1ee]">
+            <h2 className="m-0 mb-4 text-[13px] font-semibold uppercase tracking-[0.08em] text-muted">
+              Примечание
+            </h2>
+            <ul className="m-0 p-0 list-none flex flex-col gap-2.5">
+              {PRICE_NOTES.map((note) => (
+                <li key={note} className="flex gap-2.5 text-[14px] leading-relaxed text-muted">
+                  <span className="shrink-0 text-[#c7cdc7]">—</span>
+                  {note}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </main>
 

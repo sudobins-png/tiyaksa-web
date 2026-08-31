@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { GridOverlay } from '@/components/ui/GridOverlay';
 
 interface EcosystemItem {
   title: string;
@@ -124,18 +123,18 @@ function Card({ item, size = 'desktop' }: { item: EcosystemItem; size?: 'desktop
     <div
       className={
         mobile
-          ? 'flex-none w-[240px] flex flex-col gap-3.5 bg-white/10 rounded-2xl p-5'
-          : 'flex flex-col gap-4 bg-white/10 rounded-2xl p-7 transition-all duration-[250ms] hover:-translate-y-1 hover:bg-white/[0.14]'
+          ? 'flex-none w-[240px] flex flex-col gap-3.5 bg-white rounded-2xl shadow-card p-5'
+          : 'flex flex-col gap-4 bg-white rounded-2xl shadow-card p-7 transition-all duration-[250ms] hover:-translate-y-1 hover:shadow-card-hover'
       }
       style={mobile ? { scrollSnapAlign: 'start' } : undefined}
     >
-      <div className={mobile ? 'text-sage [&>svg]:w-6 [&>svg]:h-6' : 'text-sage [&>svg]:w-7 [&>svg]:h-7'}>
+      <div className={mobile ? 'text-forest [&>svg]:w-6 [&>svg]:h-6' : 'text-forest [&>svg]:w-7 [&>svg]:h-7'}>
         {item.icon}
       </div>
-      <h3 className={mobile ? 'm-0 font-bold text-[16px] leading-[1.3] text-white' : 'm-0 font-bold text-[19px] text-white'}>
+      <h3 className={mobile ? 'm-0 font-bold text-[16px] leading-[1.3] text-ink' : 'm-0 font-bold text-[19px] text-ink'}>
         {item.title}
       </h3>
-      <p className={mobile ? 'm-0 text-[13px] leading-[1.5] text-white/70' : 'm-0 text-[14px] leading-[1.55] text-white/70'}>
+      <p className={mobile ? 'm-0 text-[13px] leading-[1.5] text-muted' : 'm-0 text-[14px] leading-[1.55] text-muted'}>
         {item.description}
       </p>
     </div>
@@ -146,10 +145,10 @@ function BrandBlock() {
   return (
     <div className="flex items-center justify-center p-6">
       <div className="flex flex-col items-center text-center">
-        <div className="font-extrabold text-[34px] tracking-[-0.01em] text-white">ЭКОСИСТЕМА</div>
-        <div className="mt-2 font-bold text-[13px] tracking-[0.18em] text-sage uppercase">ТиЯКСа</div>
+        <div className="font-extrabold text-[34px] tracking-[-0.01em] text-ink">ЭКОСИСТЕМА</div>
+        <div className="mt-2 font-bold text-[13px] tracking-[0.18em] text-grove uppercase">ТиЯКСа</div>
         <div className="w-[60px] h-[3px] rounded-full bg-gold mt-4" />
-        <p className="mt-4 max-w-[300px] text-[14px] leading-[1.5] text-white/70">{SUBTITLE}</p>
+        <p className="mt-4 max-w-[300px] text-[14px] leading-[1.5] text-subtle">{SUBTITLE}</p>
       </div>
     </div>
   );
@@ -214,8 +213,8 @@ function MobileSlider() {
             key={i}
             className={
               i === active
-                ? 'h-[5px] w-4 rounded-[3px] bg-gold transition-all duration-200'
-                : 'h-[5px] w-[5px] rounded-full bg-white/20 transition-all duration-200'
+                ? 'h-[5px] w-4 rounded-[3px] bg-forest transition-all duration-200'
+                : 'h-[5px] w-[5px] rounded-full bg-[#d3ddd3] transition-all duration-200'
             }
           />
         ))}
@@ -226,15 +225,14 @@ function MobileSlider() {
 
 export function Ecosystem() {
   return (
-    <section className="relative overflow-hidden bg-forest">
-      <GridOverlay />
-      <div className="relative max-w-content mx-auto px-6 py-12 md:py-[88px]">
+    <section className="bg-site border-t border-[#eef1ee]">
+      <div className="max-w-content mx-auto px-6 py-12 md:py-[88px]">
         {/* Mobile / tablet — title + subtitle + horizontal slider */}
         <div className="lg:hidden">
-          <h2 className="m-0 mb-2 font-bold text-[26px] leading-[1.2] text-white tracking-[-0.01em]">
+          <h2 className="m-0 mb-2 font-bold text-[26px] leading-[1.2] text-ink tracking-[-0.01em]">
             Экосистема ТиЯКСа
           </h2>
-          <p className="m-0 mb-6 text-[15px] leading-[1.55] text-white/70">{SUBTITLE}</p>
+          <p className="m-0 mb-6 text-[15px] leading-[1.55] text-subtle">{SUBTITLE}</p>
           <MobileSlider />
         </div>
 

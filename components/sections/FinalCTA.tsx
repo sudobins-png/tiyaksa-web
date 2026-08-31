@@ -85,7 +85,7 @@ export function FinalCTA() {
     reset();
     setContactRaw('');
     setMessenger('phone');
-    showToast('Заявка принята! Свяжемся в течение часа.');
+    showToast('Заявка принята! Перезвоним сами — как правило в течение часа.');
   };
 
   return (

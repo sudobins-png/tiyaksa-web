@@ -84,7 +84,7 @@ export function LeadModal({ onClose, source }: LeadModalProps) {
       return;
     }
     onClose();
-    showToast('Заявка принята! Свяжемся в течение часа.');
+    showToast('Заявка принята! Перезвоним сами — как правило в течение часа.');
   };
 
   const inputCls = 'w-full bg-[#f7f9f7] border border-[#e4e9e4] focus:border-grove rounded-xl px-5 py-4 text-base outline-none transition-colors duration-200 placeholder:text-[#b0b8b0]';
@@ -104,7 +104,7 @@ export function LeadModal({ onClose, source }: LeadModalProps) {
         {/* Header */}
         <div className="flex items-center justify-between px-6 pt-6 pb-0 shrink-0">
           <h2 className="font-bold text-[22px] text-ink leading-snug">
-            Свяжемся<br className="sm:hidden" /> в течение часа
+            Перезвоним сами —<br className="sm:hidden" /> как правило в течение часа
           </h2>
           <button onClick={onClose} aria-label="Закрыть"
             className="ml-auto w-11 h-11 rounded-full hover:bg-[#f0f4f0] flex items-center justify-center transition-colors shrink-0">

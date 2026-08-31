@@ -184,19 +184,35 @@ function MobileSlider() {
     const slider = sliderRef.current;
     if (!slider) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.filter((e) => e.isIntersecting);
-        if (visible.length === 0) return;
-        const closest = visible.reduce((best, e) => (e.intersectionRatio > best.intersectionRatio ? e : best));
-        const index = cardRefs.current.findIndex((el) => el === closest.target);
-        if (index !== -1) setActive(index);
-      },
-      { root: slider, threshold: [0.5, 0.75, 1] }
-    );
+    // Direct scroll-position math instead of IntersectionObserver: the
+    // latter's recalculation is tied to the browser's own compositing pass,
+    // which some environments throttle heavily (e.g. a backgrounded tab) —
+    // a plain `scroll` listener always fires and gives a deterministic index.
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const center = slider.scrollLeft + slider.clientWidth / 2;
+        let closest = 0;
+        let closestDist = Infinity;
+        cardRefs.current.forEach((el, i) => {
+          if (!el) return;
+          const cardCenter = el.offsetLeft + el.offsetWidth / 2;
+          const dist = Math.abs(cardCenter - center);
+          if (dist < closestDist) {
+            closestDist = dist;
+            closest = i;
+          }
+        });
+        setActive(closest);
+      });
+    };
 
-    cardRefs.current.forEach((el) => el && observer.observe(el));
-    return () => observer.disconnect();
+    slider.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      slider.removeEventListener('scroll', onScroll);
+      cancelAnimationFrame(raf);
+    };
   }, []);
 
   return (

@@ -26,7 +26,7 @@ export function Footer() {
       <div className="relative max-w-content mx-auto px-6" style={{ paddingTop: '40px', paddingBottom: '36px' }}>
         {/* Columns: logo, соцсети — a third (commercial-keyword page links)
             joins later, so this stays a flex row rather than a fixed grid. */}
-        <div className="flex flex-col sm:flex-row sm:items-start gap-8 sm:gap-16 mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-8 sm:gap-16 mb-6">
           <div>
             <Logo variant="light" />
           </div>

@@ -334,7 +334,7 @@ export function QuizModal({ onClose, source }: QuizModalProps) {
                       {isSubmitting ? 'Отправляем…' : 'Получить расчёт →'}
                     </button>
                     <p className="text-[12px] text-[#9aa39a] text-center leading-relaxed">
-                      Нажимая кнопку, вы соглашаетесь на{' '}
+                      Нажимая на кнопку «Получить расчёт», вы соглашаетесь на{' '}
                       <button type="button" onClick={() => setPrivacyOpen(true)}
                         className="underline hover:text-forest transition-colors bg-transparent border-none p-0 text-[12px] text-[#9aa39a] cursor-pointer">
                         обработку персональных данных

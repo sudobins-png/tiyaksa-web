@@ -34,7 +34,11 @@ export const metadata: Metadata = {
   // gets it: Next.js merges parent metadata into child pages (e.g. /quiz's
   // own title/description) automatically, a hand-rolled tag in this file's
   // <head> would not.
-  verification: { yandex: '99f0f3b15150b670', google: 'zfbSXw3nzJaoIFiWjx6xNhZlX_67DSjtQ6r-gmqDnc8' },
+  verification: {
+    yandex: '99f0f3b15150b670',
+    google: 'zfbSXw3nzJaoIFiWjx6xNhZlX_67DSjtQ6r-gmqDnc8',
+    other: { 'zen-verification': 'NT6zo6k18obInok3ocgsa8BoEL3LDNk9zDk5oT3z7suPvzVKQt0BeIDCM2GVBlh5' },
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

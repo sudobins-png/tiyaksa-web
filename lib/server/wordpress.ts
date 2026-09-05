@@ -26,6 +26,7 @@ export interface WpPost {
   id: number;
   slug: string;
   date: string;
+  date_gmt: string;
   title: { rendered: string };
   excerpt: { rendered: string };
   content: { rendered: string };
@@ -102,6 +103,25 @@ export function getFeaturedImage(post: WpPost): WpMedia | null {
 
 export function stripHtml(html: string): string {
   return html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+/**
+ * WP's `.rendered` fields are real HTML, so plain text extracted from them
+ * (title, excerpt) keeps entity references like `&#8220;`/`&amp;` — fine
+ * when handed to dangerouslySetInnerHTML (the browser decodes them), wrong
+ * for a field that gets XML-escaped afterwards for the RSS feed (double-
+ * encodes into `&amp;amp;`). Decodes the handful WP actually produces.
+ */
+export function decodeHtmlEntities(text: string): string {
+  return text
+    .replace(/&#x([0-9a-f]+);/gi, (_, hex: string) => String.fromCodePoint(parseInt(hex, 16)))
+    .replace(/&#(\d+);/g, (_, dec: string) => String.fromCodePoint(parseInt(dec, 10)))
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&quot;/g, '"')
+    .replace(/&#0?39;|&apos;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&');
 }
 
 /**

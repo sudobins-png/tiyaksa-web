@@ -11,13 +11,27 @@ export function CookieBanner() {
   const [policyOpen, setPolicyOpen] = useState(false);
 
   useEffect(() => {
-    if (!localStorage.getItem(STORAGE_KEY)) {
-      setVisible(true);
+    // Some private-browsing modes (e.g. Safari with "Block All Cookies")
+    // throw a SecurityError on any localStorage access rather than just
+    // returning null — left uncaught, that silently kills this effect
+    // before setVisible ever runs, so the banner never appears at all.
+    // Default to showing it if we can't tell: we can't confirm consent was
+    // ever given, so showing is the safe failure mode here.
+    let accepted = false;
+    try {
+      accepted = !!localStorage.getItem(STORAGE_KEY);
+    } catch {
+      accepted = false;
     }
+    if (!accepted) setVisible(true);
   }, []);
 
   const accept = () => {
-    localStorage.setItem(STORAGE_KEY, '1');
+    try {
+      localStorage.setItem(STORAGE_KEY, '1');
+    } catch {
+      /* storage unavailable — just hide for this session */
+    }
     setVisible(false);
   };
 

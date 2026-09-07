@@ -82,6 +82,18 @@ export function QuizInline() {
   const [hasDesign,     setHasDesign]     = useState('');
   const [calculating,   setCalculating]   = useState(false);
   const [messenger,     setMessenger]     = useState<MessengerType | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  // Same reasoning as QuizModal.tsx: the form only appears after picking a
+  // messenger, and on a phone that's often already below the fold — nudge
+  // the page down to it rather than leaving the user to guess.
+  useEffect(() => {
+    if (!messenger) return;
+    const t = setTimeout(() => {
+      formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+    return () => clearTimeout(t);
+  }, [messenger]);
   const [privacyOpen,   setPrivacyOpen]   = useState(false);
   const [contactRaw,    setContactRaw]    = useState('');
   const calcTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -281,7 +293,7 @@ export function QuizInline() {
                     onChange={(m) => { setMessenger(m); setContactRaw(''); setValue('contact', ''); }} />
                 </div>
                 {messenger && (
-                  <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3" noValidate>
+                  <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3" noValidate>
                     <input {...register('website')} type="text" autoComplete="off" tabIndex={-1} aria-hidden
                       style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', width: 0, height: 0 }} />
                     <div>

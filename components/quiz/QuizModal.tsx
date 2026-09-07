@@ -88,6 +88,19 @@ export function QuizModal({ onClose, source }: QuizModalProps) {
   const [hasDesign,     setHasDesign]     = useState('');
   const [calculating,   setCalculating]   = useState(false);
   const [messenger,     setMessenger]     = useState<MessengerType | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  // Picking a messenger reveals the name/contact form right below the
+  // highlighted "Куда отправить расчёт?" block — on a phone that's often
+  // already below the fold, so without this the form is effectively
+  // invisible and the user has no cue to scroll down for it.
+  useEffect(() => {
+    if (!messenger) return;
+    const t = setTimeout(() => {
+      formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+    return () => clearTimeout(t);
+  }, [messenger]);
   const [privacyOpen,   setPrivacyOpen]   = useState(false);
   const [contactRaw,    setContactRaw]    = useState('');
   const calcTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -306,7 +319,7 @@ export function QuizModal({ onClose, source }: QuizModalProps) {
                     onChange={(m) => { setMessenger(m); setContactRaw(''); setValue('contact', ''); }} />
                 </div>
                 {messenger && (
-                  <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3" noValidate>
+                  <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3" noValidate>
                     <input {...register('website')} type="text" autoComplete="off" tabIndex={-1} aria-hidden
                       style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', width: 0, height: 0 }} />
                     <div>

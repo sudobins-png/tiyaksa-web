@@ -45,7 +45,7 @@ export function Hero() {
         }}
       />
 
-      <div className="relative max-w-content mx-auto px-6 flex flex-wrap gap-14 items-center pt-8 pb-14 md:pt-24 md:pb-[100px]">
+      <div className="relative max-w-content mx-auto px-6 flex flex-wrap gap-14 items-center pt-10 pb-16 md:pt-24 md:pb-[100px]">
         {/* Text block */}
         <div className="flex-1 min-w-[300px]" style={{ flexBasis: '460px' }}>
           <p className="font-semibold text-[15px] tracking-[.1em] uppercase text-sage mb-6">
@@ -91,14 +91,15 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Hero image */}
-        <div className="flex-1 min-w-[280px] relative" style={{ flexBasis: '380px', maxWidth: '460px', height: '420px' }}>
+        {/* Hero image — desktop/tablet only, per owner's request to drop it
+            on mobile rather than stack it below the text. */}
+        <div className="hidden md:block flex-1 min-w-[280px] relative" style={{ flexBasis: '380px', maxWidth: '460px', height: '420px' }}>
           <Image
             src={heroContent.heroImage}
             alt="Интерьер отремонтированной квартиры"
             fill
             priority
-            sizes="(max-width: 768px) 100vw, 460px"
+            sizes="460px"
             className="object-cover object-center rounded-[18px]"
           />
         </div>

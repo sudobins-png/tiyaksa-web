@@ -48,6 +48,11 @@ export const portfolioItems = [
     images: ['/pk-10.jpeg', '/pk-11.jpeg', '/pk-12.jpeg', '/pk-13.jpg', '/pk-14.jpg', '/pk-15.jpg'],
   },
   {
+    // Объект №168 — те же фото, что и в CaseSection.tsx (public/case/*.jpg).
+    name: 'Дизайнерский ремонт в 3-к. кв', area: '96 м²', term: '124 дня', pricePerSqm: '27 590 ₽/м²',
+    images: ['/case/1.jpg', '/case/3.jpg', '/case/6.jpg', '/case/9.jpg', '/case/11.jpg', '/case/14.jpg', '/case/17.jpg'],
+  },
+  {
     name: 'Ремонт кухни',             area: '25 м²',  term: '52 дня',  pricePerSqm: '14 600 ₽/м²',
     images: ['/pk-2.jpg', '/pk-3.jpg', '/pk-1.jpg'],
   },

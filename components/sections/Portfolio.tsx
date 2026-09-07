@@ -257,7 +257,7 @@ export function Portfolio() {
           Примеры готовых ремонтов
         </SectionHeading>
 
-        <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {portfolioItems.map((p, i) => (
             <PortfolioCard
               key={p.name}

@@ -88,10 +88,10 @@ export function PromoModal({ onClose, source }: PromoModalProps) {
         {/* Text + form */}
         <div className="overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch] px-6 sm:px-8 py-8 sm:py-10 flex-1 sm:max-w-[380px] sm:order-first">
           <h2 className="font-extrabold text-[26px] sm:text-[28px] leading-tight text-white mb-3">
-            До {deadlineLabel} скидка −12% от прайса!
+            До <span className="bg-gold text-ink px-2 py-0.5 rounded-md whitespace-nowrap">{deadlineLabel}</span> скидка −12% от прайса!
           </h2>
           <p className="text-[15px] leading-relaxed text-white/70 mb-6">
-            Хотите, посчитаем вам детальную смету с учётом скидки?
+            Посчитаем для вас смету с учётом скидки!
           </p>
 
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3" noValidate>

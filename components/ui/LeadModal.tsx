@@ -112,7 +112,7 @@ export function LeadModal({ onClose, source }: LeadModalProps) {
         </div>
 
         {/* Body */}
-        <div className="overflow-y-auto px-6 pb-6 pt-5 flex flex-col gap-4">
+        <div className="overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch] px-6 pb-6 pt-5 flex flex-col gap-4">
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
             <input {...register('website')} type="text" autoComplete="off" tabIndex={-1} aria-hidden
               style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', width: 0, height: 0 }} />
@@ -169,7 +169,7 @@ export function LeadModal({ onClose, source }: LeadModalProps) {
                 <motion.div ref={policyRef}
                   initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}
                   transition={{ duration: 0.22, ease: 'easeOut' }} className="overflow-hidden">
-                  <div className="mt-3 p-4 bg-[#f4f7f4] rounded-xl flex flex-col gap-2 text-[12px] text-subtle leading-relaxed max-h-[40dvh] overflow-y-auto">
+                  <div className="mt-3 p-4 bg-[#f4f7f4] rounded-xl flex flex-col gap-2 text-[12px] text-subtle leading-relaxed max-h-[40dvh] overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch]">
                     <p className="font-semibold text-ink text-[13px]">Политика обработки персональных данных</p>
                     <p className="text-[11px] text-muted">Дата размещения: 17 июля 2026 года</p>
                     {POLICY_PARAGRAPHS.map((p, i) => <p key={i}>{p}</p>)}

@@ -206,7 +206,7 @@ export function QuizModal({ onClose, source }: QuizModalProps) {
         </div>
 
         {/* Body */}
-        <div className="flex-1 overflow-y-auto px-6 pb-8 pt-6 min-h-0">
+        <div className="flex-1 overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch] px-6 pb-8 pt-6 min-h-0">
           <AnimatePresence mode="wait" custom={dir}>
 
             {step === 0 && (

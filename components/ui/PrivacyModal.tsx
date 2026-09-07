@@ -43,7 +43,7 @@ export function PrivacyModal({ onClose }: { onClose: () => void }) {
         </div>
 
         {/* Scrollable content */}
-        <div className="overflow-y-auto px-7 py-6 text-[14px] leading-relaxed text-subtle space-y-4">
+        <div className="overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch] px-7 py-6 text-[14px] leading-relaxed text-subtle space-y-4">
           <p className="text-[13px] text-muted">Дата размещения на Сайте «17» июля 2026 года</p>
 
           <p>Настоящее Пользовательское соглашение является публичным документом администратора сайта tiyaksa.ru (далее – Администратор) и определяет порядок использования посетителями (далее — Посетитель) сайта tiyaksa.ru, принадлежащего Администратору, и обработки, хранения и иного использования информации, получаемой Администратором от Посетителя на сайте Администратора. Администратор сайта может изменить в любой момент данное Пользовательское соглашение без уведомления Посетителя сайта.</p>

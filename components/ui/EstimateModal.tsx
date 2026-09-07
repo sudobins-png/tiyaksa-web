@@ -141,7 +141,7 @@ export function EstimateModal({ onClose }: EstimateModalProps) {
           </button>
         </div>
 
-        <div className="overflow-y-auto px-6 pb-6 pt-5">
+        <div className="overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch] px-6 pb-6 pt-5">
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
             <input {...register('website')} type="text" autoComplete="off" tabIndex={-1} aria-hidden
               style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', width: 0, height: 0 }} />

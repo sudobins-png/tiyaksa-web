@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { GridOverlay } from '@/components/ui/GridOverlay';
 import { LeadModal } from '@/components/ui/LeadModal';
+import { QuizModal } from '@/components/quiz/QuizModal';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
 import { heroContent } from '@/data/content';
 
@@ -25,6 +26,7 @@ function PriceBadge({ className = '' }: { className?: string }) {
 
 export function Hero() {
   const [modalOpen, setModalOpen] = useState(false);
+  const [quizOpen, setQuizOpen] = useState(false);
 
   return (
     <section className="relative overflow-hidden bg-forest">
@@ -71,13 +73,14 @@ export function Hero() {
           </ul>
 
           <div className="flex flex-col sm:flex-row gap-[14px]">
-            <a
-              href="#prices"
-              className="bg-gold hover:bg-gold-dark text-ink font-bold text-[17px] px-[30px] py-[12px] rounded-[14px] shadow-gold-glow transition-all duration-200 hover:-translate-y-0.5 text-center flex flex-col items-center"
+            <button
+              type="button"
+              onClick={() => setQuizOpen(true)}
+              className="bg-gold hover:bg-gold-dark text-ink font-bold text-[17px] px-[30px] py-[12px] rounded-[14px] shadow-gold-glow transition-all duration-200 hover:-translate-y-0.5 text-center flex flex-col items-center cursor-pointer border-none"
             >
               {heroContent.ctaPrimary}
               <span className="text-[11px] font-light opacity-55 leading-none mt-[3px]">за 60 сек</span>
-            </a>
+            </button>
             <button
               type="button"
               onClick={() => setModalOpen(true)}
@@ -102,6 +105,7 @@ export function Hero() {
       </div>
 
       {modalOpen && <LeadModal onClose={() => setModalOpen(false)} source={LEAD_SOURCES.hero} />}
+      {quizOpen && <QuizModal onClose={() => setQuizOpen(false)} source={LEAD_SOURCES.heroPricingCta} />}
     </section>
   );
 }

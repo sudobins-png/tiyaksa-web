@@ -4,10 +4,13 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Logo } from '@/components/ui/Logo';
+import { QuizModal } from '@/components/quiz/QuizModal';
+import { LEAD_SOURCES } from '@/lib/config/leadSources';
 import { navItems, siteConfig } from '@/data/content';
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [quizOpen, setQuizOpen] = useState(false);
 
   // Close mobile menu on scroll
   useEffect(() => {
@@ -44,12 +47,13 @@ export function Header() {
           <a href={siteConfig.phoneHref} className="text-forest font-bold text-base whitespace-nowrap hover:text-grove transition-colors">
             {siteConfig.phone}
           </a>
-          <a
-            href="/#prices"
-            className="bg-gold hover:bg-gold-dark text-ink font-bold text-[15px] px-[22px] py-3 rounded-xl whitespace-nowrap transition-all duration-200 shadow-gold-glow hover:-translate-y-px"
+          <button
+            type="button"
+            onClick={() => setQuizOpen(true)}
+            className="bg-gold hover:bg-gold-dark text-ink font-bold text-[15px] px-[22px] py-3 rounded-xl whitespace-nowrap transition-all duration-200 shadow-gold-glow hover:-translate-y-px cursor-pointer border-none"
           >
             Рассчитать стоимость
-          </a>
+          </button>
         </div>
 
         {/* Phone number — tablet only (md–lg), pushed to the right */}
@@ -122,16 +126,18 @@ export function Header() {
               </a>
               <span className="text-muted text-[13px] mt-0.5">{siteConfig.consultantLabel}</span>
             </div>
-            <a
-              href="/#cta"
-              onClick={() => setMenuOpen(false)}
-              className="bg-gold text-ink font-bold text-base py-[15px] rounded-xl text-center mt-1.5"
+            <button
+              type="button"
+              onClick={() => { setMenuOpen(false); setQuizOpen(true); }}
+              className="bg-gold text-ink font-bold text-base py-[15px] rounded-xl text-center mt-1.5 cursor-pointer border-none"
             >
               Рассчитать стоимость
-            </a>
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {quizOpen && <QuizModal onClose={() => setQuizOpen(false)} source={LEAD_SOURCES.headerCta} />}
     </header>
   );
 }

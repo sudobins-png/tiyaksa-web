@@ -17,12 +17,14 @@ export const LEAD_SOURCES = {
   estimateAudit:  'estimate-audit',
   priceCalculator: 'price-calculator',
   priceTeaser:     'price-teaser',
+  heroPricingCta: 'hero-pricing-cta',
+  headerCta:      'header-cta',
 } as const;
 
 export type LeadSource = (typeof LEAD_SOURCES)[keyof typeof LEAD_SOURCES];
 
 export const LEAD_SOURCE_LABELS: Record<LeadSource, string> = {
-  [LEAD_SOURCES.hero]:           'Главный экран — кнопка «Узнать стоимость»',
+  [LEAD_SOURCES.hero]:           'Главный экран — кнопка «Бесплатный замер»',
   [LEAD_SOURCES.calculator]:     'Калькулятор стоимости',
   [LEAD_SOURCES.quizManager]:    'Блок «Личный управляющий»',
   [LEAD_SOURCES.ctaForm]:        'Форма «Обсудим ваш объект»',
@@ -32,6 +34,8 @@ export const LEAD_SOURCE_LABELS: Record<LeadSource, string> = {
   [LEAD_SOURCES.estimateAudit]:  'Форма «Уже делали расчёт» — загрузка сметы',
   [LEAD_SOURCES.priceCalculator]: 'Страница /price — блок «Быстрый расчёт»',
   [LEAD_SOURCES.priceTeaser]:     'Главная — тизер прайс-листа',
+  [LEAD_SOURCES.heroPricingCta]:  'Главный экран — кнопка «Рассчитать стоимость»',
+  [LEAD_SOURCES.headerCta]:       'Хедер — кнопка «Рассчитать стоимость»',
 };
 
 export function leadSourceLabel(source: string | undefined | null): string {

@@ -1,15 +1,16 @@
 'use client';
 
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
-import { QuizModal } from './QuizModal';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
+import { useQuizStore } from '@/stores/quizStore';
 
 const SESSION_KEY     = 'tiyaksa_quiz_shown';
 const IDLE_TIMEOUT_MS = 10_000; // мобайл: 10 с бездействия
 
 export function ExitIntentQuiz() {
-  const [open, setOpen] = useState(false);
+  const open      = useQuizStore((s) => s.open);
+  const openQuiz  = useQuizStore((s) => s.openQuiz);
   const shownRef        = useRef(false);
   const openRef         = useRef(false); // актуальное состояние open без пересоздания хендлеров
   const idleTimerRef    = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -19,17 +20,18 @@ export function ExitIntentQuiz() {
   const pathname = usePathname();
   const excluded = pathname?.startsWith('/quiz') ?? false;
 
-  // синхронизируем openRef с open
+  // синхронизируем openRef с open (общий стор — открыт может быть и другой
+  // триггер, не только этот, так что тоже считаем "уже открыт")
   useEffect(() => { openRef.current = open; }, [open]);
 
   const maybeShow = useCallback(() => {
     if (shownRef.current) return;
-    if (openRef.current) return; // уже открыт
+    if (openRef.current) return; // уже открыт (этот или любой другой попап квиза)
     try { if (sessionStorage.getItem(SESSION_KEY)) return; } catch { /* ignore */ }
     shownRef.current = true;
     try { sessionStorage.setItem(SESSION_KEY, '1'); } catch { /* ignore */ }
-    setOpen(true);
-  }, []);
+    openQuiz(LEAD_SOURCES.quizExitIntent);
+  }, [openQuiz]);
 
   useEffect(() => {
     if (excluded) return;
@@ -70,6 +72,7 @@ export function ExitIntentQuiz() {
     };
   }, [maybeShow, excluded]);
 
-  if (!open) return null;
-  return <QuizModal onClose={() => setOpen(false)} source={LEAD_SOURCES.quizExitIntent} />;
+  // Pure trigger — the actual popup is QuizModalHost, mounted once at the
+  // root layout and shared by every trigger (see stores/quizStore.ts).
+  return null;
 }

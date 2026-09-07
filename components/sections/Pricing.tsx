@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { pricingTiers, type PricingTier } from '@/data/pricing';
 import { motion, AnimatePresence } from 'framer-motion';
-import { QuizModal } from '@/components/quiz/QuizModal';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
+import { useQuizStore } from '@/stores/quizStore';
 
 const SHOW_LIMIT = 5;
 
@@ -125,7 +125,7 @@ function PricingCard({ tier, featured = false, onCta }: { tier: PricingTier; fea
 }
 
 export function Pricing() {
-  const [modalOpen, setModalOpen] = useState(false);
+  const openQuiz = useQuizStore((s) => s.openQuiz);
 
   return (
     <section id="prices" className="bg-site border-t border-[#eef1ee]">
@@ -139,14 +139,12 @@ export function Pricing() {
           style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}
         >
           {pricingTiers.map((tier) => (
-            <PricingCard key={tier.name} tier={tier} featured={tier.featured} onCta={() => setModalOpen(true)} />
+            <PricingCard key={tier.name} tier={tier} featured={tier.featured} onCta={() => openQuiz(LEAD_SOURCES.quizPricingCta)} />
           ))}
         </div>
 
         <p className="mt-7 text-muted text-[15px]">Точная стоимость — после бесплатного замера.</p>
       </div>
-
-      {modalOpen && <QuizModal onClose={() => setModalOpen(false)} source={LEAD_SOURCES.quizPricingCta} />}
     </section>
   );
 }

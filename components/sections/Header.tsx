@@ -4,13 +4,13 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Logo } from '@/components/ui/Logo';
-import { QuizModal } from '@/components/quiz/QuizModal';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
 import { navItems, siteConfig } from '@/data/content';
+import { useQuizStore } from '@/stores/quizStore';
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [quizOpen, setQuizOpen] = useState(false);
+  const openQuiz = useQuizStore((s) => s.openQuiz);
 
   // Close mobile menu on scroll
   useEffect(() => {
@@ -49,7 +49,7 @@ export function Header() {
           </a>
           <button
             type="button"
-            onClick={() => setQuizOpen(true)}
+            onClick={() => openQuiz(LEAD_SOURCES.headerCta)}
             className="bg-gold hover:bg-gold-dark text-ink font-bold text-[15px] px-[22px] py-3 rounded-xl whitespace-nowrap transition-all duration-200 shadow-gold-glow hover:-translate-y-px cursor-pointer border-none"
           >
             Рассчитать стоимость
@@ -128,7 +128,7 @@ export function Header() {
             </div>
             <button
               type="button"
-              onClick={() => { setMenuOpen(false); setQuizOpen(true); }}
+              onClick={() => { setMenuOpen(false); openQuiz(LEAD_SOURCES.headerCta); }}
               className="bg-gold text-ink font-bold text-base py-[15px] rounded-xl text-center mt-1.5 cursor-pointer border-none"
             >
               Рассчитать стоимость
@@ -136,8 +136,6 @@ export function Header() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {quizOpen && <QuizModal onClose={() => setQuizOpen(false)} source={LEAD_SOURCES.headerCta} />}
     </header>
   );
 }

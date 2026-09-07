@@ -4,6 +4,7 @@ import Script from 'next/script';
 import { Toaster } from '@/components/ui/Toaster';
 import { CookieBanner } from '@/components/ui/CookieBanner';
 import { ExitIntentQuiz } from '@/components/quiz/ExitIntentQuiz';
+import { QuizModalHost } from '@/components/quiz/QuizModalHost';
 import { UtmCapture } from '@/components/ui/UtmCapture';
 import './globals.css';
 
@@ -64,6 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Toaster />
         <CookieBanner />
         <ExitIntentQuiz />
+        <QuizModalHost />
       </body>
     </html>
   );

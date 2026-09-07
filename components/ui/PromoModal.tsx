@@ -11,6 +11,7 @@ import { useLockBodyScroll } from '@/hooks/useLockBodyScroll';
 import { getPromoDeadline, formatPromoDate } from '@/lib/utils/promoDeadline';
 import { PromoBadge3D } from '@/components/ui/PromoBadge3D';
 import { PrivacyModal } from '@/components/ui/PrivacyModal';
+import { GridOverlay } from '@/components/ui/GridOverlay';
 
 interface PromoModalProps {
   onClose: () => void;
@@ -81,7 +82,8 @@ export function PromoModal({ onClose, source }: PromoModalProps) {
         {/* Visual — first in DOM so it's the top element on the mobile
             stacked layout (grabs attention immediately), pushed to the
             right column via sm:order-last once side-by-side on desktop. */}
-        <div className="flex items-center justify-center sm:order-last flex-1 bg-[#143d14] px-8 py-8 sm:py-10">
+        <div className="relative flex items-center justify-center sm:order-last flex-1 bg-forest px-8 py-8 sm:py-10">
+          <GridOverlay />
           <PromoBadge3D />
         </div>
 

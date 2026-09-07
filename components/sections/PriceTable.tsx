@@ -21,11 +21,15 @@ function PriceCell({ item, showDiscount }: { item: PriceItem; showDiscount: bool
     return <>{prefix}{formatMoney(item.price)}</>;
   }
   const discounted = item.price * (1 - DISCOUNT_RATE);
+  // Fixed-width slots on both sides of the separator (rather than sizing to
+  // content) so "|" lands at the same x position on every row regardless of
+  // how many digits each price has — a right-aligned inline string would
+  // drift row to row since the struck price varies in length.
   return (
-    <span className="whitespace-nowrap">
-      <span className="line-through text-muted font-normal">{prefix}{formatMoney(item.price)}</span>
-      {' | '}
-      <span className="text-sage">{prefix}{formatMoney(discounted)}</span>
+    <span className="inline-grid grid-cols-[86px_10px_86px] items-baseline whitespace-nowrap">
+      <span className="line-through text-muted font-normal text-right">{prefix}{formatMoney(item.price)}</span>
+      <span className="text-muted text-center">|</span>
+      <span className="text-sage text-left">{prefix}{formatMoney(discounted)}</span>
     </span>
   );
 }

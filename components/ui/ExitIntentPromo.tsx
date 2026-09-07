@@ -1,37 +1,45 @@
 'use client';
 
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
 import { useQuizStore } from '@/stores/quizStore';
+import { PromoModal } from '@/components/ui/PromoModal';
 
-const SESSION_KEY     = 'tiyaksa_quiz_shown';
+const SESSION_KEY     = 'tiyaksa_promo_shown';
 const IDLE_TIMEOUT_MS = 10_000; // мобайл: 10 с бездействия
 
-export function ExitIntentQuiz() {
-  const open      = useQuizStore((s) => s.open);
-  const openQuiz  = useQuizStore((s) => s.openQuiz);
-  const shownRef        = useRef(false);
-  const openRef         = useRef(false); // актуальное состояние open без пересоздания хендлеров
-  const idleTimerRef    = useRef<ReturnType<typeof setTimeout> | null>(null);
+/**
+ * Same exit-intent (desktop mouse leaving toward the address bar) and
+ * idle-timeout (mobile) triggers this used to open the quiz popup with —
+ * now opens the -12% promo instead (see PromoModal). Kept as its own local
+ * `open` state (rather than routing through the shared quizStore like
+ * Header/Hero/Pricing do) since this is the only trigger for this modal;
+ * it still checks the quiz store so it won't pop the promo on top of an
+ * already-open quiz popup.
+ */
+export function ExitIntentPromo() {
+  const [open, setOpen] = useState(false);
+  const quizOpen = useQuizStore((s) => s.open);
+  const shownRef     = useRef(false);
+  const quizOpenRef  = useRef(false);
+  const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // На /quiz страница уже целиком — квиз; всплывающая копия поверх неё
-  // только путает и дублирует форму, которую пользователь и так видит.
+  // На /quiz страница уже целиком — квиз; всплывающий попап поверх неё
+  // только путает.
   const pathname = usePathname();
   const excluded = pathname?.startsWith('/quiz') ?? false;
 
-  // синхронизируем openRef с open (общий стор — открыт может быть и другой
-  // триггер, не только этот, так что тоже считаем "уже открыт")
-  useEffect(() => { openRef.current = open; }, [open]);
+  useEffect(() => { quizOpenRef.current = quizOpen; }, [quizOpen]);
 
   const maybeShow = useCallback(() => {
     if (shownRef.current) return;
-    if (openRef.current) return; // уже открыт (этот или любой другой попап квиза)
+    if (quizOpenRef.current) return; // не показываем поверх уже открытого квиза
     try { if (sessionStorage.getItem(SESSION_KEY)) return; } catch { /* ignore */ }
     shownRef.current = true;
     try { sessionStorage.setItem(SESSION_KEY, '1'); } catch { /* ignore */ }
-    openQuiz(LEAD_SOURCES.quizExitIntent);
-  }, [openQuiz]);
+    setOpen(true);
+  }, []);
 
   useEffect(() => {
     if (excluded) return;
@@ -72,7 +80,6 @@ export function ExitIntentQuiz() {
     };
   }, [maybeShow, excluded]);
 
-  // Pure trigger — the actual popup is QuizModalHost, mounted once at the
-  // root layout and shared by every trigger (see stores/quizStore.ts).
-  return null;
+  if (!open) return null;
+  return <PromoModal onClose={() => setOpen(false)} source={LEAD_SOURCES.quizExitIntent} />;
 }

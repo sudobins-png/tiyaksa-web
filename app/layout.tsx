@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google';
 import Script from 'next/script';
 import { Toaster } from '@/components/ui/Toaster';
 import { CookieBanner } from '@/components/ui/CookieBanner';
-import { ExitIntentQuiz } from '@/components/quiz/ExitIntentQuiz';
+import { ExitIntentPromo } from '@/components/ui/ExitIntentPromo';
 import { QuizModalHost } from '@/components/quiz/QuizModalHost';
 import { UtmCapture } from '@/components/ui/UtmCapture';
 import './globals.css';
@@ -64,7 +64,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <UtmCapture />
         <Toaster />
         <CookieBanner />
-        <ExitIntentQuiz />
+        <ExitIntentPromo />
         <QuizModalHost />
       </body>
     </html>

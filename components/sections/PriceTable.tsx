@@ -2,12 +2,32 @@
 
 import { Fragment, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { PRICE_LIST } from '@/data/priceList';
+import { PRICE_LIST, type PriceItem } from '@/data/priceList';
 
-function formatPrice(item: { price?: number; approxFrom?: boolean }): string {
-  if (item.price === undefined) return '';
+// Site-run promotion (see PromoModal) — 12% off every price on this page
+// except Клининг (a separate vendor, not part of our own price list).
+const DISCOUNT_RATE = 0.12;
+
+function formatMoney(n: number): string {
+  return `${Math.round(n).toLocaleString('ru-RU')} ₽`;
+}
+
+function PriceCell({ item, showDiscount }: { item: PriceItem; showDiscount: boolean }) {
+  if (item.price === undefined) {
+    return <span className="text-muted font-normal italic">уточняется</span>;
+  }
   const prefix = item.approxFrom ? 'от ' : '';
-  return `${prefix}${item.price.toLocaleString('ru-RU')} ₽`;
+  if (!showDiscount || item.price === 0) {
+    return <>{prefix}{formatMoney(item.price)}</>;
+  }
+  const discounted = item.price * (1 - DISCOUNT_RATE);
+  return (
+    <span className="whitespace-nowrap">
+      <span className="line-through text-muted font-normal">{prefix}{formatMoney(item.price)}</span>
+      {' | '}
+      <span className="text-sage">{prefix}{formatMoney(discounted)}</span>
+    </span>
+  );
 }
 
 export function PriceTable() {
@@ -23,6 +43,7 @@ export function PriceTable() {
   }, [searchParams]);
 
   const category = PRICE_LIST.find((c) => c.slug === active) ?? PRICE_LIST[0];
+  const showDiscount = category.slug !== 'cleaning';
 
   return (
     <div>
@@ -63,11 +84,11 @@ export function PriceTable() {
               <th className="text-left text-[12px] tracking-[0.08em] uppercase text-muted font-semibold pb-3 border-b border-[#eef1ee]">
                 Работа
               </th>
-              <th className="text-left text-[12px] tracking-[0.08em] uppercase text-muted font-semibold pb-3 border-b border-[#eef1ee]">
-                Ед. изм.
-              </th>
               <th className="text-right text-[12px] tracking-[0.08em] uppercase text-muted font-semibold pb-3 border-b border-[#eef1ee]">
                 Цена
+              </th>
+              <th className="text-left text-[12px] tracking-[0.08em] uppercase text-muted font-semibold pb-3 pl-4 border-b border-[#eef1ee]">
+                Ед. изм.
               </th>
             </tr>
           </thead>
@@ -86,14 +107,10 @@ export function PriceTable() {
                   )}
                   <tr key={item.name}>
                     <td className="py-3.5 border-b border-[#eef1ee] text-[15px] text-ink">{item.name}</td>
-                    <td className="py-3.5 border-b border-[#eef1ee] text-[15px] text-muted">{item.unit}</td>
                     <td className="py-3.5 border-b border-[#eef1ee] text-[15px] text-ink font-semibold text-right whitespace-nowrap">
-                      {item.price === undefined ? (
-                        <span className="text-muted font-normal italic">уточняется</span>
-                      ) : (
-                        formatPrice(item)
-                      )}
+                      <PriceCell item={item} showDiscount={showDiscount} />
                     </td>
+                    <td className="py-3.5 border-b border-[#eef1ee] text-[15px] text-muted pl-4">{item.unit}</td>
                   </tr>
                 </Fragment>
               );

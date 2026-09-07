@@ -30,7 +30,7 @@ export const LEAD_SOURCE_LABELS: Record<LeadSource, string> = {
   [LEAD_SOURCES.ctaForm]:        'Форма «Обсудим ваш объект»',
   [LEAD_SOURCES.quizPage]:       'Страница расчёта стоимости (квиз)',
   [LEAD_SOURCES.quizPricingCta]: 'Блок «Стоимость ремонта» — кнопка в тарифе',
-  [LEAD_SOURCES.quizExitIntent]: 'Всплывающий квиз при уходе с сайта',
+  [LEAD_SOURCES.quizExitIntent]: 'Попап со скидкой -12% (уход с сайта / бездействие)',
   [LEAD_SOURCES.estimateAudit]:  'Форма «Уже делали расчёт» — загрузка сметы',
   [LEAD_SOURCES.priceCalculator]: 'Страница /price — блок «Быстрый расчёт»',
   [LEAD_SOURCES.priceTeaser]:     'Главная — тизер прайс-листа',

@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { z } from 'zod';
 import { useToastStore } from '@/stores/toastStore';
 import { PrivacyModal } from '@/components/ui/PrivacyModal';
-import { MessengerSelector, formatContact, MESSENGERS, type MessengerType } from '@/components/ui/MessengerSelector';
+import { MessengerSelector, nextContactValue, MESSENGERS, type MessengerType } from '@/components/ui/MessengerSelector';
 import { CalculatingStep } from '@/components/quiz/CalculatingStep';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
 import { getStoredUtmParams } from '@/lib/utils/utm';
@@ -107,7 +107,7 @@ export function QuizInline() {
   const back = () => { setDir(-1); setStep((s) => s - 1); };
 
   const onContactChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const formatted = formatContact(e.target.value, messenger!);
+    const formatted = nextContactValue(contactRaw, e.target.value, messenger!);
     setContactRaw(formatted);
     setValue('contact', formatted, { shouldValidate: true });
   };

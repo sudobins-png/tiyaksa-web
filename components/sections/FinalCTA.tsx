@@ -8,7 +8,7 @@ import { leadSchema, type LeadValues } from '@/lib/validators/contact';
 import { calcAptTypes, calcWorkTypes } from '@/data/pricing';
 import { PrivacyModal } from '@/components/ui/PrivacyModal';
 import { useToastStore } from '@/stores/toastStore';
-import { MessengerSelector, formatContact, MESSENGERS, type MessengerType } from '@/components/ui/MessengerSelector';
+import { MessengerSelector, nextContactValue, MESSENGERS, type MessengerType } from '@/components/ui/MessengerSelector';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
 import { getStoredUtmParams } from '@/lib/utils/utm';
@@ -47,7 +47,7 @@ export function FinalCTA() {
   const messageLen = watch('message')?.length ?? 0;
 
   const onContactChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const f = formatContact(e.target.value, messenger);
+    const f = nextContactValue(contactRaw, e.target.value, messenger);
     setContactRaw(f);
     setValue('phone', f, { shouldValidate: true });
   };

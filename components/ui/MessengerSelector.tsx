@@ -52,6 +52,31 @@ export function formatContact(raw: string, messenger: MessengerType): string {
   return formatPhone(raw);
 }
 
+/**
+ * Backspace-safe version of formatContact for a controlled masked input.
+ * Naively reformatting on every keystroke breaks Backspace at the punctuation
+ * the mask itself inserts: deleting a "-" (not a digit) leaves the digit
+ * count unchanged, so re-running it through formatPhone reconstructs the
+ * exact same string — the separator gets typed right back and the field
+ * visibly doesn't change, so one Backspace press can silently do nothing.
+ * Users then need an extra press per separator crossed, which reads as
+ * "can't delete all the digits". Detects that no-op case (a deletion that
+ * didn't reduce the digit count) and drops one more digit so every Backspace
+ * removes exactly one digit, matching what the user sees happen.
+ */
+export function nextContactValue(prev: string, next: string, messenger: MessengerType): string {
+  if (messenger === 'telegram' && (next.startsWith('@') || (next.length > 0 && !/^\+?\d/.test(next)))) {
+    return next;
+  }
+  const prevDigits = prev.replace(/\D/g, '');
+  let nextDigits = next.replace(/\D/g, '');
+  const isDeleting = next.length < prev.length;
+  if (isDeleting && nextDigits.length === prevDigits.length && nextDigits.length > 0) {
+    nextDigits = nextDigits.slice(0, -1);
+  }
+  return formatPhone(nextDigits);
+}
+
 interface MessengerSelectorProps {
   value: MessengerType | null;
   onChange: (m: MessengerType) => void;

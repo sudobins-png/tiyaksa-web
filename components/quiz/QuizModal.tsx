@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { z } from 'zod';
 import { useToastStore } from '@/stores/toastStore';
 import { PrivacyModal } from '@/components/ui/PrivacyModal';
-import { MessengerSelector, formatContact, MESSENGERS, type MessengerType } from '@/components/ui/MessengerSelector';
+import { MessengerSelector, nextContactValue, MESSENGERS, type MessengerType } from '@/components/ui/MessengerSelector';
 import { CalculatingStep } from '@/components/quiz/CalculatingStep';
 import type { LeadSource } from '@/lib/config/leadSources';
 import { getStoredUtmParams } from '@/lib/utils/utm';
@@ -126,7 +126,7 @@ export function QuizModal({ onClose, source }: QuizModalProps) {
   };
 
   const onContactChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const formatted = formatContact(e.target.value, messenger!);
+    const formatted = nextContactValue(contactRaw, e.target.value, messenger!);
     setContactRaw(formatted);
     setValue('contact', formatted, { shouldValidate: true });
   };
@@ -301,8 +301,8 @@ export function QuizModal({ onClose, source }: QuizModalProps) {
                   {colorTone     && <Chip>{colorTone}</Chip>}
                   {hasDesign     && <Chip>{hasDesign}</Chip>}
                 </div>
-                <div className="mb-5">
-                  <p className="text-[13px] font-bold uppercase tracking-[.08em] text-forest mb-3">
+                <div className="mb-5 bg-grove-mint rounded-2xl p-4 sm:p-5 border-2 border-grove/20">
+                  <p className="text-[18px] sm:text-[20px] font-extrabold text-forest mb-3">
                     Куда отправить расчёт?
                   </p>
                   <MessengerSelector value={messenger}

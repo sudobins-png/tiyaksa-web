@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import { leadSchema, type LeadValues } from '@/lib/validators/contact';
 import { useToastStore } from '@/stores/toastStore';
-import { MessengerSelector, formatContact, MESSENGERS, type MessengerType } from '@/components/ui/MessengerSelector';
+import { MessengerSelector, nextContactValue, MESSENGERS, type MessengerType } from '@/components/ui/MessengerSelector';
 import { getStoredUtmParams } from '@/lib/utils/utm';
 
 const POLICY_PARAGRAPHS = [
@@ -49,7 +49,7 @@ export function LeadModal({ onClose, source }: LeadModalProps) {
   }, [handleClose]);
 
   const onContactChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const f = formatContact(e.target.value, messenger);
+    const f = nextContactValue(contactRaw, e.target.value, messenger);
     setContactRaw(f);
     setValue('phone', f, { shouldValidate: true });
   };

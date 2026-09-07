@@ -4,14 +4,13 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { leadSchema, type LeadValues } from '@/lib/validators/contact';
 import { useToastStore } from '@/stores/toastStore';
 import { getStoredUtmParams } from '@/lib/utils/utm';
 import { useLockBodyScroll } from '@/hooks/useLockBodyScroll';
 import { getPromoDeadline, formatPromoDate } from '@/lib/utils/promoDeadline';
-import { PromoBadge3D } from '@/components/ui/PromoBadge3D';
 import { PrivacyModal } from '@/components/ui/PrivacyModal';
-import { GridOverlay } from '@/components/ui/GridOverlay';
 
 interface PromoModalProps {
   onClose: () => void;
@@ -82,9 +81,15 @@ export function PromoModal({ onClose, source }: PromoModalProps) {
         {/* Visual — first in DOM so it's the top element on the mobile
             stacked layout (grabs attention immediately), pushed to the
             right column via sm:order-last once side-by-side on desktop. */}
-        <div className="relative flex items-center justify-center sm:order-last flex-1 bg-forest px-8 py-8 sm:py-10">
-          <GridOverlay />
-          <PromoBadge3D />
+        <div className="relative sm:order-last flex-1 min-h-[220px] sm:min-h-0 bg-forest overflow-hidden">
+          <Image
+            src="/12.jpg"
+            alt="Мастер ТиЯКСа.Ремонт со скидкой -12%"
+            fill
+            sizes="(max-width: 640px) 100vw, 380px"
+            className="object-cover"
+            priority
+          />
         </div>
 
         {/* Text + form */}

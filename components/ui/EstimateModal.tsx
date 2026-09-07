@@ -17,6 +17,7 @@ import {
   formatBytes,
 } from '@/lib/config/upload';
 import { getStoredUtmParams } from '@/lib/utils/utm';
+import { useLockBodyScroll } from '@/hooks/useLockBodyScroll';
 
 const schema = z.object({
   name:    z.string().min(2, 'Введите имя (минимум 2 символа)'),
@@ -43,11 +44,7 @@ export function EstimateModal({ onClose }: EstimateModalProps) {
 
   const handleClose = useCallback(onClose, [onClose]);
 
-  useEffect(() => {
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = prev; };
-  }, []);
+  useLockBodyScroll();
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') handleClose(); };

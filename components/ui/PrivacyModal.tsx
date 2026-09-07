@@ -2,17 +2,15 @@
 
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useLockBodyScroll } from '@/hooks/useLockBodyScroll';
 
 export function PrivacyModal({ onClose }: { onClose: () => void }) {
+  useLockBodyScroll();
+
   useEffect(() => {
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', onKey);
-    return () => {
-      document.body.style.overflow = prev;
-      window.removeEventListener('keydown', onKey);
-    };
+    return () => window.removeEventListener('keydown', onKey);
   }, [onClose]);
 
   return (

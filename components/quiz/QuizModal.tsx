@@ -12,6 +12,7 @@ import { MessengerSelector, nextContactValue, MESSENGERS, type MessengerType } f
 import { CalculatingStep } from '@/components/quiz/CalculatingStep';
 import type { LeadSource } from '@/lib/config/leadSources';
 import { getStoredUtmParams } from '@/lib/utils/utm';
+import { useLockBodyScroll } from '@/hooks/useLockBodyScroll';
 
 const OBJECT_TYPE_OPTIONS = [
   { label: 'Новостройка',      photo: '/quiz/novostroyka.jpg'      },
@@ -100,11 +101,7 @@ export function QuizModal({ onClose, source }: QuizModalProps) {
 
   useEffect(() => () => { if (calcTimer.current) clearTimeout(calcTimer.current); }, []);
 
-  useEffect(() => {
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = prev; };
-  }, []);
+  useLockBodyScroll();
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') handleClose(); };

@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { portfolioItems } from '@/data/content';
+import { portfolioItems, type PortfolioItem } from '@/data/content';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 
 /* ── Lightbox ────────────────────────────────────────────────────── */
@@ -13,7 +13,10 @@ interface LightboxProps {
   onClose: () => void;
 }
 
-function Lightbox({ images, startIndex, onClose }: LightboxProps) {
+/** Exported for reuse by SegmentCase — the single-item case snippet on the
+ * commercial landing pages reuses this same lightbox rather than rolling
+ * its own. */
+export function Lightbox({ images, startIndex, onClose }: LightboxProps) {
   const [idx, setIdx] = useState(startIndex);
   const touchStartX = useRef<number | null>(null);
 
@@ -127,11 +130,12 @@ function Lightbox({ images, startIndex, onClose }: LightboxProps) {
 
 /* ── Card slider ─────────────────────────────────────────────────── */
 interface CardProps {
-  item: typeof portfolioItems[number];
+  item: PortfolioItem;
   onOpen: (idx: number) => void;
 }
 
-function PortfolioCard({ item, onOpen }: CardProps) {
+/** Exported for reuse by SegmentCase (see Lightbox above). */
+export function PortfolioCard({ item, onOpen }: CardProps) {
   const [idx, setIdx] = useState(0);
   const touchStartX = useRef<number | null>(null);
   const { images } = item;

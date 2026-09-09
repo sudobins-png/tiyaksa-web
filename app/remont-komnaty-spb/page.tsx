@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { CommercialPage } from '@/components/sections/CommercialPage';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
+import { portfolioItems } from '@/data/content';
 
 const PATH = '/remont-komnaty-spb';
 
@@ -40,6 +41,11 @@ export default function Page() {
       h1="Ремонт комнаты в Санкт-Петербурге"
       serviceName="Ремонт комнаты в квартире"
       serviceDescription="Ремонт отдельной комнаты в квартире в Санкт-Петербурге без демонтажа и работ в остальной квартире — с фиксированной сметой, гарантией 3 года и видеоотчётом по пятницам."
+      segmentCase={{
+        heading: 'Пример проекта с индивидуальной проработкой комнат',
+        subtitle: 'В этом проекте у спальни, кабинета и гостиной — свой дизайн и свой объём работ в рамках общего ремонта. Так же подходим и к ремонту одной отдельной комнаты.',
+        item: portfolioItems[1],
+      }}
       calculatorHeading="Рассчитать ремонт комнаты"
       calculatorSource={LEAD_SOURCES.landingRoom}
       faqItems={FAQ_ITEMS}

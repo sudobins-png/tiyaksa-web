@@ -2,6 +2,11 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { Header } from '@/components/sections/Header';
 import { Footer } from '@/components/sections/Footer';
+import { Stats } from '@/components/sections/Stats';
+import { WhyUs } from '@/components/sections/WhyUs';
+import { Manager } from '@/components/sections/Manager';
+import { Reviews } from '@/components/sections/Reviews';
+import { SegmentCase } from '@/components/sections/SegmentCase';
 import { PriceTable } from '@/components/sections/PriceTable';
 import { Calculator } from '@/components/sections/Calculator';
 import { FAQ } from '@/components/sections/FAQ';
@@ -9,6 +14,7 @@ import { ServiceJsonLd } from '@/components/seo/ServiceJsonLd';
 import { FaqJsonLd } from '@/components/seo/FaqJsonLd';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
 import { pricingTiers } from '@/data/pricing';
+import { portfolioItems } from '@/data/content';
 
 const PRICE_FAQ_ITEMS = [
   {
@@ -61,7 +67,7 @@ export default function PricePage() {
       <FaqJsonLd items={PRICE_FAQ_ITEMS} />
 
       <main style={{ paddingTop: '71px' }} className="min-h-dvh bg-site">
-        <div className="max-w-content mx-auto px-6 py-14 lg:py-20">
+        <div className="max-w-content mx-auto px-6 pt-14 lg:pt-20">
           <h1 className="m-0 mb-12 lg:mb-14 font-extrabold text-[28px] sm:text-[40px] text-ink tracking-tight leading-tight">
             Цены на ремонт квартир в Санкт-Петербурге
           </h1>
@@ -72,7 +78,13 @@ export default function PricePage() {
               Стоимость зависит от трёх вещей: площади квартиры, вида ремонта (косметический, капитальный или дизайнерский) и состояния объекта — новостройка с предчистовой отделкой обходится дешевле вторички, где сначала нужно демонтировать старую отделку. Все объёмы и материалы фиксируются в смете до начала работ — цена в договоре не меняется, доплата возможна только по отдельно подписанному соглашению.
             </p>
           </div>
+        </div>
 
+        <div className="py-10 md:py-12">
+          <Stats />
+        </div>
+
+        <div className="max-w-content mx-auto px-6 pb-14 lg:pb-20">
           <Suspense fallback={null}>
             <PriceTable />
           </Suspense>
@@ -124,7 +136,18 @@ export default function PricePage() {
         </div>
       </div>
 
+      <SegmentCase
+        heading="Полный цикл ремонта под ключ"
+        subtitle="124 м², 190 дней — наглядный пример объекта, где смета была зафиксирована на старте и не менялась до сдачи."
+        item={portfolioItems[0]}
+      />
+
+      <WhyUs />
+
       <Calculator heading="Калькулятор ремонта квартиры" source={LEAD_SOURCES.priceCalculator} />
+
+      <Manager />
+      <Reviews />
 
       <FAQ items={PRICE_FAQ_ITEMS} />
 

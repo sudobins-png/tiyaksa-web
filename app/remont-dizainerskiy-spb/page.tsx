@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import { CommercialPage } from '@/components/sections/CommercialPage';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
+import { portfolioItems } from '@/data/content';
 
 const PATH = '/remont-dizainerskiy-spb';
 
@@ -41,6 +41,11 @@ export default function Page() {
       h1="Дизайнерский ремонт квартиры в Санкт-Петербурге"
       serviceName="Дизайнерский ремонт квартиры"
       serviceDescription="Дизайнерский ремонт квартиры в Санкт-Петербурге с разработкой дизайн-проекта, авторским надзором и реализацией под ключ. От 70 дней, гарантия 3 года."
+      segmentCase={{
+        heading: 'Квартира на наб. канала Грибоедова',
+        subtitle: '96 м², 3 комнаты — интерьер в стиле неоклассика с меблировкой и изготовлением мебели под проект, от прихожей до кабинета.',
+        item: portfolioItems[1],
+      }}
       calculatorHeading="Рассчитать дизайнерский ремонт"
       calculatorSource={LEAD_SOURCES.landingDesign}
       faqItems={FAQ_ITEMS}
@@ -48,25 +53,6 @@ export default function Page() {
       <h2>Чем дизайнерский ремонт отличается от капитального</h2>
       <p>
         Дизайнерский ремонт включает полноценный дизайн-проект и авторский надзор — архитектор или дизайнер следит, чтобы результат соответствовал визуализации на всех этапах, а не только на бумаге. Подходит тем, кто хочет законченный образ интерьера, а не просто отремонтированные стены.
-      </p>
-
-      <figure className="my-8">
-        <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-grove-mint">
-          <Image
-            src="/case/1.jpg"
-            alt="Дизайнерский ремонт квартиры на наб. канала Грибоедова, Санкт-Петербург"
-            fill
-            sizes="(max-width: 768px) 100vw, 672px"
-            className="object-cover"
-          />
-        </div>
-        <figcaption className="mt-3 text-[14px] text-muted">
-          Квартира на наб. канала Грибоедова (96 м², 3 комнаты) — интерьер в стиле неоклассика с меблировкой и изготовлением мебели под проект.
-        </figcaption>
-      </figure>
-
-      <p>
-        Например, в этой квартире мы разработали интерьер в стиле неоклассика с меблировкой и изготовлением мебели под проект — от прихожей до кабинета. Больше фото этого объекта — в разделе примеров работ на <a href="/">главной странице</a>.
       </p>
 
       <h2>Что входит</h2>

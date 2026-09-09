@@ -86,6 +86,8 @@ export const portfolioItems = [
   },
 ];
 
+export type PortfolioItem = (typeof portfolioItems)[number];
+
 export const steps = [
   {
     num: '01',

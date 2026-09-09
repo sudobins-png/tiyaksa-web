@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { CommercialPage } from '@/components/sections/CommercialPage';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
+import { portfolioItems } from '@/data/content';
 
 const PATH = '/remont-novostroyki-spb';
 
@@ -40,6 +41,11 @@ export default function Page() {
       h1="Ремонт квартиры в новостройке в Санкт-Петербурге"
       serviceName="Ремонт квартиры в новостройке"
       serviceDescription="Ремонт квартиры в новостройке в Санкт-Петербурге по предчистовой отделке застройщика: разводка электрики и сантехники с нуля, согласование графика работ с УК, фиксированная смета."
+      segmentCase={{
+        heading: 'Пример объекта без демонтажа старой отделки',
+        subtitle: 'Отдельного кейса именно по новостройке пока нет — но по срокам и объёму этот проект близок к тому, что получается без демонтажа: с нуля разводим электрику и сантехнику по предчистовой отделке застройщика.',
+        item: portfolioItems[3],
+      }}
       calculatorHeading="Рассчитать ремонт новостройки"
       calculatorSource={LEAD_SOURCES.landingNewBuilding}
       faqItems={FAQ_ITEMS}

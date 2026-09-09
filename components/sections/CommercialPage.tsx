@@ -1,15 +1,28 @@
 import type { ReactNode } from 'react';
 import { Header } from '@/components/sections/Header';
 import { Footer } from '@/components/sections/Footer';
+import { Stats } from '@/components/sections/Stats';
+import { WhyUs } from '@/components/sections/WhyUs';
+import { Manager } from '@/components/sections/Manager';
+import { Reviews } from '@/components/sections/Reviews';
+import { SegmentCase } from '@/components/sections/SegmentCase';
 import { Calculator } from '@/components/sections/Calculator';
 import { FAQ } from '@/components/sections/FAQ';
 import { ServiceJsonLd } from '@/components/seo/ServiceJsonLd';
 import { FaqJsonLd } from '@/components/seo/FaqJsonLd';
 import type { LeadSource } from '@/lib/config/leadSources';
+import type { PortfolioItem } from '@/data/content';
 
 interface FaqItem {
   q: string;
   a: string;
+}
+
+interface SegmentCaseProps {
+  heading: string;
+  subtitle: string;
+  item: PortfolioItem;
+  eyebrow?: string;
 }
 
 interface CommercialPageProps {
@@ -19,6 +32,7 @@ interface CommercialPageProps {
   serviceDescription: string;
   /** Article body — plain <h2>/<p>/<ul> markup, styled via .article-content. */
   children: ReactNode;
+  segmentCase: SegmentCaseProps;
   calculatorHeading: string;
   calculatorSource: LeadSource;
   faqItems: readonly FaqItem[];
@@ -26,10 +40,11 @@ interface CommercialPageProps {
 
 /**
  * Shared shell for the commercial SEO landing pages (/remont-*-spb) — same
- * structural pattern as /price (Header → article body → Calculator → FAQ →
- * Footer), but the content passed as `children` is unique per page so the
- * pages read as genuinely different articles rather than one template with
- * a swapped H1 (anti-dorway requirement from the SEO ticket).
+ * full anatomy as the homepage (stats ribbon, trust cards, a segment case,
+ * manager, reviews), reusing those exact components, so the pages read as
+ * proper landing pages rather than bare articles. Only the article body
+ * (`children`) and the case (`segmentCase`) differ per page — everything
+ * else is the same trust content the homepage already carries.
  */
 export function CommercialPage({
   path,
@@ -37,6 +52,7 @@ export function CommercialPage({
   serviceName,
   serviceDescription,
   children,
+  segmentCase,
   calculatorHeading,
   calculatorSource,
   faqItems,
@@ -48,18 +64,36 @@ export function CommercialPage({
       <FaqJsonLd items={faqItems} />
 
       <main style={{ paddingTop: '71px' }} className="min-h-dvh bg-site">
-        <div className="max-w-[720px] mx-auto px-6 py-14 lg:py-20">
+        <div className="max-w-[720px] mx-auto px-6 pt-14 lg:pt-20">
           <h1 className="m-0 mb-10 lg:mb-12 font-extrabold text-[28px] sm:text-[40px] text-ink tracking-tight leading-tight">
             {h1}
           </h1>
+        </div>
 
+        <div className="py-10 md:py-12">
+          <Stats />
+        </div>
+
+        <div className="max-w-[720px] mx-auto px-6 pb-14 lg:pb-20">
           <div className="article-content">
             {children}
           </div>
         </div>
       </main>
 
+      <SegmentCase
+        eyebrow={segmentCase.eyebrow}
+        heading={segmentCase.heading}
+        subtitle={segmentCase.subtitle}
+        item={segmentCase.item}
+      />
+
+      <WhyUs />
+
       <Calculator heading={calculatorHeading} source={calculatorSource} />
+
+      <Manager />
+      <Reviews />
       <FAQ items={faqItems} />
 
       <Footer />

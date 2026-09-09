@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { CommercialPage } from '@/components/sections/CommercialPage';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
+import { portfolioItems } from '@/data/content';
 
 const PATH = '/remont-kapitalnyy-spb';
 
@@ -40,6 +41,11 @@ export default function Page() {
       h1="Капитальный ремонт квартиры в Санкт-Петербурге"
       serviceName="Капитальный ремонт квартиры"
       serviceDescription="Капитальный ремонт квартиры в Санкт-Петербурге под ключ: демонтаж, выравнивание стен, полная замена электрики и сантехники, чистовая отделка. От 45 дней, гарантия 3 года."
+      segmentCase={{
+        heading: 'Полная замена инженерии и выравнивание конструктива',
+        subtitle: '124 м², 190 дней — демонтаж, разводка электрики и сантехники с нуля, выравнивание стен и чистовая отделка. Костяк работ, из которых складывается капитальный ремонт.',
+        item: portfolioItems[0],
+      }}
       calculatorHeading="Рассчитать капитальный ремонт"
       calculatorSource={LEAD_SOURCES.landingCapital}
       faqItems={FAQ_ITEMS}

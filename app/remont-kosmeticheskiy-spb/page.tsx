@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { CommercialPage } from '@/components/sections/CommercialPage';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
+import { portfolioItems } from '@/data/content';
 
 const PATH = '/remont-kosmeticheskiy-spb';
 
@@ -40,6 +41,11 @@ export default function Page() {
       h1="Косметический ремонт квартиры в Санкт-Петербурге"
       serviceName="Косметический ремонт квартиры"
       serviceDescription="Косметический ремонт квартиры в Санкт-Петербурге: обои, ламинат, покраска, частичная электрика, замена сантехприборов. От 20 дней, от 7 500 ₽/м²."
+      segmentCase={{
+        heading: 'Ремонт кухни — пример близкого по объёму проекта',
+        subtitle: '25 м², 52 дня, без демонтажа конструктива: обои, ламинат, покраска, замена сантехприборов — по духу ближе всего к косметическому ремонту.',
+        item: portfolioItems[2],
+      }}
       calculatorHeading="Рассчитать косметический ремонт"
       calculatorSource={LEAD_SOURCES.landingCosmetic}
       faqItems={FAQ_ITEMS}

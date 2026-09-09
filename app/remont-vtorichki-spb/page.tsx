@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { CommercialPage } from '@/components/sections/CommercialPage';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
+import { portfolioItems } from '@/data/content';
 
 const PATH = '/remont-vtorichki-spb';
 
@@ -40,6 +41,11 @@ export default function Page() {
       h1="Ремонт квартиры на вторичном рынке в Санкт-Петербурге"
       serviceName="Ремонт вторичного жилья"
       serviceDescription="Ремонт квартиры на вторичном рынке в Санкт-Петербурге: демонтаж старой отделки, замена коммуникаций, согласованная перепланировка, фиксированная смета."
+      segmentCase={{
+        heading: 'Проект с полным демонтажем и заменой коммуникаций',
+        subtitle: 'Демонтаж старой отделки, полная замена электрики и сантехники, выравнивание конструктива — похожий объём мы закладываем при ремонте вторичного жилья.',
+        item: portfolioItems[0],
+      }}
       calculatorHeading="Рассчитать ремонт вторички"
       calculatorSource={LEAD_SOURCES.landingSecondary}
       faqItems={FAQ_ITEMS}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Logo } from '@/components/ui/Logo';
 import { GridOverlay } from '@/components/ui/GridOverlay';
@@ -54,11 +55,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2.5 text-white/80 hover:text-white transition-colors text-[14px] font-semibold w-fit"
                 >
-                  {/* Plain <img>, not next/image — the optimizer rejects SVG
-                      sources by default (400), and there's no responsive
-                      variant to gain from routing a 22px icon through it. */}
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/dzen-icon.svg" alt="" width={22} height={22} className="shrink-0" aria-hidden />
+                  <Image src="/dzen-icon.png" alt="" width={22} height={22} className="shrink-0" aria-hidden />
                   Журнал о ремонте
                 </a>
               </div>

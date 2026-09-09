@@ -75,7 +75,10 @@ export function CommercialPage({
         {/* Same max-w-content mx-auto container and centred heading style as
             every other section (e.g. WhyUs's "Почему ТиЯКСа.Ремонт") —
             centered, not narrowed into its own left-hugging column. */}
-        <div className="max-w-content mx-auto px-6 py-14 lg:py-20 text-center">
+        {/* pb-14 on mobile matches the old py-14 there; lg:pb-0 removes the
+            doubled gap on desktop, where this stacked with SegmentCase's own
+            top padding (lg:py-20 + md:py-[88px] ≈ 168px of dead space). */}
+        <div className="max-w-content mx-auto px-6 pt-14 lg:pt-20 pb-14 lg:pb-0 text-center">
           <h1 className="m-0 mb-10 lg:mb-12 font-extrabold text-[28px] sm:text-[40px] text-ink tracking-tight leading-tight">
             {h1}
           </h1>

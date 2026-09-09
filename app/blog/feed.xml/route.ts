@@ -51,9 +51,14 @@ export async function GET() {
       const description = escapeXml(decodeHtmlEntities(getMetaDescription(post)));
       const image = getFeaturedImage(post);
       const pubDate = toRfc822(post.date_gmt);
-      // Belt-and-braces: our own content never contains a literal "]]>",
-      // but a broken CDATA would corrupt every item after it in the feed.
-      const contentHtml = post.content.rendered.replace(/]]>/g, ']]&gt;');
+      // Dzen builds its own "Оглавление" from the article's headings, so
+      // our hand-built "Содержание" block (the n8n prompt's <nav class="toc">
+      // + its lead-in heading) just duplicates it — strip both before
+      // Dzen ever sees them, rather than shipping two tables of contents.
+      const contentHtml = post.content.rendered
+        .replace(/]]>/g, ']]&gt;')
+        .replace(/<nav class="toc">[\s\S]*?<\/nav>\s*/g, '')
+        .replace(/<p>\s*<strong>Содержание<\/strong>\s*<\/p>\s*/g, '');
 
       const enclosure = image
         ? `<enclosure url="${escapeXml(image.source_url)}" type="${imageMimeType(image.source_url)}"/>`

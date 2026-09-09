@@ -71,7 +71,11 @@ export function CommercialPage({
       <ServiceJsonLd name={serviceName} description={serviceDescription} url={path} />
       <FaqJsonLd items={faqItems} />
 
-      <main className="min-h-dvh bg-site">
+      {/* No min-h-dvh here — unlike /price, this <main> wraps only the
+          intro text, not the whole page, so forcing it to full viewport
+          height on short intros just padded empty space in before
+          SegmentCase, on top of any padding. */}
+      <main className="bg-site">
         {/* Same max-w-content mx-auto container and centred heading style as
             every other section (e.g. WhyUs's "Почему ТиЯКСа.Ремонт") —
             centered, not narrowed into its own left-hugging column. */}

@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { CommercialPage } from '@/components/sections/CommercialPage';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
-import { portfolioItems } from '@/data/content';
 
 const PATH = '/remont-vannoy-spb';
 
@@ -42,9 +41,11 @@ export default function Page() {
       serviceName="Ремонт ванной комнаты под ключ"
       serviceDescription="Ремонт ванной комнаты и санузла в Санкт-Петербурге: гидроизоляция, разводка труб, укладка плитки, монтаж сантехники. Гарантия 3 года, фиксированная смета в договоре."
       segmentCase={{
-        heading: 'Похожий по объёму проект — ремонт кухни',
-        subtitle: 'Отдельных фото санузла из этого проекта нет, но по объёму мокрых работ кухня — хороший ориентир: та же разводка труб, гидроизоляция и чистовая отделка на компактной площади.',
-        item: portfolioItems[2],
+        heading: 'Санузел из одного из наших проектов',
+        subtitle: 'Гидроизоляция, разводка труб, укладка плитки и монтаж сантехники — тот же состав работ, что и в любом ремонте ванной под ключ.',
+        item: {
+          images: ['/case/11.jpg', '/case/12.jpg', '/case/vannaya-3.jpg'],
+        },
       }}
       calculatorHeading="Рассчитать ремонт ванной"
       calculatorSource={LEAD_SOURCES.landingBathroom}

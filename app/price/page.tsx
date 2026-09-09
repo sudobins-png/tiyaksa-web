@@ -59,6 +59,11 @@ export default function PricePage() {
   return (
     <>
       <Header />
+
+      <div style={{ paddingTop: '71px' }}>
+        <Stats />
+      </div>
+
       <ServiceJsonLd
         name="Ремонт квартир под ключ"
         description="Расчёт стоимости ремонта квартир в Санкт-Петербурге: цены за м² по видам работ, онлайн-калькулятор, фиксация сметы в договоре."
@@ -66,22 +71,18 @@ export default function PricePage() {
       />
       <FaqJsonLd items={PRICE_FAQ_ITEMS} />
 
-      <main style={{ paddingTop: '71px' }} className="min-h-dvh bg-site">
+      <main className="min-h-dvh bg-site">
         <div className="max-w-content mx-auto px-6 pt-14 lg:pt-20">
-          <h1 className="m-0 mb-12 lg:mb-14 font-extrabold text-[28px] sm:text-[40px] text-ink tracking-tight leading-tight">
+          <h1 className="m-0 mb-12 lg:mb-14 max-w-[720px] font-extrabold text-[28px] sm:text-[40px] text-ink tracking-tight leading-tight">
             Цены на ремонт квартир в Санкт-Петербурге
           </h1>
 
-          <div className="article-content max-w-[720px] mx-auto mb-14 lg:mb-16">
+          <div className="article-content max-w-[720px] mb-14 lg:mb-16">
             <h2>Из чего складывается стоимость ремонта</h2>
             <p>
               Стоимость зависит от трёх вещей: площади квартиры, вида ремонта (косметический, капитальный или дизайнерский) и состояния объекта — новостройка с предчистовой отделкой обходится дешевле вторички, где сначала нужно демонтировать старую отделку. Все объёмы и материалы фиксируются в смете до начала работ — цена в договоре не меняется, доплата возможна только по отдельно подписанному соглашению.
             </p>
           </div>
-        </div>
-
-        <div className="py-10 md:py-12">
-          <Stats />
         </div>
 
         <div className="max-w-content mx-auto px-6 pb-14 lg:pb-20">
@@ -107,7 +108,7 @@ export default function PricePage() {
 
       <div className="bg-site">
         <div className="max-w-content mx-auto px-6 pb-14 lg:pb-20">
-          <div className="article-content max-w-[720px] mx-auto">
+          <div className="article-content max-w-[720px]">
             <h2>Ориентировочные цены за м²</h2>
             <div className="overflow-x-auto">
               <table className="w-full border-collapse text-[15px]">

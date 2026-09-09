@@ -5,13 +5,12 @@ import { Stats } from '@/components/sections/Stats';
 import { WhyUs } from '@/components/sections/WhyUs';
 import { Manager } from '@/components/sections/Manager';
 import { Reviews } from '@/components/sections/Reviews';
-import { SegmentCase } from '@/components/sections/SegmentCase';
+import { SegmentCase, type SegmentCaseItem } from '@/components/sections/SegmentCase';
 import { QuizSection } from '@/components/sections/QuizSection';
 import { FAQ } from '@/components/sections/FAQ';
 import { ServiceJsonLd } from '@/components/seo/ServiceJsonLd';
 import { FaqJsonLd } from '@/components/seo/FaqJsonLd';
 import type { LeadSource } from '@/lib/config/leadSources';
-import type { PortfolioItem } from '@/data/content';
 
 interface FaqItem {
   q: string;
@@ -21,7 +20,7 @@ interface FaqItem {
 interface SegmentCaseProps {
   heading: string;
   subtitle: string;
-  item: PortfolioItem;
+  item: SegmentCaseItem;
   eyebrow?: string;
 }
 
@@ -60,22 +59,27 @@ export function CommercialPage({
   return (
     <>
       <Header />
+
+      {/* Directly under the fixed header, ahead of the H1 — its own top
+          offset since it's a sibling of <main>, not inside it. */}
+      <div style={{ paddingTop: '71px' }}>
+        <Stats />
+      </div>
+
       <ServiceJsonLd name={serviceName} description={serviceDescription} url={path} />
       <FaqJsonLd items={faqItems} />
 
-      <main style={{ paddingTop: '71px' }} className="min-h-dvh bg-site">
-        <div className="max-w-[720px] mx-auto px-6 pt-14 lg:pt-20">
-          <h1 className="m-0 mb-10 lg:mb-12 font-extrabold text-[28px] sm:text-[40px] text-ink tracking-tight leading-tight">
+      <main className="min-h-dvh bg-site">
+        {/* Same max-w-content mx-auto container as every section below —
+            the text column caps its own width for readability instead of
+            centering itself as a narrower block, so its left edge lines up
+            with Stats/WhyUs/the case grid rather than looking indented. */}
+        <div className="max-w-content mx-auto px-6 py-14 lg:py-20">
+          <h1 className="m-0 mb-10 lg:mb-12 max-w-[720px] font-extrabold text-[28px] sm:text-[40px] text-ink tracking-tight leading-tight">
             {h1}
           </h1>
-        </div>
 
-        <div className="py-10 md:py-12">
-          <Stats />
-        </div>
-
-        <div className="max-w-[720px] mx-auto px-6 pb-14 lg:pb-20">
-          <div className="article-content">
+          <div className="article-content max-w-[720px]">
             {children}
           </div>
         </div>

@@ -80,7 +80,9 @@ export function CommercialPage({
             {h1}
           </h1>
 
-          <div className="article-content text-center">
+          {/* Headings stay centered; body paragraphs are right-aligned per
+              feedback (readability request for this intro block). */}
+          <div className="article-content text-center [&>p]:text-right">
             {children}
           </div>
         </div>

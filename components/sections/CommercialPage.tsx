@@ -6,7 +6,7 @@ import { WhyUs } from '@/components/sections/WhyUs';
 import { Manager } from '@/components/sections/Manager';
 import { Reviews } from '@/components/sections/Reviews';
 import { SegmentCase } from '@/components/sections/SegmentCase';
-import { Calculator } from '@/components/sections/Calculator';
+import { QuizSection } from '@/components/sections/QuizSection';
 import { FAQ } from '@/components/sections/FAQ';
 import { ServiceJsonLd } from '@/components/seo/ServiceJsonLd';
 import { FaqJsonLd } from '@/components/seo/FaqJsonLd';
@@ -90,7 +90,7 @@ export function CommercialPage({
 
       <WhyUs />
 
-      <Calculator heading={calculatorHeading} source={calculatorSource} />
+      <QuizSection heading={calculatorHeading} source={calculatorSource} />
 
       <Manager />
       <Reviews />

@@ -11,7 +11,7 @@ import { useToastStore } from '@/stores/toastStore';
 import { PrivacyModal } from '@/components/ui/PrivacyModal';
 import { MessengerSelector, nextContactValue, MESSENGERS, type MessengerType } from '@/components/ui/MessengerSelector';
 import { CalculatingStep } from '@/components/quiz/CalculatingStep';
-import { LEAD_SOURCES } from '@/lib/config/leadSources';
+import { LEAD_SOURCES, type LeadSource } from '@/lib/config/leadSources';
 import { getStoredUtmParams } from '@/lib/utils/utm';
 
 const OBJECT_TYPE_OPTIONS = [
@@ -70,7 +70,16 @@ const slide = {
   exit:   (dir: number) => ({ opacity: 0, x: dir > 0 ? -44 : 44 }),
 };
 
-export function QuizInline() {
+interface QuizInlineProps {
+  /** Card header — customised per landing page (e.g. "Рассчитать ремонт ванной"). */
+  heading?: string;
+  source?: LeadSource;
+}
+
+export function QuizInline({
+  heading = 'Рассчитайте стоимость ремонта',
+  source = LEAD_SOURCES.quizPage,
+}: QuizInlineProps = {}) {
   const router = useRouter();
   const [step,          setStep]          = useState(0);
   const [dir,           setDir]           = useState(1);
@@ -135,7 +144,7 @@ export function QuizInline() {
           name:    data.name,
           phone:   !isTelegram ? data.contact : '—',
           website: data.website,
-          source:  LEAD_SOURCES.quizPage,
+          source,
           aptType,
           message: [
             rooms         && `Комнат: ${rooms}`,
@@ -166,7 +175,7 @@ export function QuizInline() {
         <div className="px-6 sm:px-8 pt-6 pb-5 border-b border-[#f0f3f0]">
           <div className="flex items-start justify-between mb-4 gap-3">
             <h2 className="font-bold text-[18px] sm:text-[20px] text-ink leading-tight">
-              Рассчитайте стоимость ремонта
+              {heading}
             </h2>
             <a href="/" aria-label="На главную"
               className="w-9 h-9 rounded-full hover:bg-[#f0f4f0] flex items-center justify-center transition-colors shrink-0 mt-0.5">

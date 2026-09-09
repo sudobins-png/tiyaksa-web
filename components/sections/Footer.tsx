@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Logo } from '@/components/ui/Logo';
 import { GridOverlay } from '@/components/ui/GridOverlay';
@@ -26,7 +27,7 @@ export function Footer() {
 
       <div className="relative max-w-content mx-auto px-6" style={{ paddingTop: '40px', paddingBottom: '36px' }}>
         <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-10 lg:gap-8 mb-10">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-8 sm:gap-16">
+          <div className="flex flex-col sm:flex-row sm:items-start gap-8 sm:gap-16">
             <div>
               <Logo variant="light" />
             </div>
@@ -54,13 +55,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2.5 text-white/80 hover:text-white transition-colors text-[14px] font-semibold w-fit"
                 >
-                  <svg width="22" height="22" viewBox="0 0 240 240" aria-hidden className="shrink-0">
-                    <circle cx="120" cy="120" r="120" fill="#000" />
-                    <path fill="#fff" d="M124 56c0 34.7 28.3 63 63 63v-63h-63z" />
-                    <path fill="#fff" d="M116 184c0-34.7-28.3-63-63-63v63h63z" />
-                    <path fill="#fff" fillOpacity=".55" d="M124 184c0-34.7 28.3-63 63-63v63h-63z" />
-                    <path fill="#fff" fillOpacity=".55" d="M116 56c0 34.7-28.3 63-63 63V56h63z" />
-                  </svg>
+                  <Image src="/dzen-icon.svg" alt="" width={22} height={22} className="shrink-0" aria-hidden />
                   Журнал о ремонте
                 </a>
               </div>

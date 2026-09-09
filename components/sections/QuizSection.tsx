@@ -14,7 +14,8 @@ interface QuizSectionProps {
 export function QuizSection({ heading, source }: QuizSectionProps) {
   return (
     <section id="calc" className="bg-site">
-      <div className="max-w-[640px] mx-auto px-6 py-[88px]">
+      {/* Same responsive width as the QuizInline card on /quiz itself. */}
+      <div className="max-w-[640px] lg:max-w-[1024px] mx-auto px-6 py-[88px]">
         <QuizInline heading={heading} source={source} />
       </div>
     </section>

@@ -72,16 +72,15 @@ export function CommercialPage({
       <FaqJsonLd items={faqItems} />
 
       <main className="min-h-dvh bg-site">
-        {/* Same max-w-content mx-auto container as every section below —
-            the text column caps its own width for readability instead of
-            centering itself as a narrower block, so its left edge lines up
-            with Stats/WhyUs/the case grid rather than looking indented. */}
-        <div className="max-w-content mx-auto px-6 py-14 lg:py-20">
-          <h1 className="m-0 mb-10 lg:mb-12 max-w-[720px] font-extrabold text-[28px] sm:text-[40px] text-ink tracking-tight leading-tight">
+        {/* Same max-w-content mx-auto container and centred heading style as
+            every other section (e.g. WhyUs's "Почему ТиЯКСа.Ремонт") —
+            centered, not narrowed into its own left-hugging column. */}
+        <div className="max-w-content mx-auto px-6 py-14 lg:py-20 text-center">
+          <h1 className="m-0 mb-10 lg:mb-12 font-extrabold text-[28px] sm:text-[40px] text-ink tracking-tight leading-tight">
             {h1}
           </h1>
 
-          <div className="article-content max-w-[720px]">
+          <div className="article-content text-center">
             {children}
           </div>
         </div>

@@ -66,12 +66,36 @@ export default function PricePage() {
             Цены на ремонт квартир в Санкт-Петербурге
           </h1>
 
-          <div className="article-content max-w-[720px] mb-14 lg:mb-16">
+          <div className="article-content max-w-[720px] mx-auto mb-14 lg:mb-16">
             <h2>Из чего складывается стоимость ремонта</h2>
             <p>
               Стоимость зависит от трёх вещей: площади квартиры, вида ремонта (косметический, капитальный или дизайнерский) и состояния объекта — новостройка с предчистовой отделкой обходится дешевле вторички, где сначала нужно демонтировать старую отделку. Все объёмы и материалы фиксируются в смете до начала работ — цена в договоре не меняется, доплата возможна только по отдельно подписанному соглашению.
             </p>
+          </div>
 
+          <Suspense fallback={null}>
+            <PriceTable />
+          </Suspense>
+
+          <div className="mt-12 lg:mt-14 pt-8 border-t border-[#eef1ee]">
+            <h2 className="m-0 mb-4 text-[13px] font-semibold uppercase tracking-[0.08em] text-muted">
+              Примечание
+            </h2>
+            <ul className="m-0 p-0 list-none flex flex-col gap-2.5">
+              {PRICE_NOTES.map((note) => (
+                <li key={note} className="flex gap-2.5 text-[14px] leading-relaxed text-muted">
+                  <span className="shrink-0 text-[#c7cdc7]">—</span>
+                  {note}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </main>
+
+      <div className="bg-site">
+        <div className="max-w-content mx-auto px-6 pb-14 lg:pb-20">
+          <div className="article-content max-w-[720px] mx-auto">
             <h2>Ориентировочные цены за м²</h2>
             <div className="overflow-x-auto">
               <table className="w-full border-collapse text-[15px]">
@@ -97,26 +121,8 @@ export default function PricePage() {
               Указанные цены — для стен высотой до 2,7 м, без учёта расходных материалов. Минимальная стоимость заказа — 300 000 ₽. Точная сумма — после бесплатного замера.
             </p>
           </div>
-
-          <Suspense fallback={null}>
-            <PriceTable />
-          </Suspense>
-
-          <div className="mt-12 lg:mt-14 pt-8 border-t border-[#eef1ee]">
-            <h2 className="m-0 mb-4 text-[13px] font-semibold uppercase tracking-[0.08em] text-muted">
-              Примечание
-            </h2>
-            <ul className="m-0 p-0 list-none flex flex-col gap-2.5">
-              {PRICE_NOTES.map((note) => (
-                <li key={note} className="flex gap-2.5 text-[14px] leading-relaxed text-muted">
-                  <span className="shrink-0 text-[#c7cdc7]">—</span>
-                  {note}
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
-      </main>
+      </div>
 
       <Calculator heading="Калькулятор ремонта квартиры" source={LEAD_SOURCES.priceCalculator} />
 

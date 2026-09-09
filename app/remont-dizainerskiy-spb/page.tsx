@@ -56,7 +56,7 @@ export default function Page() {
             src="/case/1.jpg"
             alt="Дизайнерский ремонт квартиры на наб. канала Грибоедова, Санкт-Петербург"
             fill
-            sizes="720px"
+            sizes="(max-width: 768px) 100vw, 672px"
             className="object-cover"
           />
         </div>

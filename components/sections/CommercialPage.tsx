@@ -48,12 +48,12 @@ export function CommercialPage({
       <FaqJsonLd items={faqItems} />
 
       <main style={{ paddingTop: '71px' }} className="min-h-dvh bg-site">
-        <div className="max-w-content mx-auto px-6 py-14 lg:py-20">
-          <h1 className="m-0 mb-10 lg:mb-12 max-w-[820px] font-extrabold text-[28px] sm:text-[40px] text-ink tracking-tight leading-tight">
+        <div className="max-w-[720px] mx-auto px-6 py-14 lg:py-20">
+          <h1 className="m-0 mb-10 lg:mb-12 font-extrabold text-[28px] sm:text-[40px] text-ink tracking-tight leading-tight">
             {h1}
           </h1>
 
-          <div className="article-content max-w-[720px]">
+          <div className="article-content">
             {children}
           </div>
         </div>

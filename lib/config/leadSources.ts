@@ -19,6 +19,13 @@ export const LEAD_SOURCES = {
   priceTeaser:     'price-teaser',
   heroPricingCta: 'hero-pricing-cta',
   headerCta:      'header-cta',
+  landingBathroom:    'landing-bathroom',
+  landingRoom:        'landing-room',
+  landingNewBuilding: 'landing-new-building',
+  landingSecondary:   'landing-secondary',
+  landingCosmetic:    'landing-cosmetic',
+  landingCapital:     'landing-capital',
+  landingDesign:      'landing-design',
 } as const;
 
 export type LeadSource = (typeof LEAD_SOURCES)[keyof typeof LEAD_SOURCES];
@@ -36,6 +43,13 @@ export const LEAD_SOURCE_LABELS: Record<LeadSource, string> = {
   [LEAD_SOURCES.priceTeaser]:     'Главная — тизер прайс-листа',
   [LEAD_SOURCES.heroPricingCta]:  'Главный экран — кнопка «Рассчитать стоимость»',
   [LEAD_SOURCES.headerCta]:       'Хедер — кнопка «Рассчитать стоимость»',
+  [LEAD_SOURCES.landingBathroom]:    'Страница /remont-vannoy-spb',
+  [LEAD_SOURCES.landingRoom]:        'Страница /remont-komnaty-spb',
+  [LEAD_SOURCES.landingNewBuilding]: 'Страница /remont-novostroyki-spb',
+  [LEAD_SOURCES.landingSecondary]:   'Страница /remont-vtorichki-spb',
+  [LEAD_SOURCES.landingCosmetic]:    'Страница /remont-kosmeticheskiy-spb',
+  [LEAD_SOURCES.landingCapital]:     'Страница /remont-kapitalnyy-spb',
+  [LEAD_SOURCES.landingDesign]:      'Страница /remont-dizainerskiy-spb',
 };
 
 export function leadSourceLabel(source: string | undefined | null): string {

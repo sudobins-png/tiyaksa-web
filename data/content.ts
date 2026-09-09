@@ -22,6 +22,30 @@ export const navItems = [
   { label: 'Вопросы',      href: '/#faq'       },
 ] as const;
 
+// Footer "silo" link groups to the commercial SEO landing pages — every page
+// they lead to needs to be reachable from site-wide navigation, not just
+// from ads, so search engines don't treat them as orphaned/doorway pages.
+export const footerLinkGroups = [
+  {
+    title: 'Ремонт',
+    links: [
+      { label: 'Ремонт под ключ',      href: '/price' },
+      { label: 'Ремонт в новостройке', href: '/remont-novostroyki-spb' },
+      { label: 'Ремонт вторички',      href: '/remont-vtorichki-spb' },
+      { label: 'Ремонт ванной комнаты', href: '/remont-vannoy-spb' },
+      { label: 'Ремонт комнаты',       href: '/remont-komnaty-spb' },
+    ],
+  },
+  {
+    title: 'По типу ремонта',
+    links: [
+      { label: 'Косметический', href: '/remont-kosmeticheskiy-spb' },
+      { label: 'Капитальный',   href: '/remont-kapitalnyy-spb' },
+      { label: 'Дизайнерский',  href: '/remont-dizainerskiy-spb' },
+    ],
+  },
+] as const;
+
 export const heroContent = {
   eyebrow:      'РЕМОНТ КВАРТИР ПОД КЛЮЧ · САНКТ-ПЕТЕРБУРГ',
   heading:      'Нормальный ремонт с первого раза',

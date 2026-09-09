@@ -2,11 +2,21 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { faqItems } from '@/data/faq';
+import { faqItems as defaultFaqItems } from '@/data/faq';
 import { cn } from '@/lib/utils';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 
-export function FAQ() {
+interface FaqItem {
+  q: string;
+  a: string;
+}
+
+interface FAQProps {
+  items?: readonly FaqItem[];
+  heading?: string;
+}
+
+export function FAQ({ items = defaultFaqItems, heading = 'Частые вопросы' }: FAQProps) {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
 
   const toggle = (i: number) => setOpenIdx((prev) => (prev === i ? null : i));
@@ -15,11 +25,11 @@ export function FAQ() {
     <section id="faq" className="bg-site border-t border-[#eef1ee]">
       <div className="max-w-[860px] mx-auto px-6 py-[88px]">
         <SectionHeading className="mb-8 md:mb-12">
-          Частые вопросы
+          {heading}
         </SectionHeading>
 
         <div className="flex flex-col gap-[14px]">
-          {faqItems.map((f, i) => {
+          {items.map((f, i) => {
             const open = openIdx === i;
             return (
               <div

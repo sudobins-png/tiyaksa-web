@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { cn, formatMoney } from '@/lib/utils';
 import { LeadModal } from '@/components/ui/LeadModal';
 import { SectionHeading } from '@/components/ui/SectionHeading';
-import { LEAD_SOURCES } from '@/lib/config/leadSources';
+import { LEAD_SOURCES, type LeadSource } from '@/lib/config/leadSources';
 import {
   calcRates,
   calcAptTypes,
@@ -13,7 +13,10 @@ import {
   highEstimateFactor,
 } from '@/data/pricing';
 
-export function Calculator({ heading = 'Рассчитайте стоимость' }: { heading?: string }) {
+export function Calculator({
+  heading = 'Рассчитайте стоимость',
+  source = LEAD_SOURCES.calculator,
+}: { heading?: string; source?: LeadSource }) {
   const [aptType, setAptType]     = useState<string>('Новостройка');
   const [area, setArea]           = useState<number>(60);
   const [workType, setWorkType]   = useState<string>('Капитальный');
@@ -113,7 +116,7 @@ export function Calculator({ heading = 'Рассчитайте стоимост�
         </div>
       </div>
 
-      {modalOpen && <LeadModal onClose={() => setModalOpen(false)} source={LEAD_SOURCES.calculator} />}
+      {modalOpen && <LeadModal onClose={() => setModalOpen(false)} source={source} />}
     </section>
   );
 }

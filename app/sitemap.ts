@@ -13,6 +13,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: BASE_URL, changeFrequency: 'weekly', priority: 1 },
     { url: `${BASE_URL}/quiz`, changeFrequency: 'monthly', priority: 0.5 },
     { url: `${BASE_URL}/price`, changeFrequency: 'weekly', priority: 0.7 },
+    { url: `${BASE_URL}/remont-vannoy-spb`, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE_URL}/remont-komnaty-spb`, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE_URL}/remont-novostroyki-spb`, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE_URL}/remont-vtorichki-spb`, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE_URL}/remont-kosmeticheskiy-spb`, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE_URL}/remont-kapitalnyy-spb`, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE_URL}/remont-dizainerskiy-spb`, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${BASE_URL}/blog`, changeFrequency: 'daily', priority: 0.8 },
   ];
 

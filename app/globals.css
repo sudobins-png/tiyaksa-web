@@ -156,6 +156,27 @@ input[type='range']::-moz-range-thumb {
   color: var(--c-ink);
 }
 
+/* ── Commercial landing pages' opening block (/remont-*-spb) ──
+   Same .article-content markup as blog posts, but the h2 here is a short
+   lead-in statement rather than a section title — at the blog's 24px/800
+   weight it wrapped to 2-3 bulky centered lines on mobile. Styled instead
+   as a compact quote-like callout, left-aligned with the body text below
+   it rather than centered against it. */
+.commercial-intro h2 {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  text-align: left;
+  border-left: 3px solid var(--c-gold);
+  padding-left: 0.85em;
+  color: var(--c-ink);
+}
+@media (min-width: 640px) {
+  .commercial-intro h2 {
+    font-size: 20px;
+  }
+}
+
 /* Table of contents block emitted by the n8n content-generation prompt */
 .article-content .toc {
   background: var(--c-mint);

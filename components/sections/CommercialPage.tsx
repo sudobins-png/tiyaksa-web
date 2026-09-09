@@ -83,9 +83,10 @@ export function CommercialPage({
             {h1}
           </h1>
 
-          {/* Headings stay centered; body paragraphs read left-aligned like
-              normal prose, per feedback. */}
-          <div className="article-content text-center [&>p]:text-left">
+          {/* H1 above stays centered; the h2 lead-in is a compact quote-style
+              callout (see .commercial-intro in globals.css) and body
+              paragraphs read left-aligned like normal prose. */}
+          <div className="article-content commercial-intro text-center [&>p]:text-left">
             {children}
           </div>
         </div>

@@ -106,21 +106,6 @@ export function stripHtml(html: string): string {
 }
 
 /**
- * The n8n content prompt writes a literal "Содержание" heading as the
- * first line inside <nav class="toc">, but .article-content .toc::before
- * (globals.css) already renders that same label from CSS — rendered
- * as-is, the article shows "СОДЕРЖАНИЕ" (CSS) immediately followed by
- * "Содержание" (the actual paragraph). Drops just that redundant
- * paragraph, keeping the nav/list it introduces intact.
- */
-export function stripDuplicateTocHeading(html: string): string {
-  return html.replace(
-    /(<nav class="toc">\s*)<p>\s*<strong>Содержание<\/strong>\s*<\/p>\s*/,
-    '$1'
-  );
-}
-
-/**
  * WP's `.rendered` fields are real HTML, so plain text extracted from them
  * (title, excerpt) keeps entity references like `&#8220;`/`&amp;` — fine
  * when handed to dangerouslySetInnerHTML (the browser decodes them), wrong

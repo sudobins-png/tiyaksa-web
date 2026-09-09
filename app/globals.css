@@ -183,15 +183,17 @@ input[type='range']::-moz-range-thumb {
   border-radius: 16px;
   padding: 20px 24px;
 }
-.article-content .toc::before {
-  content: 'Содержание';
-  display: block;
+/* The "Содержание" label is real text from the post content (the first
+   <p><strong>) — styled here rather than injected via ::before, since
+   CSS-generated content isn't reliably indexed and most screen readers
+   skip it. */
+.article-content .toc > p:first-child {
   font-weight: 800;
   font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0.03em;
   color: var(--c-forest);
-  margin-bottom: 10px;
+  margin: 0 0 10px;
 }
 .article-content .toc ul {
   list-style: none;

@@ -5,6 +5,8 @@ import { Stats } from '@/components/sections/Stats';
 import { WhyUs } from '@/components/sections/WhyUs';
 import { Manager } from '@/components/sections/Manager';
 import { Reviews } from '@/components/sections/Reviews';
+import { EstimateAudit } from '@/components/sections/EstimateAudit';
+import { Contacts } from '@/components/sections/Contacts';
 import { SegmentCase, type SegmentCaseItem } from '@/components/sections/SegmentCase';
 import { QuizSection } from '@/components/sections/QuizSection';
 import { FAQ } from '@/components/sections/FAQ';
@@ -99,6 +101,9 @@ export function CommercialPage({
       <Manager />
       <Reviews />
       <FAQ items={faqItems} />
+
+      <EstimateAudit />
+      <Contacts />
 
       <Footer />
     </>

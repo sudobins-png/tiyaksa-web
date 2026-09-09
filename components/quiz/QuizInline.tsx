@@ -25,6 +25,11 @@ const OBJECT_TYPE_OPTIONS = [
 
 const ROOMS_OPTIONS = ['1 комната', '2 комнаты', '3 комнаты', 'Более 3-х комнат'];
 
+// These object types can't meaningfully have a "room count" — an office, a
+// studio, or a standalone kitchen renovation isn't described that way — so
+// the quiz skips straight from step 0 to the area step for them.
+const NO_ROOMS_TYPES = new Set(['Офис / коммерция', 'Комната / студия', 'Кухня']);
+
 const AREA_OPTIONS = [
   'До 30 м²', '30–50 м²', '50–70 м²', '70–100 м²', '100–150 м²', '150 м² и выше',
 ];
@@ -165,8 +170,15 @@ export function QuizInline({
     setDir(1); setStep(7);
   };
 
+  const needsRooms = !NO_ROOMS_TYPES.has(aptType);
+  const totalSteps = needsRooms ? TOTAL_STEPS : TOTAL_STEPS - 1;
+  // Steps 2–5 keep their raw index in both flows (only step 1 is ever
+  // skipped), so the no-rooms flow's displayed step number is just the raw
+  // index once past step 0 — only step 0 itself still needs +1.
+  const displayStep = (!needsRooms && step > 0) ? step : step + 1;
+
   const isAnswerStep = step < TOTAL_STEPS;
-  const progress = (calculating || !isAnswerStep) ? 100 : Math.round(((step + 1) / TOTAL_STEPS) * 100);
+  const progress = (calculating || !isAnswerStep) ? 100 : Math.round((displayStep / totalSteps) * 100);
 
   return (
     <>
@@ -189,7 +201,7 @@ export function QuizInline({
             <div className="flex items-center gap-3">
               {!calculating && (
                 <span className="shrink-0 whitespace-nowrap text-[11px] font-bold uppercase tracking-[.1em] text-forest/70">
-                  Шаг {step + 1} из {TOTAL_STEPS}
+                  Шаг {displayStep} из {totalSteps}
                 </span>
               )}
               <div className="flex-1 h-[5px] bg-[#eef1ee] rounded-full overflow-hidden">
@@ -211,7 +223,12 @@ export function QuizInline({
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {OBJECT_TYPE_OPTIONS.map((opt) => (
                     <PhotoCard key={opt.label} label={opt.label} photo={opt.photo}
-                      onClick={() => { setAptType(opt.label); next(); }} />
+                      onClick={() => {
+                        setAptType(opt.label);
+                        setRooms('');
+                        setDir(1);
+                        setStep(NO_ROOMS_TYPES.has(opt.label) ? 2 : 1);
+                      }} />
                   ))}
                 </div>
               </StepWrap>
@@ -237,7 +254,7 @@ export function QuizInline({
                     <RadioRow key={opt} label={opt} onClick={() => { setArea(opt); next(); }} />
                   ))}
                 </div>
-                <BackBtn onClick={back} />
+                <BackBtn onClick={() => { setDir(-1); setStep(needsRooms ? 1 : 0); }} />
               </StepWrap>
             )}
 

@@ -44,7 +44,10 @@ export default function Page() {
       segmentCase={{
         heading: 'Пример проекта с индивидуальной проработкой комнат',
         subtitle: 'В этом проекте у спальни, кабинета и гостиной — свой дизайн и свой объём работ в рамках общего ремонта. Так же подходим и к ремонту одной отдельной комнаты.',
-        item: portfolioItems[1],
+        item: {
+          ...portfolioItems[1],
+          images: ['/case/1.jpg', '/case/14.jpg', '/case/6.jpg', '/case/9.jpg', '/case/11.jpg', '/case/17.jpg'],
+        },
       }}
       calculatorHeading="Рассчитать ремонт комнаты"
       calculatorSource={LEAD_SOURCES.landingRoom}

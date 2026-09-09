@@ -29,7 +29,10 @@ interface SegmentCaseProps {
 export function SegmentCase({ heading, subtitle, item, eyebrow = 'Пример объекта' }: SegmentCaseProps) {
   const [lightbox, setLightbox] = useState<number | null>(null);
   const photos = item.images.slice(0, 3);
-  const hasSpecs = item.area || item.term || item.pricePerSqm;
+  // Price per m² intentionally left out here — it belongs to a specific
+  // case, not to "what this kind of work costs for you", which is what the
+  // quiz below actually answers.
+  const hasSpecs = item.area || item.term;
 
   return (
     <section className="bg-site border-t border-[#eef1ee]">
@@ -79,12 +82,19 @@ export function SegmentCase({ heading, subtitle, item, eyebrow = 'Пример �
           {hasSpecs && (
             <div className="flex flex-wrap items-baseline justify-center gap-2 mt-5 text-[15px] text-muted">
               {item.area && <span>{item.area}</span>}
-              {item.area && (item.term || item.pricePerSqm) && <span>·</span>}
+              {item.area && item.term && <span>·</span>}
               {item.term && <span>{item.term}</span>}
-              {item.term && item.pricePerSqm && <span>·</span>}
-              {item.pricePerSqm && <span className="text-forest font-semibold">{item.pricePerSqm}</span>}
             </div>
           )}
+
+          <div className="flex justify-center mt-7">
+            <a
+              href="#calc"
+              className="inline-block bg-gold hover:bg-gold-dark text-ink font-bold text-[16px] px-9 py-[15px] rounded-[14px] shadow-gold-glow transition-all duration-200 hover:-translate-y-px"
+            >
+              Рассчитать стоимость
+            </a>
+          </div>
         </div>
       </div>
 

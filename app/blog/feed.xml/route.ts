@@ -68,7 +68,6 @@ export async function GET() {
       <description>${description}</description>
       <author>ТиЯКСа.Ремонт</author>
       <media:rating scheme="urn:simple">nonadult</media:rating>
-      <category>native-draft</category>
       <category>format-article</category>
       <category>index</category>
       <category>comment-none</category>

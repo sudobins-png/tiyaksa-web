@@ -106,21 +106,6 @@ export function stripHtml(html: string): string {
 }
 
 /**
- * The n8n content-generation pipeline occasionally leaks a literal
- * "<html>" token into the stored post body (rendered as its own
- * `<p><html></p>`, usually right after the intro paragraph) — a leftover
- * from whatever wrapped its output before WP stored it. Browsers silently
- * swallow the stray tag (only one <html> root is allowed, so it's just
- * discarded), which is why it was never noticed on-site, but RSS/XML
- * consumers (Dzen, VK) don't get that same leniency.
- */
-export function stripHtmlArtifact(html: string): string {
-  return html
-    .replace(/<p>\s*<\/?html>\s*<\/p>\s*/gi, '')
-    .replace(/<\/?html>/gi, '');
-}
-
-/**
  * WP's `.rendered` fields are real HTML, so plain text extracted from them
  * (title, excerpt) keeps entity references like `&#8220;`/`&amp;` — fine
  * when handed to dangerouslySetInnerHTML (the browser decodes them), wrong

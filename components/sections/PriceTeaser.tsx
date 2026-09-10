@@ -47,7 +47,7 @@ export function PriceTeaser() {
                 href={`/price?category=${cat.slug}`}
                 className="mt-auto self-end text-[13px] font-semibold text-terracotta hover:underline"
               >
-                Все цены →
+                Все цены –12%!
               </Link>
             </div>
           ))}

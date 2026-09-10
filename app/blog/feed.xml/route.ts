@@ -3,6 +3,7 @@ import {
   getFeaturedImage,
   getMetaDescription,
   stripHtml,
+  stripHtmlArtifact,
   decodeHtmlEntities,
 } from '@/lib/server/wordpress';
 
@@ -55,18 +56,21 @@ export async function GET() {
       // our hand-built "Содержание" block (the n8n prompt's <nav class="toc">
       // + its lead-in heading) just duplicates it — strip both before
       // Dzen ever sees them, rather than shipping two tables of contents.
-      const cleanedHtml = post.content.rendered
-        .replace(/]]>/g, ']]&gt;')
-        .replace(/<nav class="toc">[\s\S]*?<\/nav>\s*/g, '')
-        .replace(/<p>\s*<strong>Содержание<\/strong>\s*<\/p>\s*/g, '');
+      const cleanedHtml = stripHtmlArtifact(
+        post.content.rendered
+          .replace(/]]>/g, ']]&gt;')
+          .replace(/<nav class="toc">[\s\S]*?<\/nav>\s*/g, '')
+          .replace(/<p>\s*<strong>Содержание<\/strong>\s*<\/p>\s*/g, '')
+      );
 
-      // The <enclosure> below only drives Dzen's card/preview thumbnail —
-      // the site itself renders the featured image outside post.content
-      // (see app/blog/[slug]/page.tsx), so it never appears inside
-      // content.rendered. Without an <img> here the article body itself
-      // has no image at all once opened in Dzen.
+      // The <enclosure> below only drives Dzen's card/preview thumbnail.
+      // Per Dzen's own RSS spec, an in-article image needs a real <img>
+      // (wrapped in <figure>, per their docs) inside content:encoded — the
+      // site renders the featured image outside post.content entirely (see
+      // app/blog/[slug]/page.tsx), so without this the article body has no
+      // image at all once opened in Dzen/VK.
       const featuredImgTag = image
-        ? `<p><img src="${escapeXml(image.source_url)}" alt="${escapeXml(decodeHtmlEntities(image.alt_text ?? ''))}"/></p>\n`
+        ? `<figure><img src="${escapeXml(image.source_url)}" alt="${escapeXml(decodeHtmlEntities(image.alt_text ?? ''))}"/></figure>\n`
         : '';
       const contentHtml = featuredImgTag + cleanedHtml;
 

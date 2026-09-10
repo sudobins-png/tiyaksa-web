@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { BlogHeader } from '@/components/sections/BlogHeader';
 import { Footer } from '@/components/sections/Footer';
-import { fetchPostBySlug, getArticleJsonLd, getFeaturedImage, getMetaDescription, stripHtml } from '@/lib/server/wordpress';
+import { fetchPostBySlug, getArticleJsonLd, getFeaturedImage, getMetaDescription, stripHtml, stripHtmlArtifact } from '@/lib/server/wordpress';
 
 interface PageProps {
   params: { slug: string };
@@ -67,7 +67,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             dangerouslySetInnerHTML={{ __html: post.title.rendered }}
           />
 
-          <div className="article-content" dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
+          <div className="article-content" dangerouslySetInnerHTML={{ __html: stripHtmlArtifact(post.content.rendered) }} />
         </article>
       </main>
       <Footer />

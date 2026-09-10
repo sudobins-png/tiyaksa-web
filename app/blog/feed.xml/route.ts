@@ -55,10 +55,20 @@ export async function GET() {
       // our hand-built "Содержание" block (the n8n prompt's <nav class="toc">
       // + its lead-in heading) just duplicates it — strip both before
       // Dzen ever sees them, rather than shipping two tables of contents.
-      const contentHtml = post.content.rendered
+      const cleanedHtml = post.content.rendered
         .replace(/]]>/g, ']]&gt;')
         .replace(/<nav class="toc">[\s\S]*?<\/nav>\s*/g, '')
         .replace(/<p>\s*<strong>Содержание<\/strong>\s*<\/p>\s*/g, '');
+
+      // The <enclosure> below only drives Dzen's card/preview thumbnail —
+      // the site itself renders the featured image outside post.content
+      // (see app/blog/[slug]/page.tsx), so it never appears inside
+      // content.rendered. Without an <img> here the article body itself
+      // has no image at all once opened in Dzen.
+      const featuredImgTag = image
+        ? `<p><img src="${escapeXml(image.source_url)}" alt="${escapeXml(decodeHtmlEntities(image.alt_text ?? ''))}"/></p>\n`
+        : '';
+      const contentHtml = featuredImgTag + cleanedHtml;
 
       const enclosure = image
         ? `<enclosure url="${escapeXml(image.source_url)}" type="${imageMimeType(image.source_url)}"/>`

@@ -150,10 +150,19 @@ export function QuizInline({
           phone:   !isTelegram ? data.contact : '—',
           website: data.website,
           source,
+          // Distinguishes a real quiz completion from other lead forms that
+          // happen to share the aptType/area field names (e.g. FinalCTA's
+          // own inline calculator) — only this flow has enough structured
+          // answers for the API to build a personal /offer/ page from.
+          fromQuiz: true,
           aptType,
+          area,
+          rooms,
+          interiorStyle,
+          colorTone,
+          hasDesign,
           message: [
             rooms         && `Комнат: ${rooms}`,
-            area          && `Площадь: ${area}`,
             interiorStyle && `Стиль: ${interiorStyle}`,
             colorTone     && `Тона: ${colorTone}`,
             hasDesign     && `Дизайн-проект: ${hasDesign}`,

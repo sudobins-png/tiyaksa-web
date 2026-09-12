@@ -9,7 +9,10 @@ export default function robots(): MetadataRoute.Robots {
       // /wp-login.php are also IP-allowlisted at the nginx level (see
       // memory), but excluding them here keeps crawlers from wasting
       // budget on them regardless.
-      disallow: ['/blog/wp-json/', '/blog/wp-admin/', '/blog/wp-login.php'],
+      // /offer/ pages are personal per-lead price breakdowns (unguessable
+      // id, own noindex/nofollow meta too — belt and braces) and were never
+      // meant to be found by search.
+      disallow: ['/blog/wp-json/', '/blog/wp-admin/', '/blog/wp-login.php', '/offer/'],
     },
     sitemap: 'https://tiyaksa.ru/sitemap.xml',
   };

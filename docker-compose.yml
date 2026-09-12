@@ -15,8 +15,10 @@ services:
       # can't hairpin back to its own public domain — see lib/server/wordpress.ts)
       - WORDPRESS_API_URL=${WORDPRESS_API_URL:-http://127.0.0.1:8091/blog/wp-json}
     volumes:
-      # Persists lib/server/leadLog.ts's JSONL lead log across redeploys —
-      # the container's own filesystem is discarded on every `up -d`.
+      # Persists lib/server/leadLog.ts's JSONL lead log and
+      # lib/server/offers.ts's per-offer JSON files (/offer/[id] pages)
+      # across redeploys — the container's own filesystem is discarded on
+      # every `up -d`.
       - ./data:/app/data
     networks:
       - n8n_default

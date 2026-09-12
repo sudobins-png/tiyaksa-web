@@ -22,7 +22,7 @@ export function Toaster() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 16 }}
           transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[500] flex items-center gap-3 bg-ink text-white text-[15px] font-medium px-5 py-[14px] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,.22)] whitespace-nowrap pointer-events-none"
+          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[500] flex items-center gap-3 bg-ink text-white text-[15px] font-medium px-5 py-[14px] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,.22)] pointer-events-none max-w-[calc(100vw-32px)]"
           role="status"
           aria-live="polite"
         >

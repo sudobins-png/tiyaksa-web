@@ -69,7 +69,7 @@ export function OfferTrustBlock({ offerId, promoCode }: OfferTrustBlockProps) {
       <GridOverlay />
       <div className="relative max-w-[680px] mx-auto px-6 py-14 md:py-[88px] text-center">
         <p className="m-0 mb-2 text-[13px] font-semibold uppercase tracking-[.1em] text-sage">
-          Скидка действует ограниченное время
+          Успейте закрепить скидку −12%
         </p>
         <p
           className="m-0 mb-6 font-extrabold text-white tabular-nums"

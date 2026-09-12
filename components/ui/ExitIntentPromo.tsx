@@ -26,9 +26,10 @@ export function ExitIntentPromo() {
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // На /quiz страница уже целиком — квиз; всплывающий попап поверх неё
-  // только путает.
+  // только путает. На /offer/[id] посетитель уже увидел персональный расчёт
+  // со скидкой −12% и своим таймером — тот же попап поверх него избыточен.
   const pathname = usePathname();
-  const excluded = pathname?.startsWith('/quiz') ?? false;
+  const excluded = pathname?.startsWith('/quiz') || pathname?.startsWith('/offer') || false;
 
   useEffect(() => { quizOpenRef.current = quizOpen; }, [quizOpen]);
 

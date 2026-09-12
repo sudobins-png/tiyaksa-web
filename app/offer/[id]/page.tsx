@@ -54,6 +54,12 @@ export default async function OfferPage({ params }: PageProps) {
               <PriceCard key={tier.name} tier={tier} deadlineLabel={deadlineLabel} />
             ))}
           </div>
+
+          <p className="m-0 mt-6 text-[12px] text-muted text-center max-w-[720px] mx-auto leading-relaxed">
+            Результат расчёта является предварительным и не является публичной офертой (ст. 437 ГК РФ).
+            Итоговая стоимость ремонта определяется после выезда специалиста на замер и составления сметы
+            с учётом фактического объёма и сложности работ.
+          </p>
         </div>
       </main>
 

@@ -65,8 +65,10 @@ export function OfferTrustBlock({ offerId, promoCode }: OfferTrustBlockProps) {
       <ScrollCue />
 
       <div className="max-w-[680px] mx-auto px-6 pb-14 md:pb-[88px] text-center">
-        <p className="m-0 mb-3 text-[13px] font-semibold uppercase tracking-[.1em] text-muted">
-          Успейте закрепить скидку −12%
+        <p className="m-0 mb-4 flex justify-center">
+          <span className="inline-block bg-sage text-white font-bold text-[14px] sm:text-[15px] uppercase tracking-[.05em] px-5 py-2 rounded-full">
+            Успейте закрепить скидку −12%
+          </span>
         </p>
         <h2 className="m-0 mb-7 font-extrabold text-ink tracking-tight" style={{ fontSize: 'clamp(24px,4vw,32px)' }}>
           Скидка действует ограниченное время

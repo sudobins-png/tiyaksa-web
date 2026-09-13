@@ -48,7 +48,10 @@ export default async function OfferPage({ params }: PageProps) {
           <p className="m-0 text-[16px] text-subtle max-w-[620px] mx-auto">{summary}</p>
         </div>
 
-        <div className="max-w-content mx-auto px-6 pb-14 lg:pb-20">
+        {/* lg:pb-0 — the trust block right below already provides its own
+            top padding; keeping both stacked left ~170px of dead air on
+            desktop between the disclaimer and "Успейте закрепить...". */}
+        <div className="max-w-content mx-auto px-6 pb-14 lg:pb-0">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {tiers.map((tier) => (
               <PriceCard key={tier.name} tier={tier} deadlineLabel={deadlineLabel} />

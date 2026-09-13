@@ -17,3 +17,4 @@ out/
 # debug
 npm-debug.log*
 pnpm-debug.log*
+.local-data

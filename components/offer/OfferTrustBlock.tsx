@@ -71,7 +71,7 @@ export function OfferTrustBlock({ offerId, promoCode }: OfferTrustBlockProps) {
           </span>
         </p>
         <h2 className="m-0 mb-7 font-extrabold text-ink tracking-tight" style={{ fontSize: 'clamp(24px,4vw,32px)' }}>
-          Скидка действует ограниченное время
+          Скидка на прайс действует ограниченное время
         </h2>
 
         <div className="relative flex items-center justify-center gap-3 sm:gap-4 mb-8" aria-live="polite">
@@ -96,7 +96,7 @@ export function OfferTrustBlock({ offerId, promoCode }: OfferTrustBlockProps) {
         </div>
 
         <p className="m-0 mb-7 text-[16px] md:text-[18px] leading-relaxed text-subtle">
-          Чтобы закрепить скидку −12% и зафиксировать окончательную цену, оставьте заявку на замер —
+          Чтобы закрепить скидку −12% прайс и зафиксировать окончательную цену, оставьте заявку на замер —
           позвоните, напишите в Telegram или MAX управляющему, который отправил вам этот расчёт.
         </p>
 
@@ -124,7 +124,7 @@ function ScrollCue() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <div className="flex justify-center pt-8 pb-6 md:pt-10 md:pb-8" aria-hidden>
+    <div className="flex justify-center py-10 md:py-12" aria-hidden>
       <motion.div
         className="w-10 h-10 rounded-full border border-[#dfe4df] bg-white shadow-card flex items-center justify-center text-forest"
         animate={shouldReduceMotion ? undefined : { y: [0, 6, 0] }}

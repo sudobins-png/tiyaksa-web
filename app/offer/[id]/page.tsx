@@ -37,7 +37,12 @@ export default async function OfferPage({ params }: PageProps) {
         <Stats />
       </div>
 
-      <main className="min-h-dvh bg-site">
+      {/* No min-h-dvh — it forces <main> to fill the viewport regardless of
+          actual content height, pushing everything below it (the arrow,
+          the trust block) down by however much is left over at a tall
+          viewport with short content. Same bug already fixed once on the
+          commercial landing pages. */}
+      <main className="bg-site">
         <div className="max-w-content mx-auto px-6 py-14 lg:py-20 text-center">
           <p className="m-0 mb-3 text-[13px] font-semibold uppercase tracking-[.1em] text-muted">
             Персональный расчёт
@@ -48,10 +53,11 @@ export default async function OfferPage({ params }: PageProps) {
           <p className="m-0 text-[16px] text-subtle max-w-[620px] mx-auto">{summary}</p>
         </div>
 
-        {/* lg:pb-0 — the trust block right below already provides its own
-            top padding; keeping both stacked left ~170px of dead air on
-            desktop between the disclaimer and "Успейте закрепить...". */}
-        <div className="max-w-content mx-auto px-6 pb-14 lg:pb-0">
+        {/* No bottom padding here — OfferTrustBlock's ScrollCue owns the
+            entire gap to the next section with matching top/bottom padding,
+            so the arrow sits exactly centred between the two; adding padding
+            here too would just skew it toward the bottom again. */}
+        <div className="max-w-content mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {tiers.map((tier) => (
               <PriceCard key={tier.name} tier={tier} deadlineLabel={deadlineLabel} />

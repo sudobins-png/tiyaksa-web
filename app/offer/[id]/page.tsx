@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { BlogHeader } from '@/components/sections/BlogHeader';
+import { OfferHeader } from '@/components/offer/OfferHeader';
 import { Footer } from '@/components/sections/Footer';
 import { Stats } from '@/components/sections/Stats';
 import { OfferTrustBlock } from '@/components/offer/OfferTrustBlock';
@@ -31,7 +31,7 @@ export default async function OfferPage({ params }: PageProps) {
 
   return (
     <>
-      <BlogHeader />
+      <OfferHeader />
 
       <div style={{ paddingTop: '71px' }}>
         <Stats />

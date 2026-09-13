@@ -122,7 +122,7 @@ function ScrollCue() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <div className="flex justify-center pt-8 pb-2 md:pt-10" aria-hidden>
+    <div className="flex justify-center pt-8 pb-6 md:pt-10 md:pb-8" aria-hidden>
       <motion.div
         className="w-10 h-10 rounded-full border border-[#dfe4df] bg-white shadow-card flex items-center justify-center text-forest"
         animate={shouldReduceMotion ? undefined : { y: [0, 6, 0] }}

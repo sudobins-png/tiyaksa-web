@@ -25,7 +25,7 @@ export default async function OfferPage({ params }: PageProps) {
   const offer = await getOffer(params.id);
   if (!offer) notFound();
 
-  const tiers = computeOfferPricing(offer.area, offer.aptType);
+  const tiers = computeOfferPricing(offer.area, offer.aptType, offer.hasDesign);
   const summary = buildOfferSummaryLine(offer);
   const deadlineLabel = formatPromoDate(getPromoDeadline());
 
@@ -83,7 +83,8 @@ function PriceCard({ tier, deadlineLabel }: { tier: OfferPriceTier; deadlineLabe
   return (
     <div className="bg-white rounded-2xl shadow-card p-7 flex flex-col">
       <h2 className="m-0 mb-1 font-bold text-[20px] text-ink">{tier.name}</h2>
-      <p className="m-0 mb-5 text-[13px] text-muted">{tier.term}</p>
+      <p className="m-0 mb-3 text-[13px] text-muted">{tier.term}</p>
+      <p className="m-0 mb-5 text-[14px] leading-relaxed text-subtle">{tier.description}</p>
 
       <p className="m-0 mb-1 text-[15px] text-muted line-through whitespace-nowrap">
         от {formatMoney(tier.low)} до {formatMoney(tier.high)}

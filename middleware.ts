@@ -24,18 +24,23 @@ function isPageNavigation(pathname: string): boolean {
 
 // Next.js сам фоново предзагружает данные всех ссылок, видимых на экране
 // (<Link prefetch>) — на странице с 5-6 ссылками это тут же даёт 5-6 запросов
-// за миллисекунды с одного IP и ошибочно выглядит как всплеск бота. Проверено
-// на реальном трафике: 249 из 370 срабатываний лимита за первые 3 дня были
-// именно такими предзагрузками у настоящих посетителей, включая владельца
-// сайта. Такие запросы не могут быть кликами человека и никогда не участвуют
-// в счётчике — а настоящие боты, пойманные раньше (OVH и др.), делают простые
-// полные GET без этих Next.js-заголовков, так что дыры это не открывает.
-function isPrefetch(req: NextRequest): boolean {
-  if (req.headers.get('next-router-prefetch') === '1') return true;
-  if (req.headers.get('rsc') === '1') return true;
-  if (req.nextUrl.searchParams.has('_rsc')) return true;
-  if (req.headers.get('purpose') === 'prefetch') return true;
-  return false;
+// за миллисекунды с одного IP и ошибочно выглядит как всплеск бота.
+//
+// Первая попытка отличать такие запросы по заголовкам Next.js
+// (Next-Router-Prefetch, Rsc, параметр _rsc) не сработала: начиная с патча
+// для CVE-2025-29927 (обход middleware через подделку внутренних заголовков
+// роутинга) Next.js сам вырезает эти заголовки/параметр ещё до того, как
+// они попадают в middleware — проверено на проде через временный
+// диагностический вывод, значение всегда приходит пустым, даже когда
+// заголовок точно доходит до сервера (подтверждено логами Traefik).
+//
+// Используем вместо этого Sec-Fetch-Dest — стандартный заголовок Fetch
+// Metadata, который выставляет сам браузер, а не фреймворк, и Next.js его
+// не трогает. У настоящей навигации по странице он равен "document",
+// у фонового fetch/prefetch — "empty" (подтверждено на реальном трафике).
+function isBackgroundFetch(req: NextRequest): boolean {
+  const dest = req.headers.get('sec-fetch-dest');
+  return dest !== null && dest !== 'document';
 }
 
 function getClientIp(req: NextRequest): string {
@@ -45,14 +50,8 @@ function getClientIp(req: NextRequest): string {
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  const debugPrefetch = isPrefetch(req);
-  if (!isPageNavigation(pathname) || debugPrefetch) {
-    const res = NextResponse.next();
-    res.headers.set('x-debug-prefetch', String(debugPrefetch));
-    res.headers.set('x-debug-nrp-header', String(req.headers.get('next-router-prefetch')));
-    res.headers.set('x-debug-custom-header', String(req.headers.get('x-my-test-header')));
-    res.headers.set('x-debug-all-headers', JSON.stringify(Array.from(req.headers.keys())));
-    return res;
+  if (!isPageNavigation(pathname) || isBackgroundFetch(req)) {
+    return NextResponse.next();
   }
 
   const ua = req.headers.get('user-agent') || '';
@@ -67,12 +66,7 @@ export function middleware(req: NextRequest) {
 
   if (hits.length > MAX_NAVIGATIONS_PER_WINDOW) {
     recentHits.set(ip, hits);
-    const res = new NextResponse('Too Many Requests', { status: 429 });
-    res.headers.set('x-debug-prefetch', String(debugPrefetch));
-    res.headers.set('x-debug-nrp-header', String(req.headers.get('next-router-prefetch')));
-    res.headers.set('x-debug-hits', String(hits.length));
-    res.headers.set('x-debug-all-headers', JSON.stringify(Array.from(req.headers.keys())));
-    return res;
+    return new NextResponse('Too Many Requests', { status: 429 });
   }
 
   if (hits.length === 0) {
@@ -81,10 +75,7 @@ export function middleware(req: NextRequest) {
     recentHits.set(ip, hits);
   }
 
-  const res = NextResponse.next();
-  res.headers.set('x-debug-prefetch', String(debugPrefetch));
-  res.headers.set('x-debug-nrp-header', String(req.headers.get('next-router-prefetch')));
-  return res;
+  return NextResponse.next();
 }
 
 export const config = {

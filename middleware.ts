@@ -50,6 +50,8 @@ export function middleware(req: NextRequest) {
     const res = NextResponse.next();
     res.headers.set('x-debug-prefetch', String(debugPrefetch));
     res.headers.set('x-debug-nrp-header', String(req.headers.get('next-router-prefetch')));
+    res.headers.set('x-debug-custom-header', String(req.headers.get('x-my-test-header')));
+    res.headers.set('x-debug-all-headers', JSON.stringify(Array.from(req.headers.keys())));
     return res;
   }
 
@@ -69,6 +71,7 @@ export function middleware(req: NextRequest) {
     res.headers.set('x-debug-prefetch', String(debugPrefetch));
     res.headers.set('x-debug-nrp-header', String(req.headers.get('next-router-prefetch')));
     res.headers.set('x-debug-hits', String(hits.length));
+    res.headers.set('x-debug-all-headers', JSON.stringify(Array.from(req.headers.keys())));
     return res;
   }
 

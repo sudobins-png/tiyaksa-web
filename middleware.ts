@@ -45,8 +45,12 @@ function getClientIp(req: NextRequest): string {
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  if (!isPageNavigation(pathname) || isPrefetch(req)) {
-    return NextResponse.next();
+  const debugPrefetch = isPrefetch(req);
+  if (!isPageNavigation(pathname) || debugPrefetch) {
+    const res = NextResponse.next();
+    res.headers.set('x-debug-prefetch', String(debugPrefetch));
+    res.headers.set('x-debug-nrp-header', String(req.headers.get('next-router-prefetch')));
+    return res;
   }
 
   const ua = req.headers.get('user-agent') || '';
@@ -61,7 +65,11 @@ export function middleware(req: NextRequest) {
 
   if (hits.length > MAX_NAVIGATIONS_PER_WINDOW) {
     recentHits.set(ip, hits);
-    return new NextResponse('Too Many Requests', { status: 429 });
+    const res = new NextResponse('Too Many Requests', { status: 429 });
+    res.headers.set('x-debug-prefetch', String(debugPrefetch));
+    res.headers.set('x-debug-nrp-header', String(req.headers.get('next-router-prefetch')));
+    res.headers.set('x-debug-hits', String(hits.length));
+    return res;
   }
 
   if (hits.length === 0) {
@@ -70,7 +78,10 @@ export function middleware(req: NextRequest) {
     recentHits.set(ip, hits);
   }
 
-  return NextResponse.next();
+  const res = NextResponse.next();
+  res.headers.set('x-debug-prefetch', String(debugPrefetch));
+  res.headers.set('x-debug-nrp-header', String(req.headers.get('next-router-prefetch')));
+  return res;
 }
 
 export const config = {

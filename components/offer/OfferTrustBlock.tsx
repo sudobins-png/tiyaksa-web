@@ -4,52 +4,44 @@ import { useEffect, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useToastStore } from '@/stores/toastStore';
 
-const DEADLINE_KEY_PREFIX = 'tiyaksa_offer_deadline_';
-const DURATION_MS = 24 * 60 * 60 * 1000;
-
 /**
- * Persists the deadline in localStorage on first view so refreshing (or
- * coming back tomorrow) doesn't quietly reset the visitor's own 24h window —
- * "24 hours from when the page was opened" means the first time *they*
- * opened it, not every reload.
+ * Counts down to a fixed deadline (the same rolling promo deadline shown on
+ * the price cards below — see app/offer/[id]/page.tsx) rather than 24h from
+ * whenever this particular visitor first opened the page. The two used to
+ * disagree: cards said "до 19 сентября" while this ran its own independent
+ * 24h-from-open clock, so the timer and the cards told two different
+ * stories about when the discount actually expires.
  */
-function useOfferCountdown(offerId: string): number {
-  const [remaining, setRemaining] = useState<number>(DURATION_MS);
+function useCountdownTo(deadlineTimestamp: number): number {
+  const [remaining, setRemaining] = useState(() => Math.max(0, deadlineTimestamp - Date.now()));
 
   useEffect(() => {
-    const key = DEADLINE_KEY_PREFIX + offerId;
-    let deadline: number;
-    try {
-      const stored = localStorage.getItem(key);
-      deadline = stored ? Number(stored) : Date.now() + DURATION_MS;
-      if (!stored) localStorage.setItem(key, String(deadline));
-    } catch {
-      deadline = Date.now() + DURATION_MS; // private mode / storage disabled
-    }
-
-    const tick = () => setRemaining(Math.max(0, deadline - Date.now()));
+    const tick = () => setRemaining(Math.max(0, deadlineTimestamp - Date.now()));
     tick();
     const interval = setInterval(tick, 1000);
     return () => clearInterval(interval);
-  }, [offerId]);
+  }, [deadlineTimestamp]);
 
   return remaining;
 }
 
 interface OfferTrustBlockProps {
-  offerId: string;
   promoCode: string;
+  /** Same deadline as the price cards' "Скидка действует до …" — getPromoDeadline().getTime(). */
+  deadlineTimestamp: number;
 }
 
-export function OfferTrustBlock({ offerId, promoCode }: OfferTrustBlockProps) {
-  const remaining = useOfferCountdown(offerId);
+export function OfferTrustBlock({ promoCode, deadlineTimestamp }: OfferTrustBlockProps) {
+  const remaining = useCountdownTo(deadlineTimestamp);
   const showToast = useToastStore((s) => s.show);
-  const shouldReduceMotion = useReducedMotion();
 
-  const totalSeconds = Math.floor(Math.max(0, remaining) / 1000);
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
+  // The rolling deadline is 1–5 days out, not always same-day — days/hours/
+  // minutes reads naturally across that whole range; seconds would just be
+  // noise for something that can be days away.
+  const totalMinutes = Math.floor(remaining / 60000);
+  const days = Math.floor(totalMinutes / 1440);
+  const hours = Math.floor((totalMinutes % 1440) / 60);
+  const minutes = totalMinutes % 60;
 
   const copyCode = async () => {
     try {
@@ -86,13 +78,13 @@ export function OfferTrustBlock({ offerId, promoCode }: OfferTrustBlockProps) {
               filter: 'blur(20px)',
             }}
           />
+          <TimeUnit value={days} label="дней" />
+          <Colon />
           <TimeUnit value={hours} label="часов" />
           <Colon />
-          <TimeUnit value={minutes} label="минут" />
-          <Colon />
-          {/* Only the seconds unit animates on every tick — flipping all
-              three every second read as busy rather than alive. */}
-          <TimeUnit value={seconds} label="секунд" animated />
+          {/* Only the finest-grained unit animates on change — flipping
+              every tile on every tick read as busy rather than alive. */}
+          <TimeUnit value={minutes} label="минут" animated />
         </div>
 
         <p className="m-0 mb-7 text-[16px] md:text-[18px] leading-relaxed text-subtle">

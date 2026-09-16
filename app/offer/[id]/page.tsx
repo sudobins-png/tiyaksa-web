@@ -27,7 +27,8 @@ export default async function OfferPage({ params }: PageProps) {
 
   const tiers = computeOfferPricing(offer.area, offer.aptType, offer.hasDesign);
   const summary = buildOfferSummaryLine(offer);
-  const deadlineLabel = formatPromoDate(getPromoDeadline());
+  const deadline = getPromoDeadline();
+  const deadlineLabel = formatPromoDate(deadline);
 
   return (
     <>
@@ -72,7 +73,7 @@ export default async function OfferPage({ params }: PageProps) {
         </div>
       </main>
 
-      <OfferTrustBlock offerId={offer.id} promoCode={offer.promoCode} />
+      <OfferTrustBlock promoCode={offer.promoCode} deadlineTimestamp={deadline.getTime()} />
 
       <Footer />
     </>

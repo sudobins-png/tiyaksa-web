@@ -1,6 +1,8 @@
 import type Anthropic from '@anthropic-ai/sdk';
 import { z } from 'zod';
 import { pricingTiers } from '@/data/pricing';
+import { PRICE_NOTES } from '@/data/priceNotes';
+import { PRICE_CATEGORY_NAMES, PRICE_CATEGORY_SLUGS, searchPriceList } from './priceSearch';
 import { computeEstimatePricing, OFFER_DISCOUNT_RATE } from '@/lib/utils/offerPricing';
 import { formatPromoDate, getPromoDeadline } from '@/lib/utils/promoDeadline';
 import { formatMoney } from '@/lib/utils';
@@ -53,6 +55,11 @@ const estimateSchema = z.object({
 
 const requestOfferSchema = z.object({ summary: z.string().min(1).max(500) });
 
+const priceSearchSchema = z.object({
+  query: z.string().min(1).max(80).optional(),
+  category: z.enum(PRICE_CATEGORY_SLUGS as [string, ...string[]]).optional(),
+});
+
 const enumList = (values: readonly string[]) => ({ type: 'string', enum: [...values] });
 
 export const ASSISTANT_TOOLS: Anthropic.Beta.Messages.BetaTool[] = [
@@ -83,6 +90,22 @@ export const ASSISTANT_TOOLS: Anthropic.Beta.Messages.BetaTool[] = [
         },
       },
       required: ['area_sqm', 'property_type'],
+      additionalProperties: false,
+    },
+  },
+  {
+    name: 'search_price_list',
+    description: `Поиск цен на отдельные работы в прайс-листе сайта (демонтаж, стяжка, штукатурка, электрика, сантехника, дизайн-проект, клининг и т. д.). Единственный источник цен по позициям. Категории: ${PRICE_CATEGORY_NAMES.join(', ')}. Поиск по началу слов: если ничего не нашлось, переформулируй (например «оштукатуривание» вместо «штукатурка», «плитка» вместо «кафель»). Для общей стоимости ремонта используй estimate_cost, а не этот инструмент.`,
+    eager_input_streaming: true,
+    input_schema: {
+      type: 'object',
+      properties: {
+        query: { type: 'string', description: 'Что ищем словами из названия работы, например «стяжка пола» или «демонтаж плитки»' },
+        category: {
+          ...enumList(PRICE_CATEGORY_SLUGS),
+          description: `Ограничить поиск категорией: ${PRICE_CATEGORY_SLUGS.map((s, i) => `${s} — ${PRICE_CATEGORY_NAMES[i]}`).join('; ')}`,
+        },
+      },
       additionalProperties: false,
     },
   },
@@ -172,10 +195,25 @@ function estimateCost(input: unknown, ctx: ToolContext): ToolOutcome {
         со_скидкой_персонального_расчёта: range(t.discountedLow, t.discountedHigh),
       })),
       скидка_персонального_расчёта: `−${Math.round(OFFER_DISCOUNT_RATE * 100)}% при оформлении персонального расчёта, действует до ${formatPromoDate(getPromoDeadline())}`,
+      включено: 'Только работы. Материалы НЕ входят в эти суммы и считаются отдельно.',
+      примечания_к_ценам: PRICE_NOTES,
       примечание:
-        'Предварительная оценка, не оферта. Скидку упоминай только когда предлагаешь персональный расчёт.',
+        'Предварительная оценка, не оферта. Обязательно скажи клиенту, что материалы не входят, и упомяни минимальную стоимость заказа. Скидку упоминай только когда предлагаешь персональный расчёт.',
     }),
   };
+}
+
+function priceList(input: unknown): ToolOutcome {
+  const parsed = priceSearchSchema.safeParse(input);
+  if (!parsed.success) return { content: 'Некорректный запрос: нужны слова для поиска и/или категория из списка.', isError: true };
+  const { query, category } = parsed.data;
+  if (!query && !category) return { content: `Уточни, что искать. Категории прайса: ${PRICE_CATEGORY_NAMES.join(', ')}.`, isError: true };
+
+  const result = searchPriceList(query, category);
+  if (result.всего_найдено === 0) {
+    return { content: `По запросу ничего не найдено. Попробуй другие слова или категорию: ${PRICE_CATEGORY_NAMES.join(', ')}.`, isError: true };
+  }
+  return { content: JSON.stringify(result) };
 }
 
 function savePreferences(input: unknown, ctx: ToolContext): ToolOutcome {
@@ -223,6 +261,8 @@ export function runTool(name: string, input: unknown, ctx: ToolContext): ToolOut
       return compareRepairTypes();
     case 'estimate_cost':
       return estimateCost(input, ctx);
+    case 'search_price_list':
+      return priceList(input);
     case 'save_preferences':
       return savePreferences(input, ctx);
     case 'request_personal_estimate':

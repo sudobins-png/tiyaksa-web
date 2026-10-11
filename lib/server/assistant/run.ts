@@ -11,7 +11,7 @@ const MAX_STEPS = 5;
 // Thinking tokens count against max_tokens, so leave room beyond a short reply.
 const MAX_TOKENS = 4000;
 
-export const MSG_UNAVAILABLE = 'Ассистент сейчас недоступен. Позвоните нам или оставьте заявку — поможем лично.';
+export const MSG_UNAVAILABLE = 'Лев сейчас недоступен. Позвоните нам или оставьте заявку — поможем лично.';
 const MSG_REFUSED = 'С этим вопросом я помочь не могу. Давайте вернёмся к ремонту — о чём рассказать?';
 const MSG_BUSY = 'Сейчас много обращений. Подождите минуту и повторите — или позвоните нам.';
 

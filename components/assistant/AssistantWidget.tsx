@@ -12,7 +12,7 @@ import { HandoffCard } from './HandoffCard';
 import { OfferCard } from './OfferCard';
 
 const GREETING =
-  'Здравствуйте! Я ИИ-помощник ТиЯКСа.Ремонт. Расскажу про виды ремонта, сроки и стоимость, а в конце соберу для вас персональный расчёт. С чего начнём?';
+  'Здравствуйте! Меня зовут Лев, я личный управляющий ТиЯКСа.Ремонт. Подскажу по видам ремонта, срокам и стоимости и помогу с персональным расчётом. С чего начнём?';
 
 const QUICK_REPLIES = ['Сколько стоит ремонт?', 'Чем отличаются виды ремонта?', 'Посчитать мою квартиру'];
 
@@ -174,7 +174,7 @@ export function AssistantWidget() {
           <motion.div
             id="assistant-panel"
             role="dialog"
-            aria-label="Помощник ТиЯКСа.Ремонт"
+            aria-label="Чат со Львом, ТиЯКСа.Ремонт"
             initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 24 }}
@@ -185,18 +185,18 @@ export function AssistantWidget() {
             <div className="flex items-center gap-2 border-b border-[#ecefec] bg-white px-3.5 py-3 sm:gap-2.5 sm:px-4">
               <Image src="/logo-mini.png" alt="" width={39} height={36} className="shrink-0" />
               <div className="min-w-0 flex-1">
-                <p className="m-0 truncate text-[15px] font-extrabold leading-tight text-forest sm:text-[16px]">Помощник ТиЯКСа</p>
+                <p className="m-0 truncate text-[15px] font-extrabold leading-tight text-forest sm:text-[16px]">Лев</p>
                 <p className="m-0 mt-0.5 flex items-center gap-1.5 truncate text-[12px] leading-tight text-muted">
                   <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#22c55e]" aria-hidden />
-                  ИИ · отвечает за секунды
+                  Онлайн · личный управляющий
                 </p>
               </div>
               <button
                 type="button"
                 onClick={chat.requestHandoff}
                 disabled={chat.busy}
-                aria-label="Связаться с менеджером"
-                title="Связаться с менеджером"
+                aria-label="Позвонить или написать в Telegram"
+                title="Позвонить или написать в Telegram"
                 className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full border-none bg-grove-mint text-forest transition-colors hover:bg-[#dcebdc] disabled:cursor-default disabled:opacity-50"
               >
                 <ManagerIcon />
@@ -247,13 +247,13 @@ export function AssistantWidget() {
 
               {chat.messages.length === 0 && (
                 <p className="m-0 text-[13px] text-muted">
-                  Нужен человек?{' '}
+                  Удобнее голосом или в Telegram?{' '}
                   <button
                     type="button"
                     onClick={chat.requestHandoff}
                     className="cursor-pointer border-none bg-transparent p-0 text-[13px] font-bold text-forest underline"
                   >
-                    Связаться с менеджером
+                    Связаться напрямую
                   </button>
                 </p>
               )}
@@ -274,7 +274,7 @@ export function AssistantWidget() {
               ))}
 
               {typing && (
-                <div className="flex w-fit items-center gap-1.5 rounded-2xl rounded-bl-md border border-[#e4e9e4] bg-white px-4 py-3" aria-label="Помощник печатает">
+                <div className="flex w-fit items-center gap-1.5 rounded-2xl rounded-bl-md border border-[#e4e9e4] bg-white px-4 py-3" aria-label="Лев печатает">
                   {[0, 1, 2].map((i) => (
                     <span
                       key={i}
@@ -325,8 +325,8 @@ export function AssistantWidget() {
                   rows={1}
                   maxLength={MAX_MESSAGE_CHARS}
                   placeholder="Напишите вопрос…"
-                  aria-label="Сообщение помощнику"
-                  className="max-h-[120px] min-h-[46px] flex-1 resize-none rounded-xl border border-[#e4e9e4] bg-[#f7f9f7] px-4 py-3 text-base leading-snug outline-none transition-colors placeholder:text-[#b0b8b0] focus:border-grove"
+                  aria-label="Сообщение Льву"
+                  className="max-h-[120px] min-h-[46px] flex-1 resize-none rounded-xl border border-[#e4e9e4] bg-[#f7f9f7] px-4 py-3 text-base leading-snug text-ink outline-none transition-colors placeholder:text-[#b0b8b0] focus:border-grove"
                 />
                 <button
                   type="submit"
@@ -340,7 +340,7 @@ export function AssistantWidget() {
                 </button>
               </form>
               <p className="m-0 mt-2 text-center text-[11px] leading-snug text-[#9aa39a]">
-                ИИ-помощник · цены ориентировочные, не оферта ·{' '}
+                Цены ориентировочные, не оферта ·{' '}
                 <a href={siteConfig.phoneHref} className="text-[#9aa39a] underline">
                   {siteConfig.phone}
                 </a>
@@ -356,10 +356,10 @@ export function AssistantWidget() {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          aria-label={open ? 'Закрыть чат с помощником' : 'Открыть чат с помощником'}
+          aria-label={open ? 'Закрыть чат со Львом' : 'Открыть чат со Львом'}
           aria-expanded={open}
           aria-controls="assistant-panel"
-          className="fixed bottom-5 right-5 z-[150] flex h-14 cursor-pointer items-center gap-2.5 rounded-full border-none bg-forest px-4 text-white ring-2 ring-white/90 shadow-[0_8px_28px_rgba(27,79,27,.35)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-forest-dark sm:px-5"
+          className="fixed bottom-5 right-5 z-[150] flex h-14 cursor-pointer items-center gap-2.5 rounded-full border-none bg-gold px-4 text-forest ring-2 ring-white/90 shadow-[0_8px_30px_rgba(17,24,17,.30)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-gold-dark sm:px-5"
         >
           {open ? <CloseIcon /> : <ChatIcon />}
           <span className="hidden text-[15px] font-bold sm:inline">{open ? 'Закрыть' : 'Задать вопрос'}</span>

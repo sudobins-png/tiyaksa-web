@@ -74,7 +74,7 @@ export function HandoffCard({ draft, history, prefs, sent, onSent }: HandoffCard
     return (
       <div className="assistant-in mt-2 rounded-2xl border border-[#dbe9db] bg-[#eef6ee] px-4 py-4">
         <p className="m-0 text-[15px] font-bold text-forest">
-          {failed ? 'Откройте чат с Львом' : `История передана — ${managerInfo.name} в курсе`}
+          {failed ? 'Откройте Telegram' : 'История сохранена — продолжим напрямую'}
         </p>
         <p className="m-0 mt-1 text-[14px] leading-snug text-subtle">
           {failed
@@ -106,7 +106,7 @@ export function HandoffCard({ draft, history, prefs, sent, onSent }: HandoffCard
           </div>
         </div>
         <p className="m-0 mt-3 text-[14px] leading-snug text-subtle">
-          Передам ему историю этой переписки, повторять ничего не придётся.
+          Сохраню историю этой переписки — повторять ничего не придётся.
         </p>
 
         <input
@@ -125,8 +125,8 @@ export function HandoffCard({ draft, history, prefs, sent, onSent }: HandoffCard
           onChange={(e) => setContact(e.target.value)}
           placeholder="Телефон или @telegram — по желанию"
           autoComplete="off"
-          aria-label="Ваш контакт, чтобы менеджер мог написать первым (необязательно)"
-          className="mt-3 w-full rounded-xl border border-[#e4e9e4] bg-[#f7f9f7] px-4 py-3 text-base outline-none transition-colors placeholder:text-[#b0b8b0] focus:border-grove"
+          aria-label="Ваш контакт, чтобы я мог написать первым (необязательно)"
+          className="mt-3 w-full rounded-xl border border-[#e4e9e4] bg-[#f7f9f7] px-4 py-3 text-base text-ink outline-none transition-colors placeholder:text-[#b0b8b0] focus:border-grove"
         />
 
         <div className="mt-3 flex flex-col gap-2">
@@ -151,7 +151,7 @@ export function HandoffCard({ draft, history, prefs, sent, onSent }: HandoffCard
         </div>
 
         <p className="m-0 mt-3 text-center text-[12px] leading-relaxed text-[#9aa39a]">
-          Нажимая кнопку, вы передаёте менеджеру историю чата и соглашаетесь на{' '}
+          Нажимая кнопку, вы передаёте историю чата и соглашаетесь на{' '}
           <button
             type="button"
             onClick={() => setPrivacyOpen(true)}

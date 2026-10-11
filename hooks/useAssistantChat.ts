@@ -20,7 +20,7 @@ export interface UiMessage {
   handoffSent?: boolean;
 }
 
-const MANUAL_HANDOFF_TEXT = 'Конечно, давайте продолжим напрямую — выберите, как вам удобнее связаться. Историю нашей переписки сохраню, повторять ничего не придётся.';
+const MANUAL_HANDOFF_TEXT = 'Конечно, давайте продолжим напрямую — выберите, как вам удобнее связаться.';
 
 const STORAGE_KEY = 'tiyaksa_assistant_v1';
 const MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;

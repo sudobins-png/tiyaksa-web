@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.133.0",
     "@hookform/resolvers": "^3.6.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.18.2",

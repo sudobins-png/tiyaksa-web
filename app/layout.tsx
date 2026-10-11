@@ -5,6 +5,7 @@ import { Toaster } from '@/components/ui/Toaster';
 import { CookieBanner } from '@/components/ui/CookieBanner';
 import { ExitIntentPromo } from '@/components/ui/ExitIntentPromo';
 import { QuizModalHost } from '@/components/quiz/QuizModalHost';
+import { AssistantHost } from '@/components/assistant/AssistantHost';
 import { UtmCapture } from '@/components/ui/UtmCapture';
 import './globals.css';
 
@@ -66,6 +67,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <CookieBanner />
         <ExitIntentPromo />
         <QuizModalHost />
+        <AssistantHost />
       </body>
     </html>
   );

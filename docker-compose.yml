@@ -11,6 +11,13 @@ services:
       # lib/server/telegram.ts. Relays through an HTTP proxy on a second VPS
       # instead. Unset (or blank) falls back to a direct connection.
       - TELEGRAM_PROXY_URL=${TELEGRAM_PROXY_URL:-}
+      # AI assistant widget (components/assistant, app/api/assistant). A blank
+      # key keeps the widget hidden. Anthropic's API is unreachable from this
+      # VPS directly, so it needs a proxy the same way Telegram does.
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - ANTHROPIC_PROXY_URL=${ANTHROPIC_PROXY_URL:-}
+      - ASSISTANT_MODEL=${ASSISTANT_MODEL:-}
+      - ASSISTANT_DAILY_LIMIT=${ASSISTANT_DAILY_LIMIT:-}
       # Headless WordPress blog backend. Must be an internal address (this VPS
       # can't hairpin back to its own public domain — see lib/server/wordpress.ts)
       - WORDPRESS_API_URL=${WORDPRESS_API_URL:-http://127.0.0.1:8091/blog/wp-json}

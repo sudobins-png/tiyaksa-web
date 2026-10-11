@@ -47,7 +47,19 @@ export function computeOfferPricing(
   aptType: string,
   hasDesign?: string
 ): OfferPriceTier[] {
-  const midpoint = AREA_MIDPOINTS[area] ?? DEFAULT_AREA_MIDPOINT;
+  return buildTiers(AREA_MIDPOINTS[area] ?? DEFAULT_AREA_MIDPOINT, aptType, hasDesign);
+}
+
+/** Same math as computeOfferPricing, for an exact area in m² instead of a quiz bucket. */
+export function computeEstimatePricing(
+  areaSqm: number,
+  aptType: string,
+  hasDesign?: string
+): OfferPriceTier[] {
+  return buildTiers(areaSqm, aptType, hasDesign);
+}
+
+function buildTiers(midpoint: number, aptType: string, hasDesign?: string): OfferPriceTier[] {
   const mult = aptType.includes('Вторич') ? secondaryMultiplier : 1;
 
   return WORK_TYPES.map(({ name, term }) => {

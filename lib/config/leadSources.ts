@@ -26,6 +26,7 @@ export const LEAD_SOURCES = {
   landingCosmetic:    'landing-cosmetic',
   landingCapital:     'landing-capital',
   landingDesign:      'landing-design',
+  assistant:          'assistant',
 } as const;
 
 export type LeadSource = (typeof LEAD_SOURCES)[keyof typeof LEAD_SOURCES];
@@ -50,6 +51,7 @@ export const LEAD_SOURCE_LABELS: Record<LeadSource, string> = {
   [LEAD_SOURCES.landingCosmetic]:    'Страница /remont-kosmeticheskiy-spb',
   [LEAD_SOURCES.landingCapital]:     'Страница /remont-kapitalnyy-spb',
   [LEAD_SOURCES.landingDesign]:      'Страница /remont-dizainerskiy-spb',
+  [LEAD_SOURCES.assistant]:          'Чат-ассистент на сайте',
 };
 
 export function leadSourceLabel(source: string | undefined | null): string {

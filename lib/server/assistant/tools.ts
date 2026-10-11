@@ -1,7 +1,7 @@
 import type Anthropic from '@anthropic-ai/sdk';
 import { z } from 'zod';
 import { pricingTiers } from '@/data/pricing';
-import { PRICE_NOTES } from '@/data/priceNotes';
+import { MIN_ORDER_RUB, PRICE_NOTES } from '@/data/priceNotes';
 import { PRICE_CATEGORY_NAMES, PRICE_CATEGORY_SLUGS, searchPriceList } from './priceSearch';
 import { computeEstimatePricing, OFFER_DISCOUNT_RATE } from '@/lib/utils/offerPricing';
 import { formatPromoDate, getPromoDeadline } from '@/lib/utils/promoDeadline';
@@ -197,6 +197,10 @@ function estimateCost(input: unknown, ctx: ToolContext): ToolOutcome {
       скидка_персонального_расчёта: `−${Math.round(OFFER_DISCOUNT_RATE * 100)}% при оформлении персонального расчёта, действует до ${formatPromoDate(getPromoDeadline())}`,
       включено: 'Только работы. Материалы НЕ входят в эти суммы и считаются отдельно.',
       примечания_к_ценам: PRICE_NOTES,
+      минимальная_стоимость_заказа: formatMoney(MIN_ORDER_RUB),
+      ...(tiers.some((t) => t.low < MIN_ORDER_RUB) && {
+        есть_варианты_ниже_минимального_заказа: `Для вариантов, где нижняя граница меньше ${formatMoney(MIN_ORDER_RUB)}, прямо скажи: итоговая стоимость заказа не может быть ниже ${formatMoney(MIN_ORDER_RUB)}. Не подавай такой диапазон (и тем более со скидкой) как итоговую цену.`,
+      }),
       примечание:
         'Предварительная оценка, не оферта. Обязательно скажи клиенту, что материалы не входят, и упомяни минимальную стоимость заказа. Скидку упоминай только когда предлагаешь персональный расчёт.',
     }),

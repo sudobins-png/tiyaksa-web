@@ -21,6 +21,8 @@ export const PRICE_FAQ_ITEMS = [
   },
 ] as const;
 
+export const MIN_ORDER_RUB = 300_000;
+
 // Источник: раздел «Примечание» на https://www.prorabneva.ru/price — то же
 // самое, что и остальные цены на странице /price; формулировки слегка
 // причёсаны под наш тон.

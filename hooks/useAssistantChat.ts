@@ -6,6 +6,7 @@ import {
   MAX_MESSAGE_CHARS,
   type AssistantEvent,
   type AssistantPreferences,
+  type HandoffDraft,
   type OfferDraft,
 } from '@/lib/assistant/types';
 
@@ -15,7 +16,11 @@ export interface UiMessage {
   content: string;
   offer?: OfferDraft;
   offerSent?: boolean;
+  handoff?: HandoffDraft;
+  handoffSent?: boolean;
 }
+
+const MANUAL_HANDOFF_TEXT = 'Конечно, передам историю нашей переписки Льву, личному управляющему проектом. Выберите, как вам удобнее связаться.';
 
 const STORAGE_KEY = 'tiyaksa_assistant_v1';
 const MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
@@ -61,7 +66,7 @@ export function useAssistantChat() {
   useEffect(() => {
     const stored = loadStored();
     if (!stored) return;
-    setMessages(stored.messages.filter((m) => m.content || m.offer));
+    setMessages(stored.messages.filter((m) => m.content || m.offer || m.handoff));
     setPrefs(stored.prefs ?? {});
   }, []);
 
@@ -109,6 +114,9 @@ export function useAssistantChat() {
         case 'offer':
           setMessages((prev) => prev.map((m) => (m.id === botId ? { ...m, offer: event.v } : m)));
           break;
+        case 'handoff':
+          setMessages((prev) => prev.map((m) => (m.id === botId ? { ...m, handoff: event.v } : m)));
+          break;
         case 'error':
           setError(event.v);
           break;
@@ -150,7 +158,7 @@ export function useAssistantChat() {
         busyRef.current = false;
         setBusy(false);
       }
-      setMessages((prev) => prev.filter((m) => m.id !== botId || m.content || m.offer));
+      setMessages((prev) => prev.filter((m) => m.id !== botId || m.content || m.offer || m.handoff));
     }
   }, []);
 
@@ -167,6 +175,22 @@ export function useAssistantChat() {
     setMessages((prev) => prev.map((m) => (m.id === id ? { ...m, offerSent: true } : m)));
   }, []);
 
+  const markHandoffSent = useCallback((id: string) => {
+    setMessages((prev) => prev.map((m) => (m.id === id ? { ...m, handoffSent: true } : m)));
+  }, []);
+
+  // The header button works without the model: it drops the contact card into
+  // the chat itself. Skipped if an unused card is already the latest thing there.
+  const requestHandoff = useCallback(() => {
+    if (busyRef.current) return;
+    const open = messagesRef.current.some((m) => m.handoff && !m.handoffSent);
+    if (open) return;
+    setMessages((prev) => [
+      ...prev,
+      { id: newId(), role: 'assistant', content: MANUAL_HANDOFF_TEXT, handoff: { reason: 'asked_human', summary: '' } },
+    ]);
+  }, []);
+
   const reset = useCallback(() => {
     abortRef.current?.abort();
     busyRef.current = false;
@@ -176,5 +200,5 @@ export function useAssistantChat() {
     setError(null);
   }, []);
 
-  return { messages, prefs, busy, error, send, retry, reset, markOfferSent };
+  return { messages, prefs, busy, error, send, retry, reset, markOfferSent, markHandoffSent, requestHandoff };
 }

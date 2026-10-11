@@ -9,6 +9,9 @@ import { formatMoney } from '@/lib/utils';
 import { cleanLine } from '@/lib/utils/sanitize';
 import {
   DESIGN_STATES,
+  HANDOFF_REASONS,
+  HANDOFF_REASON_LABELS,
+  MANAGER_TELEGRAM,
   NO_ROOMS_TYPES,
   OBJECT_TYPES,
   REPAIR_TYPES,
@@ -54,6 +57,11 @@ const estimateSchema = z.object({
 });
 
 const requestOfferSchema = z.object({ summary: z.string().min(1).max(500) });
+
+const handoffSchema = z.object({
+  reason: z.enum(HANDOFF_REASONS),
+  summary: z.string().min(1).max(500),
+});
 
 const priceSearchSchema = z.object({
   query: z.string().min(1).max(80).optional(),
@@ -126,6 +134,26 @@ export const ASSISTANT_TOOLS: Anthropic.Beta.Messages.BetaTool[] = [
         repairType: { ...enumList(REPAIR_TYPES), description: 'Вид ремонта, который интересует' },
         notes: { type: 'string', description: 'Важные пожелания своими словами, до 300 символов' },
       },
+      additionalProperties: false,
+    },
+  },
+  {
+    name: 'handoff_to_manager',
+    description: `Передать клиента живому менеджеру Льву: клиент увидит кнопки «Написать в Telegram» (@${MANAGER_TELEGRAM}) и «Позвонить», а история переписки уйдёт Льву. Вызывай, когда клиент просит человека, менеджера или Льва, жалуется, торгуется о цене, скидке или рассрочке, описывает сложный объект или спрашивает важное, чего ты не знаешь. Сам ничего не отправляет.`,
+    eager_input_streaming: true,
+    input_schema: {
+      type: 'object',
+      properties: {
+        reason: {
+          ...enumList(HANDOFF_REASONS),
+          description: HANDOFF_REASONS.map((r) => `${r} — ${HANDOFF_REASON_LABELS[r]}`).join('; '),
+        },
+        summary: {
+          type: 'string',
+          description: 'Для Льва, 1–3 предложения: что клиент хочет, что уже выяснили, что осталось неясным (до 500 символов)',
+        },
+      },
+      required: ['reason', 'summary'],
       additionalProperties: false,
     },
   },
@@ -259,6 +287,16 @@ function requestPersonalEstimate(input: unknown, ctx: ToolContext): ToolOutcome 
   };
 }
 
+function handoffToManager(input: unknown, ctx: ToolContext): ToolOutcome {
+  const parsed = handoffSchema.safeParse(input);
+  if (!parsed.success) return { content: 'Нужны причина (reason) и краткое описание для менеджера (summary).', isError: true };
+
+  ctx.emit({ t: 'handoff', v: { reason: parsed.data.reason, summary: cleanLine(parsed.data.summary, 500) } });
+  return {
+    content: `Кнопки связи с Львом показаны клиенту (Telegram @${MANAGER_TELEGRAM} и телефон). Скажи в одной-двух фразах, что история переписки уйдёт Льву, когда клиент нажмёт кнопку. Не говори, что Лев уже написал или ответил, и не обещай срок ответа.`,
+  };
+}
+
 export function runTool(name: string, input: unknown, ctx: ToolContext): ToolOutcome {
   switch (name) {
     case 'compare_repair_types':
@@ -267,6 +305,8 @@ export function runTool(name: string, input: unknown, ctx: ToolContext): ToolOut
       return estimateCost(input, ctx);
     case 'search_price_list':
       return priceList(input);
+    case 'handoff_to_manager':
+      return handoffToManager(input, ctx);
     case 'save_preferences':
       return savePreferences(input, ctx);
     case 'request_personal_estimate':

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { MAX_HISTORY_MESSAGES, MAX_MESSAGE_CHARS, type AssistantEvent } from '@/lib/assistant/types';
 import { getAnthropic } from '@/lib/server/assistant/client';
+import { getClientIp, originAllowed } from '@/lib/server/assistant/http';
 import { acquire, hasBudget } from '@/lib/server/assistant/rateLimit';
 import { preferencesSchema } from '@/lib/server/assistant/tools';
 import { MSG_UNAVAILABLE, runAssistant } from '@/lib/server/assistant/run';
@@ -11,7 +12,6 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 const MAX_BODY_BYTES = 40_000;
-const ALLOWED_HOSTS = new Set(['tiyaksa.ru', 'www.tiyaksa.ru', 'localhost', '127.0.0.1']);
 
 const bodySchema = z.object({
   messages: z
@@ -25,21 +25,6 @@ const bodySchema = z.object({
     .max(60),
   preferences: preferencesSchema.optional(),
 });
-
-function getClientIp(req: NextRequest): string {
-  const xff = req.headers.get('x-forwarded-for');
-  return xff ? xff.split(',')[0].trim() : 'unknown';
-}
-
-function originAllowed(req: NextRequest): boolean {
-  const origin = req.headers.get('origin');
-  if (!origin) return true;
-  try {
-    return ALLOWED_HOSTS.has(new URL(origin).hostname);
-  } catch {
-    return false;
-  }
-}
 
 // The widget asks this before loading at all, so without ANTHROPIC_API_KEY
 // (or once today's budget is spent) visitors never see a chat that can't answer.

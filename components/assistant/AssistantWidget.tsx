@@ -5,8 +5,10 @@ import Image from 'next/image';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useAssistantChat, type UiMessage } from '@/hooks/useAssistantChat';
 import { useLockBodyScroll } from '@/hooks/useLockBodyScroll';
+import { useVisualViewport } from '@/hooks/useVisualViewport';
 import { siteConfig } from '@/data/content';
 import { MAX_MESSAGE_CHARS } from '@/lib/assistant/types';
+import { HandoffCard } from './HandoffCard';
 import { OfferCard } from './OfferCard';
 
 const GREETING =
@@ -77,10 +79,28 @@ function CloseIcon({ size = 22 }: { size?: number }) {
   );
 }
 
+function ManagerIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 21a8 8 0 0 1 16 0" />
+    </svg>
+  );
+}
+
+function ResetIcon() {
+  return (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M3 12a9 9 0 1 0 3-6.7" />
+      <path d="M3 4v5h5" />
+    </svg>
+  );
+}
+
 function Bubble({ message, children }: { message: UiMessage; children?: React.ReactNode }) {
   const isUser = message.role === 'user';
   return (
-    <div className={isUser ? 'flex justify-end' : 'flex flex-col items-start'}>
+    <div className={isUser ? 'assistant-in flex justify-end' : 'assistant-in flex flex-col items-start'}>
       {message.content && (
         <div
           className={
@@ -103,6 +123,7 @@ export function AssistantWidget() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState('');
   const [isMobile, setIsMobile] = useState(false);
+  const viewport = useVisualViewport(isMobile && open);
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -143,7 +164,8 @@ export function AssistantWidget() {
   };
 
   const last = chat.messages[chat.messages.length - 1];
-  const typing = chat.busy && last?.role === 'assistant' && !last.content && !last.offer;
+  const typing = chat.busy && last?.role === 'assistant' && !last.content && !last.offer && !last.handoff;
+  const history = chat.messages.filter((m) => m.content).map(({ role, content }) => ({ role, content }));
 
   return (
     <>
@@ -157,21 +179,37 @@ export function AssistantWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 24 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-[160] flex flex-col overflow-hidden bg-white sm:inset-auto sm:bottom-24 sm:right-5 sm:h-[600px] sm:max-h-[calc(100dvh-7.5rem)] sm:w-[390px] sm:rounded-2xl sm:border sm:border-[#e4e9e4] sm:shadow-[0_16px_60px_rgba(27,79,27,.22)]"
+            style={viewport ? { top: viewport.top, height: viewport.height } : undefined}
+            className="fixed inset-x-0 top-0 z-[160] flex h-[100dvh] flex-col overflow-hidden bg-white sm:inset-auto sm:bottom-24 sm:right-5 sm:h-[640px] sm:max-h-[calc(100dvh-7.5rem)] sm:w-[400px] sm:rounded-2xl sm:border sm:border-[#e4e9e4] sm:shadow-[0_16px_60px_rgba(27,79,27,.22)]"
           >
-            <div className="flex items-center gap-3 border-b border-[#ecefec] bg-white px-4 py-3">
+            <div className="flex items-center gap-2 border-b border-[#ecefec] bg-white px-3.5 py-3 sm:gap-2.5 sm:px-4">
               <Image src="/logo-mini.png" alt="" width={39} height={36} className="shrink-0" />
               <div className="min-w-0 flex-1">
-                <p className="m-0 text-[16px] font-extrabold leading-tight text-forest">Помощник ТиЯКСа</p>
-                <p className="m-0 text-[12px] leading-tight text-muted">ИИ · отвечает за секунды</p>
+                <p className="m-0 truncate text-[15px] font-extrabold leading-tight text-forest sm:text-[16px]">Помощник ТиЯКСа</p>
+                <p className="m-0 mt-0.5 flex items-center gap-1.5 truncate text-[12px] leading-tight text-muted">
+                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#22c55e]" aria-hidden />
+                  ИИ · отвечает за секунды
+                </p>
               </div>
+              <button
+                type="button"
+                onClick={chat.requestHandoff}
+                disabled={chat.busy}
+                aria-label="Связаться с менеджером"
+                title="Связаться с менеджером"
+                className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full border-none bg-grove-mint text-forest transition-colors hover:bg-[#dcebdc] disabled:cursor-default disabled:opacity-50"
+              >
+                <ManagerIcon />
+              </button>
               {chat.messages.length > 0 && (
                 <button
                   type="button"
                   onClick={chat.reset}
-                  className="cursor-pointer border-none bg-transparent px-2 py-1 text-[13px] text-muted transition-colors hover:text-forest"
+                  aria-label="Очистить диалог"
+                  title="Очистить диалог"
+                  className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full border-none bg-transparent text-muted transition-colors hover:bg-[#f1f4f1] hover:text-forest"
                 >
-                  Очистить
+                  <ResetIcon />
                 </button>
               )}
               <button
@@ -207,9 +245,31 @@ export function AssistantWidget() {
                 </div>
               )}
 
+              {chat.messages.length === 0 && (
+                <p className="m-0 text-[13px] text-muted">
+                  Нужен человек?{' '}
+                  <button
+                    type="button"
+                    onClick={chat.requestHandoff}
+                    className="cursor-pointer border-none bg-transparent p-0 text-[13px] font-bold text-forest underline"
+                  >
+                    Связаться с менеджером
+                  </button>
+                </p>
+              )}
+
               {chat.messages.map((m) => (
                 <Bubble key={m.id} message={m}>
                   {m.offer && <OfferCard offer={m.offer} sent={!!m.offerSent} onSent={() => chat.markOfferSent(m.id)} />}
+                  {m.handoff && (
+                    <HandoffCard
+                      draft={m.handoff}
+                      history={history}
+                      prefs={chat.prefs}
+                      sent={!!m.handoffSent}
+                      onSent={() => chat.markHandoffSent(m.id)}
+                    />
+                  )}
                 </Bubble>
               ))}
 

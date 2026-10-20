@@ -45,6 +45,16 @@
 - Токены GitHub нового формата: `ghs_…_<JWT>` (символы `. _ -`) — регулярка в
   шлюзе это учитывает.
 - Личный ключ владельца (`SHA256:MRQOUH…`) — полный доступ, им заходит человек.
+- nanobanana-web деплоится так же: свой ключ `gh-deploy-nanobanana-web`
+  (`deploy-gate.sh nanobanana` → `/root/nanobanana`), секреты `VPS_HOST`,
+  `VPS_USER`, `VPS_SSH_KEY` в его репозитории. Первый деплой через шлюз —
+  2026-10-20. Workflow там пока запускается вручную (Actions → Deploy to VPS →
+  Run workflow); до этого образ собирался прямо на сервере из
+  `/root/nanobanana/src`.
+- Приватные части deploy-ключей хранятся только в секретах GitHub; копии на
+  сервере удалены. Новый ключ — `ssh-keygen -t ed25519`, публичную часть в
+  `authorized_keys` с `restrict,command="/root/deploy/deploy-gate.sh <проект>"`,
+  проект — в `case` шлюза.
 
 ## Блог: headless WordPress
 
@@ -110,6 +120,3 @@
 - Traefik запущен с `--api.insecure=true` (панель только внутри docker-сети,
   наружу не опубликована). Отключение требует пересоздания Traefik — все
   сайты на сервере пропадут на несколько секунд. Отложено владельцем.
-- Автодеплой nanobanana-web через тот же шлюз: на сервере уже есть ключ
-  `gh-deploy-nanobanana-web` (`deploy-gate.sh nanobanana`), но в репозитории
-  нет workflow деплоя.

@@ -16,10 +16,13 @@ interface BlogPageProps {
 // "duplicate, no canonical chosen" problem this ticket exists to fix.
 export function generateMetadata({ searchParams }: BlogPageProps): Metadata {
   const page = Math.max(1, Number(searchParams.page) || 1);
+  // Each listing page is its own canonical, so each needs its own title and
+  // description too — otherwise ?page=2..N are duplicates of /blog in
+  // Webmaster/Search Console.
+  const pageSuffix = page > 1 ? ` — страница ${page}` : '';
   return {
-    title: 'Блог о ремонте квартир в Санкт-Петербурге — ТиЯКСа.Ремонт',
-    description:
-      'Статьи о ремонте: советы, разбор материалов, цены и реальные кейсы от ТиЯКСа.Ремонт.',
+    title: `Блог о ремонте квартир в Санкт-Петербурге${pageSuffix} — ТиЯКСа.Ремонт`,
+    description: `Статьи о ремонте: советы, разбор материалов, цены и реальные кейсы от ТиЯКСа.Ремонт${page > 1 ? `. Страница ${page}` : ''}.`,
     alternates: { canonical: page > 1 ? `/blog?page=${page}` : '/blog' },
   };
 }

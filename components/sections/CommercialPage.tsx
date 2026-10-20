@@ -12,6 +12,7 @@ import { QuizSection } from '@/components/sections/QuizSection';
 import { FAQ } from '@/components/sections/FAQ';
 import { ServiceJsonLd } from '@/components/seo/ServiceJsonLd';
 import { FaqJsonLd } from '@/components/seo/FaqJsonLd';
+import { Breadcrumbs } from '@/components/seo/Breadcrumbs';
 import type { LeadSource } from '@/lib/config/leadSources';
 
 interface FaqItem {
@@ -37,6 +38,8 @@ interface CommercialPageProps {
   calculatorHeading: string;
   calculatorSource: LeadSource;
   faqItems: readonly FaqItem[];
+  /** Starting price per m² stated on the page, for Service.offers. */
+  priceFrom?: number;
 }
 
 /**
@@ -57,6 +60,7 @@ export function CommercialPage({
   calculatorHeading,
   calculatorSource,
   faqItems,
+  priceFrom,
 }: CommercialPageProps) {
   return (
     <>
@@ -68,7 +72,7 @@ export function CommercialPage({
         <Stats />
       </div>
 
-      <ServiceJsonLd name={serviceName} description={serviceDescription} url={path} />
+      <ServiceJsonLd name={serviceName} description={serviceDescription} url={path} priceFrom={priceFrom} />
       <FaqJsonLd items={faqItems} />
 
       {/* No min-h-dvh here — unlike /price, this <main> wraps only the
@@ -83,6 +87,14 @@ export function CommercialPage({
             doubled gap on desktop, where this stacked with SegmentCase's own
             top padding (lg:py-20 + md:py-[88px] ≈ 168px of dead space). */}
         <div className="max-w-content mx-auto px-6 pt-14 lg:pt-20 pb-14 lg:pb-0 text-center">
+          <Breadcrumbs
+            center
+            className="mb-6"
+            items={[
+              { name: 'Главная', path: '/' },
+              { name: serviceName, path },
+            ]}
+          />
           <h1 className="m-0 mb-10 lg:mb-12 font-extrabold text-[28px] sm:text-[40px] text-ink tracking-tight leading-tight">
             {h1}
           </h1>

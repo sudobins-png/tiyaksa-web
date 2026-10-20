@@ -48,15 +48,18 @@ export function Hero() {
       <div className="relative max-w-content mx-auto px-6 flex flex-wrap gap-14 items-center pt-10 pb-16 md:pt-24 md:pb-[100px]">
         {/* Text block */}
         <div className="flex-1 min-w-[300px]" style={{ flexBasis: '460px' }}>
-          <p className="font-semibold text-[15px] tracking-[.1em] uppercase text-sage mb-6">
+          {/* The small eyebrow line is the real <h1> (the query this page
+              ranks for); the big slogan under it is visual only. Same
+              classes as before, so nothing moves on screen. */}
+          <h1 className="m-0 font-semibold text-[15px] tracking-[.1em] uppercase text-sage mb-6">
             {heroContent.eyebrow}
-          </p>
-          <h1
-            className="font-extrabold leading-[1.02] tracking-[-0.02em] text-white mb-6 text-balance"
+          </h1>
+          <p
+            className="m-0 font-extrabold leading-[1.02] tracking-[-0.02em] text-white mb-6 text-balance"
             style={{ fontSize: 'clamp(40px,6.2vw,64px)' }}
           >
             {heroContent.heading}
-          </h1>
+          </p>
 
           {/* <PriceBadge className="mb-6" /> */}
 

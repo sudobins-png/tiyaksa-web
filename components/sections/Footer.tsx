@@ -30,6 +30,14 @@ export function Footer() {
           <div className="flex flex-col sm:flex-row sm:items-start gap-8 sm:gap-16">
             <div>
               <Logo variant="light" />
+              <div className="mt-4 flex flex-col gap-1.5 text-[14px] font-semibold">
+                <a href={siteConfig.phoneHref} className="text-white/80 hover:text-white transition-colors w-fit">
+                  {siteConfig.phone}
+                </a>
+                <a href={`mailto:${siteConfig.email}`} className="text-white/80 hover:text-white transition-colors w-fit">
+                  {siteConfig.email}
+                </a>
+              </div>
             </div>
 
             <div>

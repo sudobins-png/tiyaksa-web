@@ -73,6 +73,16 @@ export function Contacts() {
 
             </ul>
 
+            <a
+              href={`mailto:${siteConfig.email}`}
+              className="mt-4 md:mt-3 flex items-center gap-3 text-white hover:text-gold transition-colors"
+            >
+              <span className="shrink-0 w-9 h-9 md:w-8 md:h-8 rounded-[10px] bg-gold flex items-center justify-center">
+                <IconMail />
+              </span>
+              <span className="font-semibold text-[17px] md:text-[16px]">{siteConfig.email}</span>
+            </a>
+
             <div className="mt-6 md:mt-5 pt-5 md:pt-4 border-t border-white/15">
               <h3 className="m-0 mb-2 font-bold text-[20px] md:text-[17px] text-white">Режим работы</h3>
               <address className="not-italic text-[15px] md:text-[14px] text-white/70 leading-relaxed">
@@ -87,6 +97,15 @@ export function Contacts() {
         </div>
       </div>
     </section>
+  );
+}
+
+function IconMail() {
+  return (
+    <svg width="17" height="17" viewBox="0 0 20 20" fill="none" aria-hidden>
+      <rect x="2" y="4" width="16" height="12" rx="2" stroke="#1A1D1A" strokeWidth="1.8" />
+      <path d="M3 5.5L10 11L17 5.5" stroke="#1A1D1A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
 

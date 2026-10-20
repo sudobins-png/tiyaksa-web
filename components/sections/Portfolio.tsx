@@ -264,7 +264,7 @@ export function Portfolio() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {portfolioItems.map((p, i) => (
             <PortfolioCard
-              key={p.name}
+              key={`${p.name}-${p.area}`}
               item={p}
               onOpen={(photoIdx) => setLightbox({ itemIdx: i, photoIdx })}
             />

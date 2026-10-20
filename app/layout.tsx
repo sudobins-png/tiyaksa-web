@@ -7,6 +7,8 @@ import { ExitIntentPromo } from '@/components/ui/ExitIntentPromo';
 import { QuizModalHost } from '@/components/quiz/QuizModalHost';
 import { AssistantHost } from '@/components/assistant/AssistantHost';
 import { UtmCapture } from '@/components/ui/UtmCapture';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { organizationSchema } from '@/lib/seo/schema';
 import './globals.css';
 
 const inter = Inter({
@@ -21,10 +23,12 @@ export const metadata: Metadata = {
   // ('/blog/foo') instead of hardcoding the domain — and gives this default
   // a base to resolve against for the root layout's own canonical.
   metadataBase: new URL('https://tiyaksa.ru'),
-  title: 'ТиЯКСа.Ремонт — Ремонт квартир в Санкт-Петербурге',
+  // Query and price first, brand last — nobody searches for the brand yet.
+  // This is the homepage's title (it sets none of its own); every other
+  // page declares its own title.
+  title: 'Ремонт квартир в Санкт-Петербурге под ключ — цена от 7 500 ₽/м² | ТиЯКСа',
   description:
     'Ремонт квартир под ключ в Санкт-Петербурге. Фиксированная смета, видеоотчёты каждую неделю, управляющая компания. Гарантия 3 года.',
-  keywords: 'ремонт квартир СПб, ремонт под ключ, ТиЯКСа, ремонт Санкт-Петербург',
   icons: { icon: '/favicon.ico' },
   // Home page's canonical — any child page that sets its own `alternates`
   // replaces this outright (Next.js does not deep-merge that key), so /quiz,
@@ -58,6 +62,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         `}</Script>
       </head>
       <body className="font-sans">
+        {/* The organization as a top-level entity on every page — Yandex and
+            Google take company data (address, hours, phone) from this, not
+            from the provider nested inside each Service. */}
+        <JsonLd data={organizationSchema()} />
         <noscript>
           <div><img src="https://mc.yandex.ru/watch/111307528" style={{position:'absolute',left:'-9999px'}} alt="" /></div>
         </noscript>

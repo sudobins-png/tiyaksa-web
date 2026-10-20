@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   title: 'Расчёт стоимости ремонта — ТиЯКСа.Ремонт',
   description: 'Ответьте на вопросы и получите предварительный расчёт стоимости ремонта в Санкт-Петербурге.',
   alternates: { canonical: '/quiz' },
+  // A bare form with almost no text — kept out of the index (and the sitemap)
+  // so it doesn't compete as a thin page; links from it are still followed.
+  robots: { index: false, follow: true },
 };
 
 export default function QuizPage() {

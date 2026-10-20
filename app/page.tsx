@@ -18,10 +18,14 @@ import { FinalCTA }         from '@/components/sections/FinalCTA';
 import { BlogTeaser }       from '@/components/sections/BlogTeaser';
 import { Contacts }         from '@/components/sections/Contacts';
 import { Footer }           from '@/components/sections/Footer';
+import { FaqJsonLd }        from '@/components/seo/FaqJsonLd';
+import { faqItems }         from '@/data/faq';
 
 export default function HomePage() {
   return (
     <>
+      {/* Same questions as the <FAQ /> block below (its default items). */}
+      <FaqJsonLd items={faqItems} />
       <Header />
       <main id="top" style={{ paddingTop: '71px' }}>
         <Hero />

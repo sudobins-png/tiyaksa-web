@@ -12,6 +12,7 @@ import { Calculator } from '@/components/sections/Calculator';
 import { FAQ } from '@/components/sections/FAQ';
 import { ServiceJsonLd } from '@/components/seo/ServiceJsonLd';
 import { FaqJsonLd } from '@/components/seo/FaqJsonLd';
+import { Breadcrumbs } from '@/components/seo/Breadcrumbs';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
 import { pricingTiers } from '@/data/pricing';
 import { portfolioItems } from '@/data/content';
@@ -36,11 +37,19 @@ export default function PricePage() {
         name="Ремонт квартир под ключ"
         description="Расчёт стоимости ремонта квартир в Санкт-Петербурге: цены за м² по видам работ, онлайн-калькулятор, фиксация сметы в договоре."
         url="/price"
+        priceFrom={7500}
       />
       <FaqJsonLd items={PRICE_FAQ_ITEMS} />
 
       <main className="min-h-dvh bg-site">
         <div className="max-w-content mx-auto px-6 pt-14 lg:pt-20">
+          <Breadcrumbs
+            className="mb-6"
+            items={[
+              { name: 'Главная', path: '/' },
+              { name: 'Цены на ремонт', path: '/price' },
+            ]}
+          />
           <h1 className="m-0 mb-12 lg:mb-14 max-w-[720px] font-extrabold text-[28px] sm:text-[40px] text-ink tracking-tight leading-tight">
             Цены на ремонт квартир в Санкт-Петербурге
           </h1>

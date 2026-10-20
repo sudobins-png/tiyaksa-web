@@ -3,7 +3,9 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { BlogHeader } from '@/components/sections/BlogHeader';
 import { Footer } from '@/components/sections/Footer';
-import { fetchPostBySlug, getArticleJsonLd, getFeaturedImage, getMetaDescription, sanitizePostHtml, sanitizeTitleHtml, stripHtml, stripHtmlArtifact } from '@/lib/server/wordpress';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { Breadcrumbs } from '@/components/seo/Breadcrumbs';
+import { BLOG_AUTHOR, decodeHtmlEntities, fetchPostBySlug, getArticleJsonLd, getFeaturedImage, getMetaDescription, sanitizePostHtml, sanitizeTitleHtml, stripHtml, stripHtmlArtifact, toIsoUtc } from '@/lib/server/wordpress';
 
 interface PageProps {
   params: { slug: string };
@@ -37,18 +39,22 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   const image = getFeaturedImage(post);
   const jsonLd = getArticleJsonLd(post);
+  const published = toIsoUtc(post.date_gmt);
 
   return (
     <>
       <BlogHeader />
-      {jsonLd ? (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      ) : null}
+      <JsonLd data={jsonLd} />
       <main style={{ paddingTop: '71px' }} className="min-h-dvh bg-site">
         <article className="max-w-[760px] mx-auto px-6 py-12 sm:py-16">
+          <Breadcrumbs
+            className="mb-6"
+            items={[
+              { name: 'Главная', path: '/' },
+              { name: 'Блог', path: '/blog' },
+              { name: decodeHtmlEntities(stripHtml(post.title.rendered)), path: `/blog/${post.slug}` },
+            ]}
+          />
           {image ? (
             <div className="relative aspect-[16/9] rounded-2xl overflow-hidden mb-8 bg-grove-mint">
               <Image
@@ -63,9 +69,12 @@ export default async function BlogPostPage({ params }: PageProps) {
           ) : null}
 
           <h1
-            className="font-extrabold text-[26px] sm:text-[34px] text-ink leading-tight tracking-tight mb-8"
+            className="font-extrabold text-[26px] sm:text-[34px] text-ink leading-tight tracking-tight mb-3"
             dangerouslySetInnerHTML={{ __html: sanitizeTitleHtml(post.title.rendered) }}
           />
+          <p className="m-0 mb-8 text-[14px] text-muted">
+            {BLOG_AUTHOR} · <time dateTime={published}>{formatPostDate(published)}</time>
+          </p>
 
           <div className="article-content" dangerouslySetInnerHTML={{ __html: sanitizePostHtml(stripHtmlArtifact(post.content.rendered)) }} />
         </article>
@@ -73,4 +82,13 @@ export default async function BlogPostPage({ params }: PageProps) {
       <Footer />
     </>
   );
+}
+
+function formatPostDate(iso: string): string {
+  return new Intl.DateTimeFormat('ru-RU', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'Europe/Moscow',
+  }).format(new Date(iso));
 }

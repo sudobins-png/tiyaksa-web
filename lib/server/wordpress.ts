@@ -15,6 +15,8 @@
  */
 import sanitizeHtml from 'sanitize-html';
 import { QUARANTINED_SLUG_RE } from '@/lib/config/quarantine';
+import { siteConfig } from '@/data/content';
+import { SITE_URL } from '@/lib/seo/schema';
 
 const WORDPRESS_API_URL = process.env.WORDPRESS_API_URL ?? 'https://tiyaksa.ru/blog/wp-json';
 
@@ -64,12 +66,29 @@ export function sanitizePostHtml(html: string): string {
     allowedSchemesByTag: { img: ['https'] },
     allowProtocolRelative: false,
     transformTags: {
-      a: (tagName, attribs) =>
-        attribs.target === '_blank'
-          ? { tagName, attribs: { ...attribs, rel: 'noopener noreferrer' } }
-          : { tagName, attribs },
+      a: (tagName, attribs) => {
+        const next = { ...attribs };
+        if (next.href) next.href = normalizeInternalHref(next.href);
+        if (next.target === '_blank') next.rel = 'noopener noreferrer';
+        return { tagName, attribs: next };
+      },
     },
   });
+}
+
+/**
+ * The n8n flow links between articles as https://tiyaksa.ru/blog/<slug>/ —
+ * with a trailing slash, while the canonical URLs (sitemap, <link
+ * rel=canonical>) have none, so every such link cost a 308 hop. Rewrites
+ * links to this site into root-relative, slash-less paths; anything else is
+ * returned untouched.
+ */
+export function normalizeInternalHref(href: string): string {
+  const match = href.match(/^(?:https?:\/\/(?:www\.)?tiyaksa\.ru)?(\/[^?#]*)([?#].*)?$/i);
+  if (!match) return href;
+  const [, path, rest = ''] = match;
+  const trimmed = path.length > 1 ? path.replace(/\/+$/, '') : path;
+  return `${trimmed}${rest}`;
 }
 
 /** title.rendered is also injected as HTML (to keep WP's entities) — strip every tag. */
@@ -87,6 +106,7 @@ export interface WpPost {
   slug: string;
   date: string;
   date_gmt: string;
+  modified_gmt: string;
   title: { rendered: string };
   excerpt: { rendered: string };
   content: { rendered: string };
@@ -250,24 +270,55 @@ interface FaqEntry {
 }
 
 /**
- * Combined JSON-LD for a post's `<script type="application/ld+json">`, built
- * from the `tiyaksa_schema` and `tiyaksa_faq` meta fields the n8n content
- * flow writes at publish time (see mu-plugins/tiyaksa-schema-rest.php on the
- * WP server). Both are JSON serialized to a string by n8n, so they need
- * parsing here — and posts published before this field existed simply won't
- * have them, so any failure just means no JSON-LD for that post rather than
- * a broken page.
+ * JSON-LD for a post's `<script type="application/ld+json">`.
+ *
+ * Article is built here from the post itself, for every post (its
+ * BreadcrumbList comes from <Breadcrumbs> on the page): the n8n flow's own `tiyaksa_schema` (see mu-plugins/tiyaksa-schema-rest.php)
+ * only exists on newer posts and lacks dates, author and image, and its
+ * breadcrumb pointed «Главная» at /blog — so its Article/BreadcrumbList nodes
+ * are dropped. Anything else it carries is kept, plus the FAQPage built from
+ * the `tiyaksa_faq` meta. Bad JSON in either field just means that part is
+ * skipped, never a broken page.
  */
-export function getArticleJsonLd(post: WpPost): JsonLdSchema | null {
+export function getArticleJsonLd(post: WpPost): JsonLdSchema {
+  const url = `${SITE_URL}/blog/${post.slug}`;
+  const title = decodeHtmlEntities(stripHtml(post.title.rendered));
+  const image = getFeaturedImage(post);
+
+  const graph: JsonLdGraphNode[] = [
+    {
+      '@type': 'Article',
+      headline: title.length > 110 ? `${title.slice(0, 109)}…` : title,
+      description: decodeHtmlEntities(getMetaDescription(post)),
+      datePublished: toIsoUtc(post.date_gmt),
+      dateModified: toIsoUtc(post.modified_gmt || post.date_gmt),
+      inLanguage: 'ru',
+      mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+      ...(image ? { image: [image.source_url] } : {}),
+      author: { '@type': 'Organization', name: BLOG_AUTHOR, url: `${SITE_URL}/blog` },
+      publisher: {
+        '@type': 'Organization',
+        name: siteConfig.name,
+        url: SITE_URL,
+        logo: { '@type': 'ImageObject', url: `${SITE_URL}/logo-mini.png` },
+      },
+    },
+  ];
+
   const rawSchema = post.meta?.tiyaksa_schema;
-  if (typeof rawSchema !== 'string' || !rawSchema.trim()) return null;
+  if (typeof rawSchema === 'string' && rawSchema.trim()) {
+    try {
+      const schema = JSON.parse(rawSchema) as JsonLdSchema;
+      const extra = Array.isArray(schema['@graph']) ? schema['@graph'] : [];
+      graph.push(...extra.filter((node) => node['@type'] !== 'Article' && node['@type'] !== 'BreadcrumbList'));
+    } catch {
+      // ignore — the Article above still stands
+    }
+  }
 
-  try {
-    const schema = JSON.parse(rawSchema) as JsonLdSchema;
-    const graph = Array.isArray(schema['@graph']) ? [...schema['@graph']] : [];
-
-    const rawFaq = post.meta?.tiyaksa_faq;
-    if (typeof rawFaq === 'string' && rawFaq.trim()) {
+  const rawFaq = post.meta?.tiyaksa_faq;
+  if (typeof rawFaq === 'string' && rawFaq.trim()) {
+    try {
       const faq = JSON.parse(rawFaq) as FaqEntry[];
       if (Array.isArray(faq) && faq.length > 0) {
         graph.push({
@@ -282,10 +333,18 @@ export function getArticleJsonLd(post: WpPost): JsonLdSchema | null {
           })),
         });
       }
+    } catch {
+      // ignore
     }
-
-    return { ...schema, '@graph': graph };
-  } catch {
-    return null;
   }
+
+  return { '@context': 'https://schema.org', '@graph': graph };
+}
+
+/** Byline for every blog post — visible on the page and in Article.author. */
+export const BLOG_AUTHOR = 'Редакция ТиЯКСа.Ремонт';
+
+/** WP's *_gmt fields are UTC without an offset ("2026-08-28T12:34:56"). */
+export function toIsoUtc(gmt: string): string {
+  return gmt.endsWith('Z') ? gmt : `${gmt}Z`;
 }

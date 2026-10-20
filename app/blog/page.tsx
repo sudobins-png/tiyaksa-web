@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { BlogHeader } from '@/components/sections/BlogHeader';
 import { Footer } from '@/components/sections/Footer';
-import { fetchPosts, getFeaturedImage, getPreviewText } from '@/lib/server/wordpress';
+import { fetchPosts, getFeaturedImage, getPreviewText, sanitizeTitleHtml } from '@/lib/server/wordpress';
 
 interface BlogPageProps {
   searchParams: { page?: string };
@@ -68,7 +68,7 @@ export default async function BlogPage({
                     <div className="p-5">
                       <h2
                         className="font-bold text-[17px] text-ink leading-snug mb-2 group-hover:text-forest transition-colors"
-                        dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+                        dangerouslySetInnerHTML={{ __html: sanitizeTitleHtml(post.title.rendered) }}
                       />
                       <p className="text-muted text-[14px] leading-relaxed line-clamp-3">
                         {getPreviewText(post)}

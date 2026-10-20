@@ -13,9 +13,69 @@
  * host itself — a distinct issue from the Telegram IP-range block, see
  * telegram.ts). The public-domain default below only works for local dev.
  */
+import sanitizeHtml from 'sanitize-html';
+import { QUARANTINED_SLUG_RE } from '@/lib/config/quarantine';
+
 const WORDPRESS_API_URL = process.env.WORDPRESS_API_URL ?? 'https://tiyaksa.ru/blog/wp-json';
 
 const REVALIDATE_SECONDS = 300;
+
+/**
+ * On 2026-10-12 two defacement pages ("Hacked by CoupDeGrace") showed up as
+ * regular WP posts (slugs b7ad9721d55e-htm / b43124f1d8e9-htm — an uploaded
+ * .htm file turned into a post) and went straight into the sitemap, the
+ * homepage teaser and the feed, since every post WP returns is trusted here.
+ * Until WP itself is cleaned and locked down this is the frontend's own
+ * quarantine: a post that matches is treated as nonexistent everywhere.
+ * middleware.ts answers 410 for the slug pattern so search engines drop
+ * the URLs instead of retrying them as a soft 404.
+ */
+const DEFACEMENT_TEXT_RE = /hacked\s+by|defaced\s+by|\bgreetz\b/i;
+
+export function isQuarantinedPost(post: { slug: string; title?: { rendered: string }; content?: { rendered: string } }): boolean {
+  if (QUARANTINED_SLUG_RE.test(post.slug)) return true;
+  const text = `${post.title?.rendered ?? ''} ${post.content?.rendered ?? ''}`;
+  return DEFACEMENT_TEXT_RE.test(text);
+}
+
+/**
+ * Post bodies are rendered with dangerouslySetInnerHTML, so anyone able to
+ * write to WP could otherwise inject scripts or a full-page overlay into
+ * tiyaksa.ru itself. Allows only the markup the n8n content flow actually
+ * produces (see .article-content in globals.css): headings with ids for the
+ * .toc anchors, lists, tables, links, images, the .toc nav and
+ * .tiyaksa-note blocks. No style attributes, no scripts/iframes/forms.
+ */
+export function sanitizePostHtml(html: string): string {
+  return sanitizeHtml(html, {
+    allowedTags: [
+      'h2', 'h3', 'h4', 'p', 'br', 'hr', 'strong', 'b', 'em', 'i', 'u', 's', 'mark', 'small', 'sub', 'sup',
+      'ul', 'ol', 'li', 'blockquote', 'a', 'img', 'figure', 'figcaption', 'nav', 'div', 'span',
+      'table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td', 'caption', 'code', 'pre',
+    ],
+    allowedAttributes: {
+      '*': ['class', 'id'],
+      a: ['href', 'title', 'target', 'rel'],
+      img: ['src', 'alt', 'width', 'height', 'loading'],
+      th: ['colspan', 'rowspan', 'scope'],
+      td: ['colspan', 'rowspan'],
+    },
+    allowedSchemes: ['https', 'http', 'mailto', 'tel'],
+    allowedSchemesByTag: { img: ['https'] },
+    allowProtocolRelative: false,
+    transformTags: {
+      a: (tagName, attribs) =>
+        attribs.target === '_blank'
+          ? { tagName, attribs: { ...attribs, rel: 'noopener noreferrer' } }
+          : { tagName, attribs },
+    },
+  });
+}
+
+/** title.rendered is also injected as HTML (to keep WP's entities) — strip every tag. */
+export function sanitizeTitleHtml(html: string): string {
+  return sanitizeHtml(html, { allowedTags: [], allowedAttributes: {} });
+}
 
 export interface WpMedia {
   source_url: string;
@@ -50,7 +110,7 @@ export async function fetchPosts(page = 1, perPage = 12): Promise<WpPostList> {
   if (res.status === 400) return { posts: [], totalPages: 0 };
   if (!res.ok) throw new Error(`WordPress API error: ${res.status}`);
 
-  const posts = (await res.json()) as WpPost[];
+  const posts = ((await res.json()) as WpPost[]).filter((post) => !isQuarantinedPost(post));
   const totalPages = Number(res.headers.get('X-WP-TotalPages') ?? '1');
   return { posts, totalPages };
 }
@@ -72,13 +132,17 @@ export async function fetchAllPostSlugs(): Promise<WpPostSitemapEntry[]> {
   let page = 1;
 
   while (true) {
-    const url = `${WORDPRESS_API_URL}/wp/v2/posts?per_page=100&page=${page}&_fields=slug,modified_gmt`;
+    // title is fetched only for the quarantine check — content would make
+    // these pages far heavier, and the slug + title catch the known pattern.
+    const url = `${WORDPRESS_API_URL}/wp/v2/posts?per_page=100&page=${page}&_fields=slug,modified_gmt,title`;
     const res = await fetch(url, { next: { revalidate: REVALIDATE_SECONDS } });
     if (res.status === 400) break; // past the last page
     if (!res.ok) throw new Error(`WordPress API error: ${res.status}`);
 
-    const posts = (await res.json()) as WpPostSitemapEntry[];
-    all.push(...posts);
+    const posts = (await res.json()) as (WpPostSitemapEntry & { title?: { rendered: string } })[];
+    for (const post of posts) {
+      if (!isQuarantinedPost(post)) all.push({ slug: post.slug, modified_gmt: post.modified_gmt });
+    }
 
     const totalPages = Number(res.headers.get('X-WP-TotalPages') ?? '1');
     if (page >= totalPages) break;
@@ -94,7 +158,8 @@ export async function fetchPostBySlug(slug: string): Promise<WpPost | null> {
   if (!res.ok) throw new Error(`WordPress API error: ${res.status}`);
 
   const posts = (await res.json()) as WpPost[];
-  return posts[0] ?? null;
+  const post = posts[0];
+  return post && !isQuarantinedPost(post) ? post : null;
 }
 
 export function getFeaturedImage(post: WpPost): WpMedia | null {

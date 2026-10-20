@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { QUARANTINED_SLUG_RE } from '@/lib/config/quarantine';
 
 // Поведенческая накрутка на tiyaksa.ru: боты с ротирующихся IP (замечены на
 // OVH, Google Cloud, VDSina и других хостингах) имитируют полноценный визит —
@@ -50,6 +51,17 @@ function getClientIp(req: NextRequest): string {
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+
+  // Посты-дефейсы из взлома WP 2026-10-12 (см. lib/config/quarantine.ts):
+  // 410, а не 404 — так Яндекс и Google быстрее выкидывают адрес из индекса.
+  const blogSlug = pathname.match(/^\/blog\/([^/]+)\/?$/)?.[1];
+  if (blogSlug && QUARANTINED_SLUG_RE.test(blogSlug)) {
+    return new NextResponse('Gone', {
+      status: 410,
+      headers: { 'X-Robots-Tag': 'noindex', 'Content-Type': 'text/plain; charset=utf-8' },
+    });
+  }
+
   if (!isPageNavigation(pathname) || isBackgroundFetch(req)) {
     return NextResponse.next();
   }

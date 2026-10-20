@@ -4,6 +4,7 @@ import {
   getMetaDescription,
   stripHtml,
   stripHtmlArtifact,
+  sanitizePostHtml,
   decodeHtmlEntities,
 } from '@/lib/server/wordpress';
 
@@ -56,12 +57,12 @@ export async function GET() {
       // our hand-built "Содержание" block (the n8n prompt's <nav class="toc">
       // + its lead-in heading) just duplicates it — strip both before
       // Dzen ever sees them, rather than shipping two tables of contents.
-      const cleanedHtml = stripHtmlArtifact(
+      const cleanedHtml = sanitizePostHtml(stripHtmlArtifact(
         post.content.rendered
           .replace(/]]>/g, ']]&gt;')
           .replace(/<nav class="toc">[\s\S]*?<\/nav>\s*/g, '')
           .replace(/<p>\s*<strong>Содержание<\/strong>\s*<\/p>\s*/g, '')
-      );
+      ));
 
       // The <enclosure> below only drives Dzen's card/preview thumbnail.
       // Per Dzen's own RSS spec, an in-article image needs a real <img>

@@ -3,16 +3,11 @@ import { CommercialPage } from '@/components/sections/CommercialPage';
 import { ApartmentPriceTable } from '@/components/sections/ApartmentPriceTable';
 import { InfoCards } from '@/components/sections/InfoCards';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
-import { calcRates, pricingTiers } from '@/data/pricing';
-import { MIN_ORDER_RUB } from '@/data/priceNotes';
+import { materialsFaq, minOrder, priceFor, rateOf, ratePerSqm, termsAnswer } from '@/lib/utils/apartmentPricing';
 
 const PATH = '/remont-odnokomnatnoy-kvartiry-spb';
 /** Typical one-room apartment areas in St Petersburg housing stock. */
 const AREAS = [35, 40] as const;
-
-const rub = (value: number) => `${new Intl.NumberFormat('ru-RU').format(value)} ₽`;
-const termOf = (name: string) => pricingTiers.find((t) => t.name === name)?.term ?? '';
-const fromPrice = (name: string, area: number) => rub(Math.max(calcRates[name] * area, MIN_ORDER_RUB));
 
 const CONSIDERATIONS = [
   {
@@ -44,11 +39,11 @@ const CONSIDERATIONS = [
 const FAQ_ITEMS = [
   {
     q: 'Сколько стоит ремонт однокомнатной квартиры в СПб?',
-    a: `Косметический — от ${rub(calcRates['Косметический'])}/м², капитальный — от ${rub(calcRates['Капитальный'])}/м², дизайнерский — от ${rub(calcRates['Дизайнерский'])}/м². Для однушки на ${AREAS[0]} м² капитальный ремонт — от ${fromPrice('Капитальный', AREAS[0])}. Минимальный заказ — ${rub(MIN_ORDER_RUB)}, материалы считаются отдельно. Точная сумма — после бесплатного замера.`,
+    a: `Косметический — от ${ratePerSqm('Косметический')}/м², капитальный — от ${ratePerSqm('Капитальный')}/м², дизайнерский — от ${ratePerSqm('Дизайнерский')}/м². Для однушки на ${AREAS[0]} м² капитальный ремонт — от ${priceFor('Капитальный', AREAS[0])}. Минимальный заказ — ${minOrder()}, материалы считаются отдельно. Точная сумма — после бесплатного замера.`,
   },
   {
     q: 'Сколько длится ремонт однокомнатной квартиры?',
-    a: `Косметический — ${termOf('Косметический')}, капитальный — ${termOf('Капитальный')}, дизайнерский — ${termOf('Дизайнерский')}. Точный срок и этапы закрепляем в договоре.`,
+    a: termsAnswer(),
   },
   {
     q: 'Можно ли объединить кухню с комнатой?',
@@ -58,10 +53,7 @@ const FAQ_ITEMS = [
     q: 'Можно ли жить в квартире во время ремонта?',
     a: 'Как правило, нет: в однокомнатной квартире негде изолировать зону работ. При небольшом косметическом ремонте иногда возможно — оценим на замере.',
   },
-  {
-    q: 'Материалы входят в стоимость?',
-    a: 'Нет, цена за м² — это работа. Материалы считаются отдельно: можем закупить сами или по вашему списку, каждую позицию согласуем с вами.',
-  },
+  materialsFaq,
 ] as const;
 
 export const metadata: Metadata = {
@@ -76,8 +68,8 @@ export default function Page() {
       path={PATH}
       h1="Ремонт однокомнатной квартиры в Санкт-Петербурге"
       serviceName="Ремонт однокомнатной квартиры"
-      serviceDescription={`Ремонт однокомнатной квартиры в Санкт-Петербурге под ключ: косметический, капитальный или дизайнерский, от ${rub(calcRates['Косметический'])}/м². Зонирование, хранение, перепланировка с согласованием, фиксированная смета, гарантия 3 года.`}
-      priceFrom={calcRates['Косметический']}
+      serviceDescription={`Ремонт однокомнатной квартиры в Санкт-Петербурге под ключ: косметический, капитальный или дизайнерский, от ${ratePerSqm('Косметический')}/м². Зонирование, хранение, перепланировка с согласованием, фиксированная смета, гарантия 3 года.`}
+      priceFrom={rateOf('Косметический')}
       extraSections={
         <>
           <ApartmentPriceTable

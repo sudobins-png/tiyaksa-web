@@ -28,6 +28,9 @@ export const LEAD_SOURCES = {
   landingDesign:      'landing-design',
   landingRemote:      'landing-remote',
   landingOneRoom:     'landing-one-room',
+  landingTwoRoom:     'landing-two-room',
+  landingThreeRoom:   'landing-three-room',
+  landingStudio:      'landing-studio',
   assistant:          'assistant',
 } as const;
 
@@ -55,6 +58,9 @@ export const LEAD_SOURCE_LABELS: Record<LeadSource, string> = {
   [LEAD_SOURCES.landingDesign]:      'Страница /remont-dizainerskiy-spb',
   [LEAD_SOURCES.landingRemote]:      'Страница /udalenny-remont-kvartir-spb',
   [LEAD_SOURCES.landingOneRoom]:     'Страница /remont-odnokomnatnoy-kvartiry-spb',
+  [LEAD_SOURCES.landingTwoRoom]:     'Страница /remont-dvukhkomnatnoy-kvartiry-spb',
+  [LEAD_SOURCES.landingThreeRoom]:   'Страница /remont-trekhkomnatnoy-kvartiry-spb',
+  [LEAD_SOURCES.landingStudio]:      'Страница /remont-kvartiry-studii-spb',
   [LEAD_SOURCES.assistant]:          'Чат-ассистент на сайте',
 };
 

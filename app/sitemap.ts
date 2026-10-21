@@ -21,6 +21,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/remont-dizainerskiy-spb`, changeFrequency: 'monthly', priority: 0.6 },
     // The one offer the site already ranks for — second only to the homepage.
     { url: `${BASE_URL}/udalenny-remont-kvartir-spb`, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${BASE_URL}/remont-odnokomnatnoy-kvartiry-spb`, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${BASE_URL}/blog`, changeFrequency: 'daily', priority: 0.8 },
   ];
 

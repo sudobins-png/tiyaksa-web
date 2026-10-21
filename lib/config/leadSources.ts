@@ -27,6 +27,7 @@ export const LEAD_SOURCES = {
   landingCapital:     'landing-capital',
   landingDesign:      'landing-design',
   landingRemote:      'landing-remote',
+  landingOneRoom:     'landing-one-room',
   assistant:          'assistant',
 } as const;
 
@@ -53,6 +54,7 @@ export const LEAD_SOURCE_LABELS: Record<LeadSource, string> = {
   [LEAD_SOURCES.landingCapital]:     'Страница /remont-kapitalnyy-spb',
   [LEAD_SOURCES.landingDesign]:      'Страница /remont-dizainerskiy-spb',
   [LEAD_SOURCES.landingRemote]:      'Страница /udalenny-remont-kvartir-spb',
+  [LEAD_SOURCES.landingOneRoom]:     'Страница /remont-odnokomnatnoy-kvartiry-spb',
   [LEAD_SOURCES.assistant]:          'Чат-ассистент на сайте',
 };
 

@@ -6,13 +6,13 @@ import { PRICE_LIST, type PriceItem } from '@/data/priceList';
 
 // Site-run promotion (see PromoModal) — 12% off every price on this page
 // except Клининг (a separate vendor, not part of our own price list).
-const DISCOUNT_RATE = 0.12;
+export const DISCOUNT_RATE = 0.12;
 
 function formatMoney(n: number): string {
   return `${Math.round(n).toLocaleString('ru-RU')} ₽`;
 }
 
-function PriceCell({ item, showDiscount }: { item: PriceItem; showDiscount: boolean }) {
+export function PriceCell({ item, showDiscount }: { item: PriceItem; showDiscount: boolean }) {
   if (item.price === undefined) {
     return <span className="text-muted font-normal italic">уточняется</span>;
   }

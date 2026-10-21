@@ -34,6 +34,8 @@ export const footerLinkGroups = [
       { label: 'Ремонт вторички',      href: '/remont-vtorichki-spb' },
       { label: 'Ремонт ванной комнаты', href: '/remont-vannoy-spb' },
       { label: 'Ремонт комнаты',       href: '/remont-komnaty-spb' },
+      { label: 'Ремонт кухни',         href: '/remont-kukhni-spb' },
+      { label: 'Ремонт офиса',         href: '/remont-ofisa-spb' },
       { label: 'Удалённый ремонт',     href: '/udalenny-remont-kvartir-spb' },
     ],
   },

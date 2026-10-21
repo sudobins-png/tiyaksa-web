@@ -44,6 +44,14 @@
   добавляются в `deploy-gate.sh` на сервере.
 - Токены GitHub нового формата: `ghs_…_<JWT>` (символы `. _ -`) — регулярка в
   шлюзе это учитывает.
+- После деплоя tiyaksa шлюз в фоне запускает `/root/deploy/indexnow-submit.py tiyaksa.ru`:
+  берёт `sitemap.xml` (через локальный Traefik) и отправляет в Яндекс IndexNow
+  только новые и изменившиеся адреса. Изменения: у статей — по `<lastmod>`, у
+  страниц сайта — по отпечатку HTML без `<script>/<link>/<meta>` и путей
+  `/_next/`. Состояние — `/var/lib/indexnow/tiyaksa.ru.json`, журнал —
+  `/var/log/indexnow-submit.log`. Ключ IndexNow — `public/7678da0ed13d0b2f45deea3a107539c2.txt`.
+  Отправить всё заново: удалить файл состояния и запустить скрипт вручную.
+  Новые статьи блога дополнительно отправляет нода n8n «IndexNow: Submit URL».
 - Личный ключ владельца (`SHA256:MRQOUH…`) — полный доступ, им заходит человек.
 - nanobanana-web деплоится так же: свой ключ `gh-deploy-nanobanana-web`
   (`deploy-gate.sh nanobanana` → `/root/nanobanana`), секреты `VPS_HOST`,

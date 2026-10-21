@@ -34,6 +34,7 @@ export const footerLinkGroups = [
       { label: 'Ремонт вторички',      href: '/remont-vtorichki-spb' },
       { label: 'Ремонт ванной комнаты', href: '/remont-vannoy-spb' },
       { label: 'Ремонт комнаты',       href: '/remont-komnaty-spb' },
+      { label: 'Удалённый ремонт',     href: '/udalenny-remont-kvartir-spb' },
     ],
   },
   {
@@ -205,7 +206,8 @@ export const remoteContent = {
   eyebrow:  'Удаленный ремонт в Санкт-Петербурге',
   heading:  'Купили квартиру в Петербурге, но живете в другом городе?',
   subtext:  'Сделаем ремонт без вашего присутствия — с круглосуточным онлайн-наблюдением за объектом.',
-  cta:      'Обсудить удалённый ремонт',
+  // Leads to /udalenny-remont-kvartir-spb (was an #cta anchor).
+  cta:      'Как проходит удалённый ремонт',
   features: [
     { title: 'Видеоотчёт каждую неделю',  text: 'С объекта — прямо к вам. Видите всё без выездов.',    icon: 'video'     },
     { title: 'Онлайн-приёмка этапов',     text: 'Каждый этап принимаете дистанционно.',                icon: 'checklist' },

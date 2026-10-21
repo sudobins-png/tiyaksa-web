@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { remoteContent } from '@/data/content';
 
@@ -63,12 +64,12 @@ export function RemoteRenovation() {
         </div>
 
         <div className="text-center">
-          <a
-            href="#cta"
+          <Link
+            href="/udalenny-remont-kvartir-spb"
             className="inline-block bg-gold hover:bg-gold-dark text-ink font-bold text-[17px] px-[30px] py-[17px] rounded-[14px] shadow-gold-glow transition-all duration-200 hover:-translate-y-0.5"
           >
             {remoteContent.cta}
-          </a>
+          </Link>
         </div>
       </div>
     </section>

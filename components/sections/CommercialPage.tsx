@@ -34,7 +34,12 @@ interface CommercialPageProps {
   serviceDescription: string;
   /** Article body — plain <h2>/<p>/<ul> markup, styled via .article-content. */
   children: ReactNode;
-  segmentCase: SegmentCaseProps;
+  /** Optional: pages without a matching photo case (e.g. remote renovation) skip it. */
+  segmentCase?: SegmentCaseProps;
+  /** Page-specific sections rendered right after the intro, before the case. */
+  extraSections?: ReactNode;
+  /** Hide the shared «Почему ТиЯКСа.Ремонт» cards when the page's own sections repeat them. */
+  showWhyUs?: boolean;
   calculatorHeading: string;
   calculatorSource: LeadSource;
   faqItems: readonly FaqItem[];
@@ -57,6 +62,8 @@ export function CommercialPage({
   serviceDescription,
   children,
   segmentCase,
+  extraSections,
+  showWhyUs = true,
   calculatorHeading,
   calculatorSource,
   faqItems,
@@ -108,14 +115,18 @@ export function CommercialPage({
         </div>
       </main>
 
-      <SegmentCase
-        eyebrow={segmentCase.eyebrow}
-        heading={segmentCase.heading}
-        subtitle={segmentCase.subtitle}
-        item={segmentCase.item}
-      />
+      {extraSections}
 
-      <WhyUs />
+      {segmentCase ? (
+        <SegmentCase
+          eyebrow={segmentCase.eyebrow}
+          heading={segmentCase.heading}
+          subtitle={segmentCase.subtitle}
+          item={segmentCase.item}
+        />
+      ) : null}
+
+      {showWhyUs ? <WhyUs /> : null}
 
       <QuizSection heading={calculatorHeading} source={calculatorSource} />
 

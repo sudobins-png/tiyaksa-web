@@ -327,7 +327,7 @@ export function QuizModal({ onClose, source }: QuizModalProps) {
 
             {step === 6 && (
               <StepWrap key="s6" dir={dir}>
-                <StepTitle>Ваш расчёт готов!</StepTitle>
+                <StepTitle>Расчёт почти готов — куда отправить?</StepTitle>
                 <BenefitsCard />
                 <div className="flex flex-wrap gap-2 mb-5">
                   {aptType       && <Chip>{aptType}</Chip>}

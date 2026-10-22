@@ -98,9 +98,20 @@
   (учётки «tiyaksa blog»: WordPress API и Basic Auth, пароль приложения
   `n8n-tiyaksa`).
 - Весь остальной исходящий трафик n8n идёт через прокси
-  `HTTP(S)_PROXY=http://45.158.81.120:8119`; в `NO_PROXY` добавлен
-  `tiyaksa-blog-nginx-1`. Ноды Replicate и скачивание картинок используют
-  прокси явно — его там не убирать.
+  `HTTP(S)_PROXY=http://45.158.81.120:8119` (NL). Ноды Replicate и скачивание
+  картинок используют прокси явно — его там не убирать.
+- Мимо прокси (`NO_PROXY` в `/home/n8n/docker-compose.yml`, строка 61):
+  - `tiyaksa-blog-nginx-1` — запись в блог по внутренней сети;
+  - `.petrovich.ru` — RSS-источник `https://znaet.petrovich.ru/rss` стоит за
+    Qrator и с 2026-10-21 отдаёт 403 зарубежным IP (через NL-прокси), а с
+    российского IP сервера — 200. Точка в начале обязательна, иначе правило не
+    действует на поддомен `znaet.`.
+- `NO_PROXY` учитывают все ноды, которые ходят через `helpers.httpRequest`
+  (HTTP Request, RSS Read и др.): n8n решает это библиотекой `proxy-from-env`.
+  Проверить решение для адреса без перезапуска:
+  `docker exec n8n-n8n-1 node -e "…require('proxy-from-env').getProxyForUrl(url)"`
+  из каталога `n8n-core/dist`. Новый адрес-исключение — дописать в `NO_PROXY`
+  и пересоздать контейнер: `cd /home/n8n && docker compose up -d n8n`.
 - По публичному `https://tiyaksa.ru/...` n8n до сервера не достучится (прокси
   заблокирован на пути к серверу, а напрямую сервер не может обратиться к
   своему же публичному IP). Поэтому `Download TG Cover` переписывает

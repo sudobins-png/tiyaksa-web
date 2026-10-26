@@ -11,6 +11,7 @@ import { SegmentCase } from '@/components/sections/SegmentCase';
 import { PriceTable } from '@/components/sections/PriceTable';
 import { Calculator } from '@/components/sections/Calculator';
 import { FAQ } from '@/components/sections/FAQ';
+import { RelatedLinks } from '@/components/sections/RelatedLinks';
 import { ServiceJsonLd } from '@/components/seo/ServiceJsonLd';
 import { FaqJsonLd } from '@/components/seo/FaqJsonLd';
 import { Breadcrumbs } from '@/components/seo/Breadcrumbs';
@@ -130,6 +131,7 @@ export default function PricePage() {
       <Reviews />
 
       <FAQ items={PRICE_FAQ_ITEMS} />
+      <RelatedLinks path="/price" />
 
       <Footer />
     </>

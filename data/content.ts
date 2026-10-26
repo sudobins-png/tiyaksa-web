@@ -26,17 +26,27 @@ export const navItems = [
 // they lead to needs to be reachable from site-wide navigation, not just
 // from ads, so search engines don't treat them as orphaned/doorway pages.
 export const footerLinkGroups = [
+  // The site-wide footer keeps only the core page groups (~15 links). Service
+  // pages (electrics, plumbing and the rest of wave 3) are linked from the
+  // «Смотрите также» blocks — data/relatedPages.ts — and the menu, not here:
+  // footer links are the weakest kind, and a 40-link footer reads as spam.
   {
     title: 'Ремонт',
     links: [
-      { label: 'Ремонт под ключ',      href: '/price' },
+      // Not «Ремонт под ключ»: that query belongs to the homepage, and a
+      // site-wide anchor pointing it at /price made the two compete.
+      { label: 'Цены на ремонт',       href: '/price' },
       { label: 'Ремонт в новостройке', href: '/remont-novostroyki-spb' },
       { label: 'Ремонт вторички',      href: '/remont-vtorichki-spb' },
-      { label: 'Ремонт ванной комнаты', href: '/remont-vannoy-spb' },
-      { label: 'Ремонт комнаты',       href: '/remont-komnaty-spb' },
-      { label: 'Ремонт кухни',         href: '/remont-kukhni-spb' },
-      { label: 'Ремонт офиса',         href: '/remont-ofisa-spb' },
       { label: 'Удалённый ремонт',     href: '/udalenny-remont-kvartir-spb' },
+    ],
+  },
+  {
+    title: 'По типу ремонта',
+    links: [
+      { label: 'Косметический', href: '/remont-kosmeticheskiy-spb' },
+      { label: 'Капитальный',   href: '/remont-kapitalnyy-spb' },
+      { label: 'Дизайнерский',  href: '/remont-dizainerskiy-spb' },
     ],
   },
   {
@@ -49,11 +59,12 @@ export const footerLinkGroups = [
     ],
   },
   {
-    title: 'По типу ремонта',
+    title: 'Помещения',
     links: [
-      { label: 'Косметический', href: '/remont-kosmeticheskiy-spb' },
-      { label: 'Капитальный',   href: '/remont-kapitalnyy-spb' },
-      { label: 'Дизайнерский',  href: '/remont-dizainerskiy-spb' },
+      { label: 'Ванная комната', href: '/remont-vannoy-spb' },
+      { label: 'Кухня',          href: '/remont-kukhni-spb' },
+      { label: 'Комната',        href: '/remont-komnaty-spb' },
+      { label: 'Офис',           href: '/remont-ofisa-spb' },
     ],
   },
 ] as const;

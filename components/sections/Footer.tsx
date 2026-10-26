@@ -89,7 +89,7 @@ export function Footer() {
             </div>
           </div>
 
-          <nav aria-label="Виды ремонта" className="grid grid-cols-2 gap-x-8 gap-y-8 sm:flex sm:flex-row sm:gap-16">
+          <nav aria-label="Виды ремонта" className="grid grid-cols-2 gap-x-8 gap-y-8 sm:flex sm:flex-row sm:flex-wrap sm:gap-x-12 sm:gap-y-8">
             {footerLinkGroups.map((group) => (
               <div key={group.title}>
                 <p className="m-0 mb-3 text-[12px] font-semibold uppercase tracking-[0.08em] text-white/40">

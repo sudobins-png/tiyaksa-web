@@ -13,6 +13,7 @@ import { FAQ } from '@/components/sections/FAQ';
 import { ServiceJsonLd } from '@/components/seo/ServiceJsonLd';
 import { FaqJsonLd } from '@/components/seo/FaqJsonLd';
 import { Breadcrumbs } from '@/components/seo/Breadcrumbs';
+import { RelatedLinks } from '@/components/sections/RelatedLinks';
 import type { LeadSource } from '@/lib/config/leadSources';
 
 interface FaqItem {
@@ -133,6 +134,7 @@ export function CommercialPage({
       <Manager />
       <Reviews />
       <FAQ items={faqItems} />
+      <RelatedLinks path={path} />
 
       <EstimateAudit />
       <Contacts />

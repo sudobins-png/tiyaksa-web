@@ -5,6 +5,7 @@ import { Toaster } from '@/components/ui/Toaster';
 import { CookieBanner } from '@/components/ui/CookieBanner';
 import { ExitIntentPromo } from '@/components/ui/ExitIntentPromo';
 import { QuizModalHost } from '@/components/quiz/QuizModalHost';
+import { LeadModalHost } from '@/components/ui/LeadModalHost';
 import { AssistantHost } from '@/components/assistant/AssistantHost';
 import { UtmCapture } from '@/components/ui/UtmCapture';
 import { JsonLd } from '@/components/seo/JsonLd';
@@ -81,6 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <CookieBanner />
         <ExitIntentPromo />
         <QuizModalHost />
+        <LeadModalHost />
         <AssistantHost />
       </body>
     </html>

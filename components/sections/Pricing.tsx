@@ -6,7 +6,7 @@ import { pricingTiers, type PricingTier } from '@/data/pricing';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
-import { useQuizStore } from '@/stores/quizStore';
+import { useLeadModalStore } from '@/stores/leadModalStore';
 
 const SHOW_LIMIT = 5;
 
@@ -125,7 +125,7 @@ function PricingCard({ tier, featured = false, onCta }: { tier: PricingTier; fea
 }
 
 export function Pricing() {
-  const openQuiz = useQuizStore((s) => s.openQuiz);
+  const openLead = useLeadModalStore((s) => s.openLead);
 
   return (
     <section id="prices" className="bg-site border-t border-[#eef1ee]">
@@ -139,7 +139,7 @@ export function Pricing() {
           style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}
         >
           {pricingTiers.map((tier) => (
-            <PricingCard key={tier.name} tier={tier} featured={tier.featured} onCta={() => openQuiz(LEAD_SOURCES.quizPricingCta)} />
+            <PricingCard key={tier.name} tier={tier} featured={tier.featured} onCta={() => openLead(LEAD_SOURCES.quizPricingCta)} />
           ))}
         </div>
 

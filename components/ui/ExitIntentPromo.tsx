@@ -4,6 +4,7 @@ import { useEffect, useRef, useCallback, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
 import { useQuizStore } from '@/stores/quizStore';
+import { useLeadModalStore } from '@/stores/leadModalStore';
 import { PromoModal } from '@/components/ui/PromoModal';
 
 const SESSION_KEY     = 'tiyaksa_promo_shown';
@@ -21,7 +22,8 @@ const IDLE_TIMEOUT_MS = 10_000; // мобайл: 10 с бездействия
 export function ExitIntentPromo() {
   const [open, setOpen] = useState(false);
   const quizOpen = useQuizStore((s) => s.open);
-  const shownRef     = useRef(false);
+  const leadOpen = useLeadModalStore((s) => s.open);
+  const shownRef    = useRef(false);
   const quizOpenRef  = useRef(false);
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -31,7 +33,7 @@ export function ExitIntentPromo() {
   const pathname = usePathname();
   const excluded = pathname?.startsWith('/quiz') || pathname?.startsWith('/offer') || false;
 
-  useEffect(() => { quizOpenRef.current = quizOpen; }, [quizOpen]);
+  useEffect(() => { quizOpenRef.current = quizOpen || leadOpen; }, [quizOpen, leadOpen]);
 
   const maybeShow = useCallback(() => {
     if (shownRef.current) return;

@@ -1,12 +1,10 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
 import { GridOverlay } from '@/components/ui/GridOverlay';
-import { LeadModal } from '@/components/ui/LeadModal';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
 import { heroContent } from '@/data/content';
-import { useQuizStore } from '@/stores/quizStore';
+import { useLeadModalStore } from '@/stores/leadModalStore';
 
 function PriceBadge({ className = '' }: { className?: string }) {
   return (
@@ -25,8 +23,7 @@ function PriceBadge({ className = '' }: { className?: string }) {
 }
 
 export function Hero() {
-  const [modalOpen, setModalOpen] = useState(false);
-  const openQuiz = useQuizStore((s) => s.openQuiz);
+  const openLead = useLeadModalStore((s) => s.openLead);
 
   return (
     <section className="relative overflow-hidden bg-forest">
@@ -78,7 +75,7 @@ export function Hero() {
           <div className="flex flex-col sm:flex-row gap-[14px]">
             <button
               type="button"
-              onClick={() => openQuiz(LEAD_SOURCES.heroPricingCta)}
+              onClick={() => openLead(LEAD_SOURCES.heroPricingCta)}
               className="bg-gold hover:bg-gold-dark text-ink font-bold text-[17px] px-[30px] py-[12px] rounded-[14px] shadow-gold-glow transition-all duration-200 hover:-translate-y-0.5 text-center flex flex-col items-center cursor-pointer border-none"
             >
               {heroContent.ctaPrimary}
@@ -86,7 +83,7 @@ export function Hero() {
             </button>
             <button
               type="button"
-              onClick={() => setModalOpen(true)}
+              onClick={() => openLead(LEAD_SOURCES.hero)}
               className="border-[1.5px] border-white text-white hover:bg-white hover:text-forest font-semibold text-[17px] px-[30px] py-[17px] rounded-[14px] transition-all duration-200 text-center cursor-pointer bg-transparent"
             >
               {heroContent.ctaSecondary}
@@ -107,8 +104,6 @@ export function Hero() {
           />
         </div>
       </div>
-
-      {modalOpen && <LeadModal onClose={() => setModalOpen(false)} source={LEAD_SOURCES.hero} />}
     </section>
   );
 }

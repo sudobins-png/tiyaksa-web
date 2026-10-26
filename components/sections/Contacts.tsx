@@ -1,20 +1,16 @@
+import Image from 'next/image';
 import { siteConfig } from '@/data/content';
 
 /**
- * Same Yandex constructor as the embed script, but as a map-widget iframe.
- * The script form hardcodes width=1043/height=646, which overflows a 375px
- * screen; the iframe fills whatever box we give it.
- *
- * `ll`/`z` override the view the constructor was saved with: its centre sits
- * at 30.3164 while the placemark is at 30.2715, so on a wide frame the pin
- * merely drifts left, but in a 327px-wide one it falls off the edge entirely.
- * Centring on the placemark keeps it visible at every width — on desktop it
- * lands well clear of the card that overlays the right-hand side.
+ * A still map instead of Yandex's map-widget iframe: the free widget shows
+ * paid banner ads (competitors' included) along its bottom edge and the only
+ * way to switch them off is a paid API tariff. The picture is public/map/
+ * contacts-map.webp — OpenStreetMap tiles stitched once around the office,
+ * pin baked in at 42% / 55% so it stays clear of the contact card that
+ * overlays the right-hand side on desktop. Clicking it opens the company's
+ * Yandex Maps card in a new window.
  */
-const PLACEMARK = '30.271473%2C59.945938';
-const MAP_SRC =
-  'https://yandex.ru/map-widget/v1/?um=constructor%3Ae2cf80aa2d17b1a1ce1fc1c8d6edaaea6045f4220d5fb90444df48c773150030' +
-  `&source=constructor&lang=ru_RU&ll=${PLACEMARK}&z=15`;
+const YANDEX_CARD_URL = 'https://yandex.ru/maps/org/tiyaksa/83949604909/';
 
 const PHONES = [
   { value: siteConfig.phone,           href: siteConfig.phoneHref,           label: null },
@@ -27,12 +23,40 @@ export function Contacts() {
       <div className="max-w-content mx-auto px-6 py-14 md:py-[88px]">
         <div className="relative overflow-hidden rounded-[20px] md:rounded-[24px] bg-forest">
           {/* Map */}
-          <iframe
-            src={MAP_SRC}
-            title="Карта — как нас найти"
-            loading="lazy"
-            className="block w-full h-[300px] md:h-[620px] border-0"
-          />
+          <div className="relative h-[300px] md:h-[620px] bg-[#e9e6df]">
+            <a
+              href={YANDEX_CARD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Открыть карточку ТиЯКСа.Ремонт в Яндекс Картах (откроется в новом окне)"
+              className="group absolute inset-0 block"
+            >
+              <Image
+                src="/map/contacts-map.webp"
+                alt="Карта: офис ТиЯКСа.Ремонт, Малый проспект Васильевского острова, 22"
+                fill
+                sizes="(min-width: 1280px) 1152px, 100vw"
+                className="object-cover"
+              />
+              <span className="absolute left-4 bottom-9 inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-[15px] font-bold text-ink shadow-[0_4px_16px_rgba(0,0,0,.18)] transition-transform duration-200 group-hover:-translate-y-0.5">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B4F1B" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M14 3h7v7M21 3l-9 9M19 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h5" />
+                </svg>
+                Открыть в Яндекс Картах
+              </span>
+            </a>
+            {/* Required by OpenStreetMap's licence. Kept a sibling of the map link
+                (a link can't nest in a link) and on the left — the right side is
+                covered by the contact card on desktop. */}
+            <a
+              href="https://www.openstreetmap.org/copyright"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="absolute left-4 bottom-2 rounded bg-white/80 px-1.5 py-0.5 text-[11px] leading-none text-ink/70 hover:text-ink"
+            >
+              © участники OpenStreetMap
+            </a>
+          </div>
 
           {/* Card — overlays the map from md up, stacks under it on mobile */}
           {/* From md up the card is boxed by the map's height, so the desktop

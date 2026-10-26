@@ -17,6 +17,8 @@ interface SegmentCaseProps {
   subtitle: string;
   item: SegmentCaseItem;
   eyebrow?: string;
+  /** How many of item.images to show: one wide shot, the rest two per row. */
+  maxPhotos?: number;
 }
 
 /**
@@ -26,9 +28,9 @@ interface SegmentCaseProps {
  * which read as undersized next to the rest of the page. Photos open in
  * the same Lightbox as the homepage Portfolio.
  */
-export function SegmentCase({ heading, subtitle, item, eyebrow = 'Пример объекта' }: SegmentCaseProps) {
+export function SegmentCase({ heading, subtitle, item, eyebrow = 'Пример объекта', maxPhotos = 3 }: SegmentCaseProps) {
   const [lightbox, setLightbox] = useState<number | null>(null);
-  const photos = item.images.slice(0, 3);
+  const photos = item.images.slice(0, maxPhotos);
   // Price per m² intentionally left out here — it belongs to a specific
   // case, not to "what this kind of work costs for you", which is what the
   // quiz below actually answers.

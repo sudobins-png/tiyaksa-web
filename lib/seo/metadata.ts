@@ -14,6 +14,7 @@ export const OG_IMAGES = {
   case96:   { url: '/og/case-96.jpg',      alt: 'Дизайнерский ремонт трёхкомнатной квартиры 96 м²', ...OG_SIZE },
   kitchen:  { url: '/og/case-kukhnya.jpg', alt: 'Ремонт кухни 25 м²', ...OG_SIZE },
   bathroom: { url: '/og/vannaya.jpg',      alt: 'Санузел из проекта ТиЯКСа.Ремонт', ...OG_SIZE },
+  demolition: { url: '/og/demontazh.jpg',  alt: 'Демонтаж в квартире: мусор собран в мешки перед вывозом', ...OG_SIZE },
 } as const;
 
 /** width/height only when known — a blog post's featured image has no fixed size. */

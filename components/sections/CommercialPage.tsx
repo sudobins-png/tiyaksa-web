@@ -26,6 +26,7 @@ interface SegmentCaseProps {
   subtitle: string;
   item: SegmentCaseItem;
   eyebrow?: string;
+  maxPhotos?: number;
 }
 
 interface CommercialPageProps {
@@ -124,6 +125,7 @@ export function CommercialPage({
           heading={segmentCase.heading}
           subtitle={segmentCase.subtitle}
           item={segmentCase.item}
+          maxPhotos={segmentCase.maxPhotos}
         />
       ) : null}
 

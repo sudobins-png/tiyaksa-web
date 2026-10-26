@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { pageMetadata } from '@/lib/seo/metadata';
+import { OG_IMAGES, pageMetadata } from '@/lib/seo/metadata';
 import { CommercialPage } from '@/components/sections/CommercialPage';
 import { InfoCards } from '@/components/sections/InfoCards';
 import { WorkPricesTable } from '@/components/sections/WorkPricesTable';
@@ -80,6 +80,7 @@ export const metadata: Metadata = pageMetadata({
   title: 'Демонтаж в квартире в СПб перед ремонтом — цены | ТиЯКСа.Ремонт',
   description: 'Демонтаж в квартире в Санкт-Петербурге: старая отделка, плитка, стяжка, перегородки, сантехника, вывоз мусора. Цены на работы, шумные работы по правилам, гарантия 3 года на ремонт.',
   path: PATH,
+  image: OG_IMAGES.demolition,
 });
 
 export default function Page() {
@@ -104,6 +105,13 @@ export default function Page() {
           />
         </>
       }
+      segmentCase={{
+        eyebrow: 'С наших объектов',
+        heading: 'Демонтаж на наших объектах',
+        subtitle: 'Снесённые перегородки, старая отделка и стяжка: мусор собираем в мешки, кирпич — на поддоны, и вывозим до начала черновых работ.',
+        item: { images: ['/demontazh/d3.jpg', '/demontazh/d2.jpg', '/demontazh/d4.jpg', '/demontazh/d5.jpg', '/demontazh/d1.jpg'] },
+        maxPhotos: 5,
+      }}
       calculatorHeading="Рассчитать ремонт с демонтажем"
       calculatorSource={LEAD_SOURCES.landingDemolition}
       faqItems={FAQ_ITEMS}

@@ -76,10 +76,9 @@ export function Hero() {
             <button
               type="button"
               onClick={() => openLead(LEAD_SOURCES.heroPricingCta)}
-              className="bg-gold hover:bg-gold-dark text-ink font-bold text-[17px] px-[30px] py-[12px] rounded-[14px] shadow-gold-glow transition-all duration-200 hover:-translate-y-0.5 text-center flex flex-col items-center cursor-pointer border-none"
+              className="bg-gold hover:bg-gold-dark text-ink font-bold text-[17px] px-[30px] py-[18.5px] rounded-[14px] shadow-gold-glow transition-all duration-200 hover:-translate-y-0.5 text-center cursor-pointer border-none"
             >
               {heroContent.ctaPrimary}
-              <span className="text-[11px] font-light opacity-55 leading-none mt-[3px]">за 60 сек</span>
             </button>
             <button
               type="button"

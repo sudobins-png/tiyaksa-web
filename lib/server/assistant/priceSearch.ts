@@ -3,7 +3,6 @@ import { PRICE_LIST, type PriceItem } from '@/data/priceList';
 // Same site-wide promo as components/sections/PriceTable.tsx: every price on
 // the page minus 12%, except Клининг (a separate vendor).
 const DISCOUNT_RATE = 0.12;
-const NO_DISCOUNT_CATEGORY = 'cleaning';
 const MAX_RESULTS = 12;
 
 export const PRICE_CATEGORY_SLUGS = PRICE_LIST.map((c) => c.slug);
@@ -82,7 +81,7 @@ export function searchPriceList(query: string | undefined, category: string | un
       работа: item.name,
       единица: item.unit,
       цена: priceLabel(item, false),
-      ...(c.slug !== NO_DISCOUNT_CATEGORY && item.price ? { цена_со_скидкой_12: priceLabel(item, true) } : {}),
+      ...(!c.noDiscount && item.price ? { цена_со_скидкой_12: priceLabel(item, true) } : {}),
     })),
     примечание:
       'Цены за единицу работы по прайсу сайта, материалы не входят. Это не итоговая цена: итог считается по смете после бесплатного замера, минимальная стоимость заказа 300 000 ₽. Не складывай позиции в общую смету.',

@@ -26,6 +26,8 @@ export const COMMERCIAL_PAGES = {
   '/remont-ofisa-spb':                    'Ремонт офиса',
   '/zamena-elektroprovodki-spb':          'Замена электропроводки',
   '/zamena-trub-santekhniki-spb':         'Замена труб и сантехники',
+  '/demontazh-v-kvartire-spb':            'Демонтаж в квартире',
+  '/pereplanirovka-kvartiry-spb':         'Перепланировка квартиры',
 } as const;
 
 export type CommercialPath = keyof typeof COMMERCIAL_PAGES;
@@ -33,21 +35,23 @@ export type CommercialPath = keyof typeof COMMERCIAL_PAGES;
 export const RELATED_PAGES: Record<CommercialPath, readonly CommercialPath[]> = {
   '/price':                              ['/remont-kosmeticheskiy-spb', '/remont-kapitalnyy-spb', '/remont-dizainerskiy-spb', '/remont-odnokomnatnoy-kvartiry-spb'],
   '/remont-novostroyki-spb':             ['/remont-kvartiry-studii-spb', '/remont-odnokomnatnoy-kvartiry-spb', '/zamena-elektroprovodki-spb', '/udalenny-remont-kvartir-spb'],
-  '/remont-vtorichki-spb':               ['/remont-kapitalnyy-spb', '/zamena-elektroprovodki-spb', '/zamena-trub-santekhniki-spb', '/remont-vannoy-spb'],
+  '/remont-vtorichki-spb':               ['/remont-kapitalnyy-spb', '/demontazh-v-kvartire-spb', '/zamena-elektroprovodki-spb', '/zamena-trub-santekhniki-spb', '/remont-vannoy-spb'],
   '/udalenny-remont-kvartir-spb':        ['/remont-novostroyki-spb', '/remont-kvartiry-studii-spb', '/remont-odnokomnatnoy-kvartiry-spb', '/price'],
   '/remont-kosmeticheskiy-spb':          ['/remont-komnaty-spb', '/remont-kukhni-spb', '/remont-odnokomnatnoy-kvartiry-spb', '/remont-kapitalnyy-spb'],
-  '/remont-kapitalnyy-spb':              ['/zamena-elektroprovodki-spb', '/zamena-trub-santekhniki-spb', '/remont-vtorichki-spb', '/remont-trekhkomnatnoy-kvartiry-spb'],
-  '/remont-dizainerskiy-spb':            ['/remont-trekhkomnatnoy-kvartiry-spb', '/remont-dvukhkomnatnoy-kvartiry-spb', '/remont-kapitalnyy-spb', '/udalenny-remont-kvartir-spb'],
-  '/remont-kvartiry-studii-spb':         ['/remont-odnokomnatnoy-kvartiry-spb', '/remont-novostroyki-spb', '/remont-kukhni-spb', '/udalenny-remont-kvartir-spb'],
-  '/remont-odnokomnatnoy-kvartiry-spb':  ['/remont-kvartiry-studii-spb', '/remont-dvukhkomnatnoy-kvartiry-spb', '/remont-kosmeticheskiy-spb', '/udalenny-remont-kvartir-spb'],
-  '/remont-dvukhkomnatnoy-kvartiry-spb': ['/remont-odnokomnatnoy-kvartiry-spb', '/remont-trekhkomnatnoy-kvartiry-spb', '/remont-komnaty-spb', '/remont-kapitalnyy-spb'],
+  '/remont-kapitalnyy-spb':              ['/demontazh-v-kvartire-spb', '/pereplanirovka-kvartiry-spb', '/zamena-elektroprovodki-spb', '/zamena-trub-santekhniki-spb', '/remont-vtorichki-spb'],
+  '/remont-dizainerskiy-spb':            ['/remont-trekhkomnatnoy-kvartiry-spb', '/pereplanirovka-kvartiry-spb', '/remont-dvukhkomnatnoy-kvartiry-spb', '/remont-kapitalnyy-spb', '/udalenny-remont-kvartir-spb'],
+  '/remont-kvartiry-studii-spb':         ['/remont-odnokomnatnoy-kvartiry-spb', '/remont-novostroyki-spb', '/pereplanirovka-kvartiry-spb', '/remont-kukhni-spb', '/udalenny-remont-kvartir-spb'],
+  '/remont-odnokomnatnoy-kvartiry-spb':  ['/remont-kvartiry-studii-spb', '/remont-dvukhkomnatnoy-kvartiry-spb', '/pereplanirovka-kvartiry-spb', '/remont-kosmeticheskiy-spb', '/udalenny-remont-kvartir-spb'],
+  '/remont-dvukhkomnatnoy-kvartiry-spb': ['/remont-odnokomnatnoy-kvartiry-spb', '/remont-trekhkomnatnoy-kvartiry-spb', '/pereplanirovka-kvartiry-spb', '/remont-komnaty-spb', '/remont-kapitalnyy-spb'],
   '/remont-trekhkomnatnoy-kvartiry-spb': ['/remont-dvukhkomnatnoy-kvartiry-spb', '/remont-dizainerskiy-spb', '/remont-kapitalnyy-spb', '/zamena-elektroprovodki-spb'],
   '/remont-vannoy-spb':                  ['/zamena-trub-santekhniki-spb', '/remont-kukhni-spb', '/remont-kapitalnyy-spb', '/remont-komnaty-spb'],
-  '/remont-kukhni-spb':                  ['/zamena-elektroprovodki-spb', '/zamena-trub-santekhniki-spb', '/remont-vannoy-spb', '/remont-kosmeticheskiy-spb'],
+  '/remont-kukhni-spb':                  ['/zamena-elektroprovodki-spb', '/zamena-trub-santekhniki-spb', '/pereplanirovka-kvartiry-spb', '/remont-vannoy-spb', '/remont-kosmeticheskiy-spb'],
   '/remont-komnaty-spb':                 ['/remont-kosmeticheskiy-spb', '/remont-odnokomnatnoy-kvartiry-spb', '/remont-kvartiry-studii-spb', '/remont-dizainerskiy-spb'],
   '/remont-ofisa-spb':                   ['/zamena-elektroprovodki-spb', '/remont-kapitalnyy-spb', '/price'],
   '/zamena-elektroprovodki-spb':         ['/zamena-trub-santekhniki-spb', '/remont-kapitalnyy-spb', '/remont-vtorichki-spb', '/remont-kukhni-spb'],
   '/zamena-trub-santekhniki-spb':        ['/remont-vannoy-spb', '/zamena-elektroprovodki-spb', '/remont-kukhni-spb', '/remont-kapitalnyy-spb'],
+  '/demontazh-v-kvartire-spb':           ['/pereplanirovka-kvartiry-spb', '/remont-kapitalnyy-spb', '/remont-vtorichki-spb', '/zamena-elektroprovodki-spb', '/zamena-trub-santekhniki-spb'],
+  '/pereplanirovka-kvartiry-spb':        ['/remont-kukhni-spb', '/demontazh-v-kvartire-spb', '/remont-dizainerskiy-spb', '/remont-kapitalnyy-spb', '/remont-kvartiry-studii-spb'],
 };
 
 export function relatedLinksFor(path: string) {

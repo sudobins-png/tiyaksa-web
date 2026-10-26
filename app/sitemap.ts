@@ -18,6 +18,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/remont-ofisa-spb`, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${BASE_URL}/zamena-elektroprovodki-spb`, changeFrequency: 'monthly', priority: 0.5 },
     { url: `${BASE_URL}/zamena-trub-santekhniki-spb`, changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${BASE_URL}/demontazh-v-kvartire-spb`, changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${BASE_URL}/pereplanirovka-kvartiry-spb`, changeFrequency: 'monthly', priority: 0.5 },
     { url: `${BASE_URL}/remont-novostroyki-spb`, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${BASE_URL}/remont-vtorichki-spb`, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${BASE_URL}/remont-kosmeticheskiy-spb`, changeFrequency: 'monthly', priority: 0.6 },

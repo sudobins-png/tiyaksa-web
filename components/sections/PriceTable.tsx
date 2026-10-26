@@ -47,7 +47,7 @@ export function PriceTable() {
   }, [searchParams]);
 
   const category = PRICE_LIST.find((c) => c.slug === active) ?? PRICE_LIST[0];
-  const showDiscount = category.slug !== 'cleaning';
+  const showDiscount = !category.noDiscount;
 
   return (
     <div>

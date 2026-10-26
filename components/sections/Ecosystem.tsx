@@ -1,11 +1,14 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 
 interface EcosystemItem {
   title: string;
   description: string;
   icon: ReactNode;
+  /** Service page — the whole card links there when set. */
+  href?: string;
 }
 
 const iconProps = {
@@ -33,6 +36,7 @@ const ITEMS: EcosystemItem[] = [
   {
     title: 'Демонтаж',
     description: 'Разборка перегородок и старой отделки, вывоз мусора — до начала чистовых работ.',
+    href: '/demontazh-v-kvartire-spb',
     icon: (
       <svg {...iconProps}>
         <rect x="3" y="3" width="7" height="7" rx="1" transform="rotate(-45 6.5 6.5)" />
@@ -44,6 +48,7 @@ const ITEMS: EcosystemItem[] = [
   {
     title: 'Перепланировка',
     description: 'Проект и согласование с БТИ и жилищной инспекцией — берём процесс на себя.',
+    href: '/pereplanirovka-kvartiry-spb',
     icon: (
       <svg {...iconProps}>
         <rect x="3" y="4" width="18" height="16" rx="1" />
@@ -119,15 +124,26 @@ const SUBTITLE = 'Всё, что нужно от поиска объекта д�
 
 function Card({ item, size = 'desktop' }: { item: EcosystemItem; size?: 'desktop' | 'mobile' }) {
   const mobile = size === 'mobile';
+  const className = mobile
+    ? 'flex-none w-[240px] h-full flex flex-col gap-3.5 bg-white rounded-2xl shadow-card p-5'
+    : 'h-full flex flex-col gap-4 bg-white rounded-2xl shadow-card p-7 transition-all duration-[250ms] hover:-translate-y-1 hover:shadow-card-hover';
+  const style = mobile ? { scrollSnapAlign: 'start' as const } : undefined;
+  const body = <CardBody item={item} mobile={mobile} />;
+
+  return item.href ? (
+    <Link href={item.href} className={`${className} group`} style={style}>
+      {body}
+    </Link>
+  ) : (
+    <div className={className} style={style}>
+      {body}
+    </div>
+  );
+}
+
+function CardBody({ item, mobile }: { item: EcosystemItem; mobile: boolean }) {
   return (
-    <div
-      className={
-        mobile
-          ? 'flex-none w-[240px] flex flex-col gap-3.5 bg-white rounded-2xl shadow-card p-5'
-          : 'flex flex-col gap-4 bg-white rounded-2xl shadow-card p-7 transition-all duration-[250ms] hover:-translate-y-1 hover:shadow-card-hover'
-      }
-      style={mobile ? { scrollSnapAlign: 'start' } : undefined}
-    >
+    <>
       <div className={mobile ? 'text-forest [&>svg]:w-6 [&>svg]:h-6' : 'text-forest [&>svg]:w-7 [&>svg]:h-7'}>
         {item.icon}
       </div>
@@ -137,7 +153,12 @@ function Card({ item, size = 'desktop' }: { item: EcosystemItem; size?: 'desktop
       <p className={mobile ? 'm-0 text-[13px] leading-[1.5] text-muted' : 'm-0 text-[14px] leading-[1.55] text-muted'}>
         {item.description}
       </p>
-    </div>
+      {item.href ? (
+        <span className={`mt-auto font-semibold text-forest group-hover:text-grove transition-colors ${mobile ? 'text-[13px]' : 'text-[14px]'}`}>
+          Подробнее →
+        </span>
+      ) : null}
+    </>
   );
 }
 

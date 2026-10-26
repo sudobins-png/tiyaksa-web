@@ -14,19 +14,21 @@ interface WorkPricesTableProps {
 const UNIT_PER: Record<string, string> = { точка: 'точку', услуга: 'услугу', мп: 'м.п.' };
 const perUnit = (unit: string) => (unit === '—' ? '' : `за ${UNIT_PER[unit] ?? unit}`);
 
-const ALL_ITEMS: PriceItem[] = PRICE_LIST.filter((c) => c.slug !== 'cleaning').flatMap((c) => c.items);
+const ALL_ITEMS: { item: PriceItem; noDiscount: boolean }[] = PRICE_LIST.flatMap((c) =>
+  c.items.map((item) => ({ item, noDiscount: Boolean(c.noDiscount) })),
+);
 
 /**
  * A short excerpt of the price list for a landing page — rendered with the
- * same PriceCell as /price (incl. the site-wide −12% promo), so the two pages
+ * same PriceCell as /price (incl. the site-wide −12% promo where it applies), so the two pages
  * always show the same numbers. Unknown names throw at build time instead of
  * silently dropping a row.
  */
 export function WorkPricesTable({ heading, subtitle, items }: WorkPricesTableProps) {
   const rows = items.map((name) => {
-    const item = ALL_ITEMS.find((i) => i.name === name);
-    if (!item) throw new Error(`WorkPricesTable: no price list item named «${name}»`);
-    return item;
+    const row = ALL_ITEMS.find((i) => i.item.name === name);
+    if (!row) throw new Error(`WorkPricesTable: no price list item named «${name}»`);
+    return row;
   });
 
   return (
@@ -48,7 +50,7 @@ export function WorkPricesTable({ heading, subtitle, items }: WorkPricesTablePro
               </tr>
             </thead>
             <tbody>
-              {rows.map((item) => (
+              {rows.map(({ item, noDiscount }) => (
                 <tr key={item.name} className="border-t border-[#eef1ee]">
                   <th scope="row" className="py-3.5 pr-3 sm:pr-4 text-left font-semibold text-ink">
                     {item.name}
@@ -56,7 +58,7 @@ export function WorkPricesTable({ heading, subtitle, items }: WorkPricesTablePro
                   </th>
                   <td className="hidden sm:table-cell py-3.5 pr-4 text-muted whitespace-nowrap">{item.unit}</td>
                   <td className="py-3.5 text-ink text-right whitespace-nowrap font-semibold">
-                    <PriceCell item={item} showDiscount />
+                    <PriceCell item={item} showDiscount={!noDiscount} />
                   </td>
                 </tr>
               ))}

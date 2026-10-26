@@ -21,6 +21,8 @@ export interface PriceCategory {
   slug: string;
   name: string;
   items: PriceItem[];
+  /** Third-party prices (cleaning, debris removal): our −12% promo doesn't apply. */
+  noDiscount?: boolean;
 }
 
 // Тариф «Капитальный ремонт» (см. data/pricing.ts → calcRates['Капитальный'] = 12 500 ₽/м²),
@@ -461,6 +463,19 @@ export const PRICE_LIST: PriceCategory[] = [
     ],
   },
   {
+    // Источник: прайс компании по демонтажу demontaji.ru (по указанию
+    // владельца, 2026-10-26). Цены сторонней компании — без нашей −12% акции,
+    // как и клининг. Сайт закрыт для зарубежных IP, цифры взяты из поисковой
+    // выдачи; при случае сверить с самим прайсом.
+    slug: 'debris',
+    name: 'Вывоз мусора',
+    noDiscount: true,
+    items: [
+      { name: 'Вывоз мусора: контейнер (пухто) 27 м³', unit: 'рейс', price: 26000, approxFrom: true },
+      { name: 'Вывоз мусора: бортовая машина 12 м³', unit: 'рейс', price: 11000, approxFrom: true },
+    ],
+  },
+  {
     // Источник: таблица «Цены на клининг для частных лиц» —
     // https://cleanline-spb.ru/klining-tseny-price-list/#private — у
     // клининговой компании нет зачёркнутой/акционной цены, только «от».
@@ -469,6 +484,7 @@ export const PRICE_LIST: PriceCategory[] = [
     // и цена там всё равно не указана («оценивается по результатам осмотра»).
     slug: 'cleaning',
     name: 'Клининг',
+    noDiscount: true,
     items: [
       { name: 'Генеральная уборка квартир', unit: 'м²', price: 145, approxFrom: true, teaser: true, section: 'Уборка квартир' },
       { name: 'Генеральная уборка квартир (до 45 м²)', unit: 'м²', price: 160, approxFrom: true, section: 'Уборка квартир' },

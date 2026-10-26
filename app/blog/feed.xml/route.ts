@@ -73,7 +73,11 @@ export async function GET() {
       const featuredImgTag = image
         ? `<figure><img src="${escapeXml(image.source_url)}" alt="${escapeXml(decodeHtmlEntities(image.alt_text ?? ''))}"/></figure>\n`
         : '';
-      const contentHtml = featuredImgTag + cleanedHtml;
+      // sanitizePostHtml() makes links to this site root-relative ("/blog/x")
+      // — right on tiyaksa.ru, but inside a Dzen/VK copy of the article they
+      // would resolve against dzen.ru and break. These republished copies are
+      // most of the site's backlinks, so the feed always gets absolute URLs.
+      const contentHtml = featuredImgTag + cleanedHtml.replace(/href="\//g, `href="${BASE_URL}/`);
 
       const enclosure = image
         ? `<enclosure url="${escapeXml(image.source_url)}" type="${imageMimeType(image.source_url)}"/>`

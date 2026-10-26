@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { OG_IMAGES, pageMetadata } from '@/lib/seo/metadata';
 import { CommercialPage } from '@/components/sections/CommercialPage';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
 
@@ -27,11 +28,12 @@ const FAQ_ITEMS = [
   },
 ] as const;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Ремонт ванной комнаты в СПб под ключ — цены, сроки | ТиЯКСа.Ремонт',
   description: 'Ремонт ванной комнаты и санузла в Санкт-Петербурге: гидроизоляция, разводка труб, укладка плитки. Гарантия 3 года, фиксированная смета.',
-  alternates: { canonical: PATH },
-};
+  path: PATH,
+  image: OG_IMAGES.bathroom,
+});
 
 export default function Page() {
   return (

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { OG_IMAGES, pageMetadata } from '@/lib/seo/metadata';
 import { CommercialPage } from '@/components/sections/CommercialPage';
 import { ApartmentPriceTable } from '@/components/sections/ApartmentPriceTable';
 import { InfoCards } from '@/components/sections/InfoCards';
@@ -59,11 +60,12 @@ const FAQ_ITEMS = [
   materialsFaq,
 ] as const;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Ремонт трёхкомнатной квартиры в СПб под ключ — цены и сроки | ТиЯКСа.Ремонт',
   description: `Ремонт трёхкомнатной квартиры в Санкт-Петербурге: цены для ${AREAS[0]}–${AREAS[1]} м² по трём видам ремонта, сроки, кейс дизайнерского ремонта на ${CASE.area}. Фиксированная смета, гарантия 3 года.`,
-  alternates: { canonical: PATH },
-};
+  path: PATH,
+  image: OG_IMAGES.case124,
+});
 
 export default function Page() {
   return (

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { OG_IMAGES, pageMetadata } from '@/lib/seo/metadata';
 import { CommercialPage } from '@/components/sections/CommercialPage';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
 import { portfolioItems } from '@/data/content';
@@ -28,11 +29,12 @@ const FAQ_ITEMS = [
   },
 ] as const;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Косметический ремонт квартиры в СПб — цена от 7 500 ₽/м² | ТиЯКСа.Ремонт',
   description: 'Косметический ремонт квартиры в Санкт-Петербурге: обои, ламинат, покраска, замена сантехприборов. От 20 дней, фиксированная смета.',
-  alternates: { canonical: PATH },
-};
+  path: PATH,
+  image: OG_IMAGES.kitchen,
+});
 
 export default function Page() {
   return (

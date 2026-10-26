@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { OG_IMAGES, pageMetadata } from '@/lib/seo/metadata';
 import { CommercialPage } from '@/components/sections/CommercialPage';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
 import { portfolioItems } from '@/data/content';
@@ -28,11 +29,12 @@ const FAQ_ITEMS = [
   },
 ] as const;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Ремонт квартиры в новостройке в СПб под ключ — цена | ТиЯКСа.Ремонт',
   description: 'Ремонт квартиры в новостройке в Санкт-Петербурге: работа по предчистовой отделке, согласование с УК, фиксированная смета. Гарантия 3 года.',
-  alternates: { canonical: PATH },
-};
+  path: PATH,
+  image: OG_IMAGES.case124,
+});
 
 export default function Page() {
   return (

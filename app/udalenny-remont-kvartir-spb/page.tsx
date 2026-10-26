@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo/metadata';
 import { CommercialPage } from '@/components/sections/CommercialPage';
 import { RemoteLanding } from '@/components/sections/RemoteLanding';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
@@ -6,12 +7,11 @@ import { remoteFaq } from '@/data/remote';
 
 const PATH = '/udalenny-remont-kvartir-spb';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Удалённый ремонт квартиры в СПб — без вашего присутствия | ТиЯКСа.Ремонт',
-  description:
-    'Ремонт квартиры в Санкт-Петербурге дистанционно: договор с ЭЦП, камеры на объекте, видеоотчёт каждую неделю, онлайн-приёмка этапов. Для тех, кто живёт в другом городе.',
-  alternates: { canonical: PATH },
-};
+  description: 'Ремонт квартиры в Санкт-Петербурге дистанционно: договор с ЭЦП, камеры на объекте, видеоотчёт каждую неделю, онлайн-приёмка этапов. Для тех, кто живёт в другом городе.',
+  path: PATH,
+});
 
 export default function Page() {
   return (

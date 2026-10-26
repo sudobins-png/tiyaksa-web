@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { OG_IMAGES, pageMetadata } from '@/lib/seo/metadata';
 import { CommercialPage } from '@/components/sections/CommercialPage';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
 import { portfolioItems } from '@/data/content';
@@ -28,11 +29,12 @@ const FAQ_ITEMS = [
   },
 ] as const;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Капитальный ремонт квартиры в СПб под ключ — цена от 12 500 ₽/м² | ТиЯКСа.Ремонт',
   description: 'Капитальный ремонт квартиры в Санкт-Петербурге: демонтаж, выравнивание, замена электрики и сантехники под ключ. От 45 дней, гарантия 3 года.',
-  alternates: { canonical: PATH },
-};
+  path: PATH,
+  image: OG_IMAGES.case124,
+});
 
 export default function Page() {
   return (

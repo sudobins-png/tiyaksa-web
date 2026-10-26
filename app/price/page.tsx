@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { OG_IMAGES, pageMetadata } from '@/lib/seo/metadata';
 import { Suspense } from 'react';
 import { Header } from '@/components/sections/Header';
 import { Footer } from '@/components/sections/Footer';
@@ -18,11 +19,12 @@ import { pricingTiers } from '@/data/pricing';
 import { portfolioItems } from '@/data/content';
 import { PRICE_FAQ_ITEMS, PRICE_NOTES } from '@/data/priceNotes';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Прайс-лист на ремонт квартир — ТиЯКСа.Ремонт',
   description: 'Цены на ремонт квартир в Санкт-Петербурге по видам работ. Капитальный ремонт под ключ — от 12 500 ₽/м².',
-  alternates: { canonical: '/price' },
-};
+  path: '/price',
+  image: OG_IMAGES.case124,
+});
 
 export default function PricePage() {
   return (

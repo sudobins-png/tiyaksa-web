@@ -5,6 +5,9 @@ import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 
+// Image alt text: what the photos show, for image search and screen readers.
+const CASE_ALT = 'Ремонт квартиры в стиле неоклассика на наб. канала Грибоедова, объект №168';
+
 const PHOTOS = Array.from({ length: 17 }, (_, i) => `/case/${i + 1}.jpg`);
 
 /**
@@ -106,7 +109,7 @@ export function CaseSection() {
                 >
                   <Image
                     src={src}
-                    alt=""
+                    alt={`${CASE_ALT} — фото ${idx + 1}`}
                     fill
                     sizes={`(max-width: 768px) ${Math.round((m / 6) * 100)}vw, ${Math.round((1200 * d) / 6)}px`}
                     className="object-cover transition-transform duration-200 hover:scale-[1.03]"
@@ -149,7 +152,7 @@ export function CaseSection() {
               >
                 <Image
                   src={PHOTOS[lightbox]}
-                  alt=""
+                  alt={`${CASE_ALT} — фото ${lightbox + 1}`}
                   fill
                   className="object-contain"
                   sizes="100vw"

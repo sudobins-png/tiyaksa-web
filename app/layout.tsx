@@ -9,6 +9,7 @@ import { AssistantHost } from '@/components/assistant/AssistantHost';
 import { UtmCapture } from '@/components/ui/UtmCapture';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { organizationSchema } from '@/lib/seo/schema';
+import { pageMetadata } from '@/lib/seo/metadata';
 import './globals.css';
 
 const inter = Inter({
@@ -26,9 +27,14 @@ export const metadata: Metadata = {
   // Query and price first, brand last — nobody searches for the brand yet.
   // This is the homepage's title (it sets none of its own); every other
   // page declares its own title.
-  title: 'Ремонт квартир в Санкт-Петербурге под ключ — цена от 7 500 ₽/м² | ТиЯКСа',
-  description:
-    'Ремонт квартир под ключ в Санкт-Петербурге. Фиксированная смета, видеоотчёты каждую неделю, управляющая компания. Гарантия 3 года.',
+  // Also the homepage's og:/twitter: set; every other page builds its own
+  // with pageMetadata() (lib/seo/metadata.ts).
+  ...pageMetadata({
+    title: 'Ремонт квартир в Санкт-Петербурге под ключ — цена от 7 500 ₽/м² | ТиЯКСа',
+    description:
+      'Ремонт квартир под ключ в Санкт-Петербурге. Фиксированная смета, видеоотчёты каждую неделю, управляющая компания. Гарантия 3 года.',
+    path: '/',
+  }),
   icons: { icon: '/favicon.ico' },
   // Home page's canonical — any child page that sets its own `alternates`
   // replaces this outright (Next.js does not deep-merge that key), so /quiz,

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo/metadata';
 import { notFound } from 'next/navigation';
 import { OfferHeader } from '@/components/offer/OfferHeader';
 import { Footer } from '@/components/sections/Footer';
@@ -16,8 +17,13 @@ interface PageProps {
 
 // Personal, unlisted pages generated per lead — never meant to be found by
 // search or crawled (see app/robots.ts's matching disallow entry).
+// The link is sent to the client in a messenger, so it still gets a proper
+// preview (the default team photo) — just no canonical/og:url.
 export const metadata: Metadata = {
-  title: 'Ваш расчёт стоимости ремонта — ТиЯКСа.Ремонт',
+  ...pageMetadata({
+    title: 'Ваш расчёт стоимости ремонта — ТиЯКСа.Ремонт',
+    description: 'Персональный расчёт стоимости ремонта от ТиЯКСа.Ремонт: варианты, сроки и следующий шаг.',
+  }),
   robots: { index: false, follow: false },
 };
 

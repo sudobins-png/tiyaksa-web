@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { OG_IMAGES, pageMetadata } from '@/lib/seo/metadata';
 import { CommercialPage } from '@/components/sections/CommercialPage';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
 import { portfolioItems } from '@/data/content';
@@ -28,11 +29,12 @@ const FAQ_ITEMS = [
   },
 ] as const;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Дизайнерский ремонт квартиры в СПб под ключ — цена от 16 500 ₽/м² | ТиЯКСа.Ремонт',
   description: 'Дизайнерский ремонт квартиры в Санкт-Петербурге с разработкой проекта и авторским надзором. От 70 дней, гарантия 3 года.',
-  alternates: { canonical: PATH },
-};
+  path: PATH,
+  image: OG_IMAGES.case96,
+});
 
 export default function Page() {
   return (

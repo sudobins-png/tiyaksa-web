@@ -52,7 +52,7 @@ export function SegmentCase({ heading, subtitle, item, eyebrow = 'Пример �
               >
                 <Image
                   src={photos[0]}
-                  alt=""
+                  alt={`${heading} — фото 1`}
                   fill
                   sizes="760px"
                   className="object-cover transition-transform duration-200 group-hover:scale-[1.03]"
@@ -70,7 +70,7 @@ export function SegmentCase({ heading, subtitle, item, eyebrow = 'Пример �
               >
                 <Image
                   src={src}
-                  alt=""
+                  alt={`${heading} — фото ${i + 2}`}
                   fill
                   sizes="(max-width: 768px) 50vw, 372px"
                   className="object-cover transition-transform duration-200 group-hover:scale-[1.03]"

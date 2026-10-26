@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { OG_IMAGES, pageMetadata } from '@/lib/seo/metadata';
 import { CommercialPage } from '@/components/sections/CommercialPage';
 import { InfoCards } from '@/components/sections/InfoCards';
 import { WorkPricesTable } from '@/components/sections/WorkPricesTable';
@@ -71,11 +72,12 @@ const FAQ_ITEMS = [
   materialsFaq,
 ] as const;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Ремонт кухни в СПб под ключ — цены на работы и сроки | ТиЯКСа.Ремонт',
   description: `Ремонт кухни в Санкт-Петербурге: фартук, электрика под технику, сантехника, вытяжка, пол. Цены на работы, кейс ${CASE.area} за ${CASE.term}. Фиксированная смета, гарантия 3 года.`,
-  alternates: { canonical: PATH },
-};
+  path: PATH,
+  image: OG_IMAGES.kitchen,
+});
 
 export default function Page() {
   return (

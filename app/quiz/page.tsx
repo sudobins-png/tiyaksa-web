@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo/metadata';
 import { QuizInline } from '@/components/quiz/QuizInline';
 import { CaseSection } from '@/components/sections/CaseSection';
 import { Manager } from '@/components/sections/Manager';
@@ -6,9 +7,11 @@ import { ManagerCta } from '@/components/sections/ManagerCta';
 import { Footer } from '@/components/sections/Footer';
 
 export const metadata: Metadata = {
-  title: 'Расчёт стоимости ремонта — ТиЯКСа.Ремонт',
-  description: 'Ответьте на вопросы и получите предварительный расчёт стоимости ремонта в Санкт-Петербурге.',
-  alternates: { canonical: '/quiz' },
+  ...pageMetadata({
+    title: 'Расчёт стоимости ремонта — ТиЯКСа.Ремонт',
+    description: 'Ответьте на вопросы и получите предварительный расчёт стоимости ремонта в Санкт-Петербурге.',
+    path: '/quiz',
+  }),
   // A bare form with almost no text — kept out of the index (and the sitemap)
   // so it doesn't compete as a thin page; links from it are still followed.
   robots: { index: false, follow: true },

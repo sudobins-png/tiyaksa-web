@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo/metadata';
 import { CommercialPage } from '@/components/sections/CommercialPage';
 import { InfoCards } from '@/components/sections/InfoCards';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
@@ -66,11 +67,11 @@ const FAQ_ITEMS = [
   },
 ] as const;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Ремонт офиса в СПб под ключ — цены и сроки | ТиЯКСа.Ремонт',
   description: `Ремонт офисов и коммерческих помещений в Санкт-Петербурге: работа в выходные, фиксированная смета, оплата по этапам с закрывающими документами, электрика под рабочие места. Кейс ${CASE.area} за ${CASE.term}. Гарантия 3 года.`,
-  alternates: { canonical: PATH },
-};
+  path: PATH,
+});
 
 export default function Page() {
   return (

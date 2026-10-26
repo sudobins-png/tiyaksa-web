@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo/metadata';
 import Link from 'next/link';
 import Image from 'next/image';
 import { BlogHeader } from '@/components/sections/BlogHeader';
 import { Footer } from '@/components/sections/Footer';
-import { fetchPosts, getFeaturedImage, getPreviewText, sanitizeTitleHtml } from '@/lib/server/wordpress';
+import { decodeHtmlEntities, fetchPosts, getFeaturedImage, getPreviewText, sanitizeTitleHtml, stripHtml } from '@/lib/server/wordpress';
 
 interface BlogPageProps {
   searchParams: { page?: string };
@@ -20,11 +21,11 @@ export function generateMetadata({ searchParams }: BlogPageProps): Metadata {
   // description too — otherwise ?page=2..N are duplicates of /blog in
   // Webmaster/Search Console.
   const pageSuffix = page > 1 ? ` — страница ${page}` : '';
-  return {
+  return pageMetadata({
     title: `Блог о ремонте квартир в Санкт-Петербурге${pageSuffix} — ТиЯКСа.Ремонт`,
     description: `Статьи о ремонте: советы, разбор материалов, цены и реальные кейсы от ТиЯКСа.Ремонт${page > 1 ? `. Страница ${page}` : ''}.`,
-    alternates: { canonical: page > 1 ? `/blog?page=${page}` : '/blog' },
-  };
+    path: page > 1 ? `/blog?page=${page}` : '/blog',
+  });
 }
 
 export default async function BlogPage({
@@ -61,7 +62,7 @@ export default async function BlogPage({
                       {image ? (
                         <Image
                           src={image.source_url}
-                          alt={image.alt_text || ''}
+                          alt={image.alt_text || decodeHtmlEntities(stripHtml(post.title.rendered))}
                           fill
                           className="object-cover"
                           sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 100vw"

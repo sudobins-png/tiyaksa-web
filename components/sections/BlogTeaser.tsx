@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { HorizontalScroller } from '@/components/ui/HorizontalScroller';
-import { fetchPosts, getFeaturedImage, getPreviewText, sanitizeTitleHtml } from '@/lib/server/wordpress';
+import { decodeHtmlEntities, fetchPosts, getFeaturedImage, getPreviewText, sanitizeTitleHtml, stripHtml } from '@/lib/server/wordpress';
 
 export async function BlogTeaser() {
   const { posts } = await fetchPosts(1, 10);
@@ -28,7 +28,7 @@ export async function BlogTeaser() {
                   {image ? (
                     <Image
                       src={image.source_url}
-                      alt={image.alt_text || ''}
+                      alt={image.alt_text || decodeHtmlEntities(stripHtml(post.title.rendered))}
                       fill
                       className="object-cover"
                       sizes="280px"

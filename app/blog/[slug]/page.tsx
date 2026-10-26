@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { BlogHeader } from '@/components/sections/BlogHeader';
 import { Footer } from '@/components/sections/Footer';
 import { JsonLd } from '@/components/seo/JsonLd';
+import { pageMetadata } from '@/lib/seo/metadata';
 import { Breadcrumbs } from '@/components/seo/Breadcrumbs';
 import { BLOG_AUTHOR, decodeHtmlEntities, fetchPostBySlug, getArticleJsonLd, getFeaturedImage, getMetaDescription, sanitizePostHtml, sanitizeTitleHtml, stripHtml, stripHtmlArtifact, toIsoUtc } from '@/lib/server/wordpress';
 
@@ -19,17 +20,22 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const description = getMetaDescription(post);
   const image = getFeaturedImage(post);
 
-  return {
+  // No trailing slash in the path — matches app/sitemap.ts's
+  // `${BASE_URL}/blog/${slug}` and next.config.mjs's default (unset) trailingSlash.
+  const base = pageMetadata({
     title: `${title} — ТиЯКСа.Ремонт`,
     description,
+    path: `/blog/${params.slug}`,
+    ...(image ? { image: { url: image.source_url, alt: image.alt_text || title } } : {}),
+  });
+  return {
+    ...base,
     openGraph: {
-      title,
-      description,
-      images: image ? [image.source_url] : undefined,
+      ...base.openGraph,
+      type: 'article',
+      publishedTime: toIsoUtc(post.date_gmt),
+      modifiedTime: toIsoUtc(post.modified_gmt || post.date_gmt),
     },
-    // No trailing slash — matches app/sitemap.ts's `${BASE_URL}/blog/${slug}`
-    // and next.config.mjs's default (unset) trailingSlash.
-    alternates: { canonical: `/blog/${params.slug}` },
   };
 }
 
@@ -59,7 +65,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             <div className="relative aspect-[16/9] rounded-2xl overflow-hidden mb-8 bg-grove-mint">
               <Image
                 src={image.source_url}
-                alt={image.alt_text || ''}
+                alt={image.alt_text || decodeHtmlEntities(stripHtml(post.title.rendered))}
                 fill
                 className="object-cover"
                 sizes="760px"

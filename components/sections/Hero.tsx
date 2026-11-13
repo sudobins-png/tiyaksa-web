@@ -90,17 +90,30 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Hero image — desktop/tablet only, per owner's request to drop it
-            on mobile rather than stack it below the text. */}
-        <div className="hidden md:block flex-1 min-w-[280px] relative" style={{ flexBasis: '380px', maxWidth: '460px', height: '420px' }}>
-          <Image
-            src={heroContent.heroImage}
-            alt="Интерьер отремонтированной квартиры"
-            fill
-            priority
-            sizes="460px"
-            className="object-cover object-center rounded-[18px]"
-          />
+        {/* Layered interior photographs; keep the text-only layout on mobile. */}
+        <div
+          className="hidden md:block flex-1 min-w-[280px] relative"
+          style={{ flexBasis: '380px', maxWidth: '460px', height: '460px' }}
+        >
+          <div className="absolute top-0 left-0 w-[87%] h-[91%] overflow-hidden rounded-[22px] shadow-[0_24px_60px_rgba(0,0,0,.28)] border border-white/15">
+            <Image
+              src="/hero-luxury-living.webp"
+              alt="Элитный интерьер гостиной: натуральный камень, орех и паркет"
+              fill
+              priority
+              sizes="(min-width: 1100px) 400px, 42vw"
+              className="object-cover object-center"
+            />
+          </div>
+          <div className="absolute bottom-0 right-0 w-[49%] aspect-square overflow-hidden rounded-[18px] border-[6px] border-forest shadow-[0_16px_40px_rgba(0,0,0,.35)]">
+            <Image
+              src="/hero-luxury-bathroom.webp"
+              alt="Отделка ванной травертином с мебелью из ореха и латунной сантехникой"
+              fill
+              sizes="(min-width: 1100px) 225px, 24vw"
+              className="object-cover object-center"
+            />
+          </div>
         </div>
       </div>
     </section>

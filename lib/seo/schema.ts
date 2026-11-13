@@ -23,7 +23,7 @@ export function organizationSchema() {
     image: `${SITE_URL}/hero-pic.jpg`,
     telephone: [siteConfig.phone, siteConfig.consultantPhone],
     email: siteConfig.email,
-    priceRange: 'от 7 500 ₽/м²',
+    priceRange: 'от 12 500 ₽/м²',
     address: {
       '@type': 'PostalAddress',
       streetAddress,

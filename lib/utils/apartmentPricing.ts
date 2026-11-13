@@ -12,7 +12,7 @@ export const formatRub = (value: number) => `${new Intl.NumberFormat('ru-RU').fo
 
 export const rateOf = (tier: TierName) => calcRates[tier];
 
-/** «от 7 500 ₽» per m². */
+/** «от 12 500 ₽» per m². */
 export const ratePerSqm = (tier: TierName) => formatRub(calcRates[tier]);
 
 /** Starting price for an area, never below the minimum order. */

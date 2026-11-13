@@ -12,7 +12,7 @@ export const pricingTiers: PricingTier[] = [
   {
     name:        'Косметический',
     description: 'Самый доступный способ обновить квартиру — для себя, под продажу или как завершающий этап в новостройке с предчистовой отделкой от застройщика.',
-    priceFrom: '7 500',
+    priceFrom: '12 500',
     priceUnit: '₽/м²',
     features:  [
       'Укладка ламината, плинтусов',
@@ -27,7 +27,7 @@ export const pricingTiers: PricingTier[] = [
   {
     name:        'Капитальный',
     description: 'Комплекс ремонтно-отделочных работ для квартир, требующих основательных преобразований с участием бригады мастеров разного профиля.',
-    priceFrom: '12 500',
+    priceFrom: '18 500',
     priceUnit: '₽/м²',
     features:  [
       'Демонтаж конструктивных и декоративных элементов',
@@ -46,7 +46,7 @@ export const pricingTiers: PricingTier[] = [
   {
     name:        'Дизайнерский',
     description: 'Наиболее полный формат с участием дизайнера, авторским надзором и особым качеством отделки — для тех, кто хочет результат, а не компромисс.',
-    priceFrom: '16 500',
+    priceFrom: '26 500',
     priceUnit: '₽/м²',
     features:  [
       'Дизайн-проектирование',
@@ -69,9 +69,9 @@ export const pricingTiers: PricingTier[] = [
 
 // Calculator rate per m² for each work type
 export const calcRates: Record<string, number> = {
-  'Косметический': 7500,
-  'Капитальный':   12500,
-  'Дизайнерский':  16500,
+  'Косметический': 12500,
+  'Капитальный':   18500,
+  'Дизайнерский':  26500,
 };
 
 export const calcAptTypes = ['Новостройка', 'Вторичка'] as const;

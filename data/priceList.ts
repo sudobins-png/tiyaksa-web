@@ -25,7 +25,7 @@ export interface PriceCategory {
   noDiscount?: boolean;
 }
 
-// Тариф «Капитальный ремонт» (см. data/pricing.ts → calcRates['Капитальный'] = 12 500 ₽/м²),
+// Тариф «Капитальный ремонт» (см. data/pricing.ts → calcRates['Капитальный'] = 18 500 ₽/м²),
 // не «комфорт+» — уточнено владельцем.
 export const PRICE_LIST: PriceCategory[] = [
   {

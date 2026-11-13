@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   // Also the homepage's og:/twitter: set; every other page builds its own
   // with pageMetadata() (lib/seo/metadata.ts).
   ...pageMetadata({
-    title: 'Ремонт квартир в Санкт-Петербурге под ключ — цена от 7 500 ₽/м² | ТиЯКСа',
+    title: 'Ремонт квартир в Санкт-Петербурге под ключ — цена от 12 500 ₽/м² | ТиЯКСа',
     description:
       'Ремонт квартир под ключ в Санкт-Петербурге. Фиксированная смета, видеоотчёты каждую неделю, управляющая компания. Гарантия 3 года.',
     path: '/',

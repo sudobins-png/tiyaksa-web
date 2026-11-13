@@ -22,7 +22,7 @@ import { PRICE_FAQ_ITEMS, PRICE_NOTES } from '@/data/priceNotes';
 
 export const metadata: Metadata = pageMetadata({
   title: 'Прайс-лист на ремонт квартир — ТиЯКСа.Ремонт',
-  description: 'Цены на ремонт квартир в Санкт-Петербурге по видам работ. Капитальный ремонт под ключ — от 12 500 ₽/м².',
+  description: 'Цены на ремонт квартир в Санкт-Петербурге по видам работ. Капитальный ремонт под ключ — от 18 500 ₽/м².',
   path: '/price',
   image: OG_IMAGES.case124,
 });
@@ -40,7 +40,7 @@ export default function PricePage() {
         name="Ремонт квартир под ключ"
         description="Расчёт стоимости ремонта квартир в Санкт-Петербурге: цены за м² по видам работ, онлайн-калькулятор, фиксация сметы в договоре."
         url="/price"
-        priceFrom={7500}
+        priceFrom={12500}
       />
       <FaqJsonLd items={PRICE_FAQ_ITEMS} />
 

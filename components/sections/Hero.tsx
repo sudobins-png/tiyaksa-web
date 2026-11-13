@@ -15,7 +15,7 @@ function PriceBadge({ className = '' }: { className?: string }) {
         style={{ background: 'repeating-linear-gradient(-45deg, #1B4F1B 0px, #1B4F1B 5px, #F0B429 5px, #F0B429 10px)' }}
       />
       <div className="bg-gold px-4 py-[10px]">
-        <p className="text-[20px] font-extrabold text-ink leading-none">от 7 500 ₽/м²<sup className="text-[13px] font-bold">*</sup></p>
+        <p className="text-[20px] font-extrabold text-ink leading-none">от 12 500 ₽/м²<sup className="text-[13px] font-bold">*</sup></p>
         <p className="text-[11px] font-semibold text-ink/50 leading-none mt-[5px]"><sup>*</sup>косметический ремонт</p>
       </div>
     </div>

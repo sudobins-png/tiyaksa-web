@@ -24,7 +24,7 @@ export function Calculator({
 
   const clampedArea = Math.max(20, Math.min(200, area));
   const mult        = aptType === 'Вторичка' ? secondaryMultiplier : 1;
-  const low         = clampedArea * (calcRates[workType] ?? 12500) * mult;
+  const low         = clampedArea * (calcRates[workType] ?? calcRates['Капитальный']) * mult;
   const high        = low * highEstimateFactor;
 
   return (

@@ -24,7 +24,7 @@ export function Manager({ cta }: ManagerProps) {
             {/* Photo */}
             <div className="flex-none w-[132px] h-[132px] md:w-[180px] md:h-[180px] rounded-full overflow-hidden">
               <Image
-                src="/lev-andreevich.jpeg"
+                src="/lev-manager-2026-11-24.png"
                 alt="Лев — личный управляющий"
                 width={180}
                 height={180}

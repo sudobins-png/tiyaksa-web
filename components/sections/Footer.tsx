@@ -1,15 +1,13 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Logo } from '@/components/ui/Logo';
 import { GridOverlay } from '@/components/ui/GridOverlay';
 import { siteConfig, footerLinkGroups } from '@/data/content';
-import { PrivacyModal } from '@/components/ui/PrivacyModal';
+import { openAnalyticsSettings } from '@/lib/analytics/consent';
 
 export function Footer() {
-  const [modalOpen, setModalOpen] = useState(false);
   return (
     <footer className="relative overflow-hidden bg-forest">
       <GridOverlay />
@@ -116,16 +114,19 @@ export function Footer() {
           <p className="m-0">{siteConfig.copyright}</p>
           <p className="m-0">{siteConfig.copyrightNote}</p>
           <p className="m-0 text-[11px] text-white/30 mt-1">ИП СУНАЙКИН Л.А. ИНН: 910812406492 · ОГРНИП: 326910000041032 · улица Строителей, д. 14, Республика Крым, р-н Кировский, село Владиславовка</p>
-          <button
-            onClick={() => setModalOpen(true)}
-            className="text-white/50 hover:text-white/80 underline transition-colors w-fit bg-transparent border-none p-0 text-[13px] cursor-pointer"
-          >
+          <Link href="/privacy" className="text-white/70 hover:text-white underline w-fit mt-2">
             {siteConfig.privacyText}
+          </Link>
+          <Link href="/consent" className="text-white/70 hover:text-white underline w-fit">
+            Согласие на обработку данных
+          </Link>
+          <button type="button" onClick={openAnalyticsSettings}
+            className="text-white/70 hover:text-white underline w-fit text-left">
+            Настройки аналитики
           </button>
         </div>
       </div>
 
-      {modalOpen && <PrivacyModal onClose={() => setModalOpen(false)} />}
     </footer>
   );
 }

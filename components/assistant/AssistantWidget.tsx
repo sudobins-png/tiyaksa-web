@@ -180,7 +180,7 @@ export function AssistantWidget() {
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 24 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
             style={viewport ? { top: viewport.top, height: viewport.height } : undefined}
-            className="fixed inset-x-0 top-0 z-[160] flex h-[100dvh] flex-col overflow-hidden bg-white sm:inset-auto sm:bottom-24 sm:right-5 sm:h-[640px] sm:max-h-[calc(100dvh-7.5rem)] sm:w-[400px] sm:rounded-2xl sm:border sm:border-[#e4e9e4] sm:shadow-[0_16px_60px_rgba(27,79,27,.22)]"
+            className="ym-hide-content fixed inset-x-0 top-0 z-[160] flex h-[100dvh] flex-col overflow-hidden bg-white sm:inset-auto sm:bottom-24 sm:right-5 sm:h-[640px] sm:max-h-[calc(100dvh-7.5rem)] sm:w-[400px] sm:rounded-2xl sm:border sm:border-[#e4e9e4] sm:shadow-[0_16px_60px_rgba(27,79,27,.22)]"
           >
             <div className="flex items-center gap-2 border-b border-[#ecefec] bg-white px-3.5 py-3 sm:gap-2.5 sm:px-4">
               <Image src="/logo-mini.png" alt="" width={39} height={36} className="shrink-0" />
@@ -305,12 +305,16 @@ export function AssistantWidget() {
             </div>
 
             <div className="border-t border-[#ecefec] bg-white px-3 pb-3 pt-2.5">
+              <p className="mb-2 text-[12px] leading-snug text-muted">
+                Ответы готовит ИИ-сервис Anthropic. Не отправляйте в чат контакты и документы.{' '}
+                <a href="/privacy" target="_blank" rel="noopener noreferrer" className="underline">Обработка данных</a>
+              </p>
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
                   submit(input);
                 }}
-                className="flex items-end gap-2"
+                className="ym-hide-content flex items-end gap-2"
               >
                 <textarea
                   ref={inputRef}
@@ -326,7 +330,7 @@ export function AssistantWidget() {
                   maxLength={MAX_MESSAGE_CHARS}
                   placeholder="Напишите вопрос…"
                   aria-label="Сообщение Льву"
-                  className="max-h-[120px] min-h-[46px] flex-1 resize-none rounded-xl border border-[#e4e9e4] bg-[#f7f9f7] px-4 py-3 text-base leading-snug text-ink outline-none transition-colors placeholder:text-[#b0b8b0] focus:border-grove"
+                  className="ym-disable-keys max-h-[120px] min-h-[46px] flex-1 resize-none rounded-xl border border-[#e4e9e4] bg-[#f7f9f7] px-4 py-3 text-base leading-snug text-ink outline-none transition-colors placeholder:text-[#b0b8b0] focus:border-grove"
                 />
                 <button
                   type="submit"

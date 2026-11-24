@@ -12,6 +12,7 @@ import { MessengerSelector, nextContactValue, MESSENGERS, type MessengerType } f
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
 import { getStoredUtmParams } from '@/lib/utils/utm';
+import { personalDataConsentFields } from '@/lib/config/privacy';
 
 /* ── Pill ────────────────────────────────────────────────────────── */
 function Pill({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
@@ -74,6 +75,7 @@ export function FinalCTA() {
             data.message,
             isTelegram ? `Связь: ${messengerLabel} — ${data.phone}` : `Связь: ${messengerLabel}`,
           ].filter(Boolean).join(' · '),
+          ...personalDataConsentFields(),
           ...getStoredUtmParams(),
         }),
       });
@@ -99,9 +101,9 @@ export function FinalCTA() {
         </SectionHeading>
 
         <div className="bg-white rounded-[20px] shadow-[0_6px_30px_rgba(27,79,27,.1)]" style={{ padding: 'clamp(24px,4vw,40px)' }}>
-          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-7" noValidate>
+          <form onSubmit={handleSubmit(onSubmit)} className="ym-hide-content flex flex-col gap-7" noValidate>
             {/* Honeypot */}
-            <input {...register('website')} type="text" autoComplete="off" tabIndex={-1} aria-hidden style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', width: 0, height: 0 }} />
+            <input {...register('website')} type="text" autoComplete="off" tabIndex={-1} aria-hidden style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', width: 0, height: 0 }} className="ym-disable-keys" />
 
               {/* Тип квартиры */}
               <div>
@@ -121,7 +123,7 @@ export function FinalCTA() {
                     <input
                       type="number" min={20} max={200} value={area}
                       onChange={(e) => setArea(Math.max(20, Math.min(200, Number(e.target.value) || 20)))}
-                      className="w-20 font-extrabold text-[28px] text-forest border-0 border-b-2 border-[#dbe4db] text-right outline-none p-0 px-1 bg-transparent"
+                      className="ym-disable-keys w-20 font-extrabold text-[28px] text-forest border-0 border-b-2 border-[#dbe4db] text-right outline-none p-0 px-1 bg-transparent"
                       aria-label="Площадь в квадратных метрах"
                     />
                     <span className="font-bold text-lg text-muted">м²</span>
@@ -130,7 +132,7 @@ export function FinalCTA() {
                 <input
                   type="range" min={20} max={200} step={1} value={area}
                   onChange={(e) => setArea(Number(e.target.value))}
-                  aria-label="Ползунок площади" className="mb-1"
+                  aria-label="Ползунок площади" className="ym-disable-keys mb-1"
                 />
                 <div className="flex justify-between text-[13px] text-[#9aa39a]">
                   <span>20 м²</span><span>200 м²</span>
@@ -158,7 +160,7 @@ export function FinalCTA() {
                 <div className="flex-1 min-w-[160px]">
                   <input
                     {...register('name')} type="text" placeholder="Ваше имя"
-                    className="w-full bg-site border border-[#e4e9e4] focus:border-grove rounded-xl px-[18px] py-4 text-base outline-none transition-colors duration-200"
+                    className="ym-disable-keys w-full bg-site border border-[#e4e9e4] focus:border-grove rounded-xl px-[18px] py-4 text-base outline-none transition-colors duration-200"
                     aria-invalid={!!errors.name} aria-describedby={errors.name ? 'cta-name-err' : undefined}
                   />
                   {errors.name && <p id="cta-name-err" className="mt-1 text-xs text-red-500">{errors.name.message}</p>}
@@ -171,7 +173,7 @@ export function FinalCTA() {
                     autoComplete={messenger === 'phone' ? 'tel' : 'off'}
                     value={contactRaw}
                     onChange={onContactChange}
-                    className="w-full bg-site border border-[#e4e9e4] focus:border-grove rounded-xl px-[18px] py-4 text-base outline-none transition-colors duration-200"
+                    className="ym-disable-keys w-full bg-site border border-[#e4e9e4] focus:border-grove rounded-xl px-[18px] py-4 text-base outline-none transition-colors duration-200"
                     aria-invalid={!!errors.phone} aria-describedby={errors.phone ? 'cta-phone-err' : undefined}
                   />
                   {errors.phone && <p id="cta-phone-err" className="mt-1 text-xs text-red-500">{errors.phone.message}</p>}
@@ -185,7 +187,7 @@ export function FinalCTA() {
                   placeholder="Опишите ваш запрос — получите предварительную смету и ответы на вопросы."
                   maxLength={1500}
                   rows={4}
-                  className="w-full bg-site border border-[#e4e9e4] focus:border-grove rounded-xl px-[18px] py-4 text-base outline-none transition-colors duration-200 resize-none placeholder:text-[#b0b8b0]"
+                  className="ym-disable-keys w-full bg-site border border-[#e4e9e4] focus:border-grove rounded-xl px-[18px] py-4 text-base outline-none transition-colors duration-200 resize-none placeholder:text-[#b0b8b0]"
                 />
                 <p className={cn('mt-1 text-right text-[12px] tabular-nums', messageLen > 1400 ? 'text-amber-500' : 'text-[#b0b8b0]')}>
                   {messageLen} / 1500
@@ -214,7 +216,7 @@ export function FinalCTA() {
         </div>
       </div>
 
-      {modalOpen && <PrivacyModal onClose={() => setModalOpen(false)} />}
+      {modalOpen && <PrivacyModal document="consent" onClose={() => setModalOpen(false)} />}
     </section>
   );
 }

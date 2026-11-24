@@ -7,6 +7,8 @@ import { preferencesSchema } from '@/lib/server/assistant/tools';
 import { telegramFetch } from '@/lib/server/telegram';
 import { cleanLine, cleanText } from '@/lib/utils/sanitize';
 import { UTM_KEYS } from '@/lib/utils/utm';
+import { readFormConsent } from '@/lib/server/formConsent';
+import { appendLeadLog } from '@/lib/server/leadLog';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -26,6 +28,7 @@ const bodySchema = z.object({
   contact: z.string().max(100).optional(),
   website: z.string().optional(),
   consent: z.literal(true),
+  personalDataConsentVersion: z.string().max(30).optional(),
 });
 
 /**
@@ -97,5 +100,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'fetch failed' }, { status: 502 });
   }
 
+  await appendLeadLog({
+    route: 'handoff', source: 'Чат — передача сотруднику',
+    name: parsed.data.name || '', phone: parsed.data.contact || '',
+    delivered: true, consent: readFormConsent(parsed.data.personalDataConsentVersion),
+  });
   return NextResponse.json({ ok: true });
 }

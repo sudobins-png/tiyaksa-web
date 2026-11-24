@@ -10,6 +10,7 @@ import { cleanText, cleanLine } from '@/lib/utils/sanitize';
 import { UTM_KEYS } from '@/lib/utils/utm';
 import { telegramFetch } from '@/lib/server/telegram';
 import { appendLeadLog } from '@/lib/server/leadLog';
+import { readFormConsent } from '@/lib/server/formConsent';
 // undici's own FormData, not the ambient global one — telegramFetch's
 // RequestInit type comes from undici and only structurally matches its own.
 import { FormData as UndiciFormData } from 'undici';
@@ -180,6 +181,7 @@ export async function POST(req: NextRequest) {
     route: 'estimate' as const,
     source: LEAD_SOURCE_LABELS[LEAD_SOURCES.estimateAudit],
     name, phone, message, utm,
+    consent: readFormConsent(form.get('personalDataConsentVersion')),
     file: document?.filename,
   };
 

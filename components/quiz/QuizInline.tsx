@@ -13,6 +13,7 @@ import { MessengerSelector, nextContactValue, MESSENGERS, type MessengerType } f
 import { CalculatingStep } from '@/components/quiz/CalculatingStep';
 import { LEAD_SOURCES, type LeadSource } from '@/lib/config/leadSources';
 import { getStoredUtmParams } from '@/lib/utils/utm';
+import { personalDataConsentFields } from '@/lib/config/privacy';
 
 const OBJECT_TYPE_OPTIONS = [
   { label: 'Новостройка',      photo: '/quiz/novostroyka.jpg'       },
@@ -168,6 +169,7 @@ export function QuizInline({
             hasDesign     && `Дизайн-проект: ${hasDesign}`,
             isTelegram ? `Связь: ${messengerLabel} — ${data.contact}` : `Связь: ${messengerLabel}`,
           ].filter(Boolean).join(' · ') || undefined,
+          ...personalDataConsentFields(),
           ...getStoredUtmParams(),
         }),
       });
@@ -328,12 +330,12 @@ export function QuizInline({
                     onChange={(m) => { setMessenger(m); setContactRaw(''); setValue('contact', ''); }} />
                 </div>
                 {messenger && (
-                  <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3" noValidate>
+                  <form ref={formRef} onSubmit={handleSubmit(onSubmit)} className="ym-hide-content flex flex-col gap-3" noValidate>
                     <input {...register('website')} type="text" autoComplete="off" tabIndex={-1} aria-hidden
-                      style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', width: 0, height: 0 }} />
+                      style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', width: 0, height: 0 }} className="ym-disable-keys" />
                     <div>
                       <input {...register('name')} type="text" placeholder="Ваше имя" autoComplete="name"
-                        className="w-full bg-[#f7f9f7] border border-[#e4e9e4] focus:border-grove rounded-xl px-5 py-4 text-base outline-none transition-colors placeholder:text-[#b0b8b0]"
+                        className="ym-disable-keys w-full bg-[#f7f9f7] border border-[#e4e9e4] focus:border-grove rounded-xl px-5 py-4 text-base outline-none transition-colors placeholder:text-[#b0b8b0]"
                         aria-invalid={!!errors.name} />
                       {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>}
                     </div>
@@ -344,7 +346,7 @@ export function QuizInline({
                         placeholder={messenger === 'telegram' ? '@username или номер телефона' : '+7 (___) ___-__-__'}
                         autoComplete={messenger === 'phone' ? 'tel' : 'off'}
                         value={contactRaw} onChange={onContactChange}
-                        className="w-full bg-[#f7f9f7] border border-[#e4e9e4] focus:border-grove rounded-xl px-5 py-4 text-base outline-none transition-colors placeholder:text-[#b0b8b0]"
+                        className="ym-disable-keys w-full bg-[#f7f9f7] border border-[#e4e9e4] focus:border-grove rounded-xl px-5 py-4 text-base outline-none transition-colors placeholder:text-[#b0b8b0]"
                         aria-invalid={!!errors.contact} />
                       {errors.contact && <p className="mt-1 text-xs text-red-500">{errors.contact.message}</p>}
                     </div>
@@ -390,7 +392,7 @@ export function QuizInline({
         </div>
       </div>
 
-      {privacyOpen && <PrivacyModal onClose={() => setPrivacyOpen(false)} />}
+      {privacyOpen && <PrivacyModal document="consent" onClose={() => setPrivacyOpen(false)} />}
     </>
   );
 }

@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { leadSchema, type LeadValues } from '@/lib/validators/contact';
 import { useToastStore } from '@/stores/toastStore';
 import { getStoredUtmParams } from '@/lib/utils/utm';
+import { personalDataConsentFields } from '@/lib/config/privacy';
 import { useLockBodyScroll } from '@/hooks/useLockBodyScroll';
 import { getPromoDeadline, formatPromoDate } from '@/lib/utils/promoDeadline';
 import { PrivacyModal } from '@/components/ui/PrivacyModal';
@@ -45,6 +46,7 @@ export function PromoModal({ onClose, source }: PromoModalProps) {
           ...data,
           source,
           message: ['Акция -12% от прайса', data.message].filter(Boolean).join(' · '),
+          ...personalDataConsentFields(),
           ...getStoredUtmParams(),
         }),
       });
@@ -101,20 +103,20 @@ export function PromoModal({ onClose, source }: PromoModalProps) {
             Посчитаем для вас смету с учётом скидки!
           </p>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3" noValidate>
+          <form onSubmit={handleSubmit(onSubmit)} className="ym-hide-content flex flex-col gap-3" noValidate>
             <input {...register('website')} type="text" autoComplete="off" tabIndex={-1} aria-hidden
-              style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', width: 0, height: 0 }} />
+              style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', width: 0, height: 0 }} className="ym-disable-keys" />
 
             <div>
               <input {...register('name')} type="text" placeholder="Ваше имя" autoComplete="name"
-                className={inputCls}
+                className={"ym-disable-keys " + (inputCls)}
                 aria-invalid={!!errors.name} aria-describedby={errors.name ? 'pm-name-err' : undefined} />
               {errors.name && <p id="pm-name-err" className="mt-1 text-xs text-red-300">{errors.name.message}</p>}
             </div>
 
             <div>
               <input {...register('phone')} type="tel" inputMode="tel" placeholder="Ваш телефон" autoComplete="tel"
-                className={inputCls}
+                className={"ym-disable-keys " + (inputCls)}
                 aria-invalid={!!errors.phone} aria-describedby={errors.phone ? 'pm-phone-err' : undefined} />
               {errors.phone && <p id="pm-phone-err" className="mt-1 text-xs text-red-300">{errors.phone.message}</p>}
             </div>
@@ -135,7 +137,7 @@ export function PromoModal({ onClose, source }: PromoModalProps) {
         </div>
       </motion.div>
 
-      {policyOpen && <PrivacyModal onClose={() => setPolicyOpen(false)} />}
+      {policyOpen && <PrivacyModal document="consent" onClose={() => setPolicyOpen(false)} />}
     </motion.div>
   );
 }

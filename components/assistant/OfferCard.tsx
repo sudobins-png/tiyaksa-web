@@ -5,6 +5,7 @@ import { PrivacyModal } from '@/components/ui/PrivacyModal';
 import { useToastStore } from '@/stores/toastStore';
 import { LEAD_SOURCES } from '@/lib/config/leadSources';
 import { getStoredUtmParams } from '@/lib/utils/utm';
+import { personalDataConsentFields } from '@/lib/config/privacy';
 import type { OfferDraft } from '@/lib/assistant/types';
 
 interface OfferCardProps {
@@ -68,6 +69,7 @@ export function OfferCard({ offer, sent, onSent }: OfferCardProps) {
           ]
             .filter(Boolean)
             .join(' · '),
+          ...personalDataConsentFields(),
           ...getStoredUtmParams(),
         }),
       });
@@ -96,7 +98,7 @@ export function OfferCard({ offer, sent, onSent }: OfferCardProps) {
 
   return (
     <>
-      <form onSubmit={submit} noValidate className="mt-2 rounded-2xl border border-[#e4e9e4] bg-white p-4 shadow-card">
+      <form onSubmit={submit} noValidate className="ym-hide-content mt-2 rounded-2xl border border-[#e4e9e4] bg-white p-4 shadow-card">
         <p className="m-0 text-[13px] font-bold uppercase tracking-[.08em] text-forest">Персональный расчёт</p>
         {chips.length > 0 && (
           <div className="mt-2 flex flex-wrap gap-1.5">
@@ -115,7 +117,7 @@ export function OfferCard({ offer, sent, onSent }: OfferCardProps) {
           autoComplete="off"
           tabIndex={-1}
           aria-hidden
-          style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', width: 0, height: 0 }}
+          style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', width: 0, height: 0 }} className="ym-disable-keys"
         />
 
         <div className="mt-3 flex flex-col gap-2.5">
@@ -127,7 +129,7 @@ export function OfferCard({ offer, sent, onSent }: OfferCardProps) {
               placeholder="Ваше имя"
               autoComplete="name"
               aria-invalid={nameError}
-              className={inputClass}
+              className={"ym-disable-keys " + (inputClass)}
             />
             {nameError && <p className="m-0 mt-1 text-xs text-red-500">Введите имя</p>}
           </div>
@@ -140,7 +142,7 @@ export function OfferCard({ offer, sent, onSent }: OfferCardProps) {
               placeholder="Телефон или @telegram"
               autoComplete="tel"
               aria-invalid={contactError}
-              className={inputClass}
+              className={"ym-disable-keys " + (inputClass)}
             />
             {contactError && <p className="m-0 mt-1 text-xs text-red-500">Укажите телефон или @имя в Telegram</p>}
           </div>
@@ -163,7 +165,7 @@ export function OfferCard({ offer, sent, onSent }: OfferCardProps) {
           </p>
         </div>
       </form>
-      {privacyOpen && <PrivacyModal onClose={() => setPrivacyOpen(false)} />}
+      {privacyOpen && <PrivacyModal document="consent" onClose={() => setPrivacyOpen(false)} />}
     </>
   );
 }

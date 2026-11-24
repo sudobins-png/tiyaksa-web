@@ -11,6 +11,7 @@ import {
   type HandoffDraft,
 } from '@/lib/assistant/types';
 import { getStoredUtmParams } from '@/lib/utils/utm';
+import { personalDataConsentFields } from '@/lib/config/privacy';
 
 interface HandoffCardProps {
   draft: HandoffDraft;
@@ -61,6 +62,7 @@ export function HandoffCard({ draft, history, prefs, sent, onSent }: HandoffCard
         contact: contact.trim() || undefined,
         website: honeypot,
         consent: true,
+        ...personalDataConsentFields(),
         ...getStoredUtmParams(),
       }),
     })
@@ -82,7 +84,7 @@ export function HandoffCard({ draft, history, prefs, sent, onSent }: HandoffCard
             : 'Если Telegram не открылся, нажмите на ссылку ниже или позвоните.'}
         </p>
         <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[14px] font-bold">
-          <a href={telegramUrl} target="_blank" rel="noopener noreferrer" className="text-forest underline">
+          <a href={telegramUrl} target="_blank" rel="noopener noreferrer" className="ym-disable-tracklink text-forest underline">
             @{MANAGER_TELEGRAM}
           </a>
           <a href={siteConfig.phoneHref} className="text-forest underline">
@@ -116,7 +118,7 @@ export function HandoffCard({ draft, history, prefs, sent, onSent }: HandoffCard
           autoComplete="off"
           tabIndex={-1}
           aria-hidden
-          style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', width: 0, height: 0 }}
+          style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', width: 0, height: 0 }} className="ym-disable-keys"
         />
         <input
           type="text"
@@ -126,7 +128,7 @@ export function HandoffCard({ draft, history, prefs, sent, onSent }: HandoffCard
           placeholder="Телефон или @telegram — по желанию"
           autoComplete="off"
           aria-label="Ваш контакт, чтобы я мог написать первым (необязательно)"
-          className="mt-3 w-full rounded-xl border border-[#e4e9e4] bg-[#f7f9f7] px-4 py-3 text-base text-ink outline-none transition-colors placeholder:text-[#b0b8b0] focus:border-grove"
+          className="ym-disable-keys mt-3 w-full rounded-xl border border-[#e4e9e4] bg-[#f7f9f7] px-4 py-3 text-base text-ink outline-none transition-colors placeholder:text-[#b0b8b0] focus:border-grove"
         />
 
         <div className="mt-3 flex flex-col gap-2">
@@ -135,7 +137,7 @@ export function HandoffCard({ draft, history, prefs, sent, onSent }: HandoffCard
             target="_blank"
             rel="noopener noreferrer"
             onClick={deliver}
-            className="flex items-center justify-center gap-2 rounded-xl bg-gold px-4 py-3 text-[15px] font-bold text-ink no-underline transition-all duration-200 hover:-translate-y-px hover:bg-gold-dark"
+            className="ym-disable-tracklink flex items-center justify-center gap-2 rounded-xl bg-gold px-4 py-3 text-[15px] font-bold text-ink no-underline transition-all duration-200 hover:-translate-y-px hover:bg-gold-dark"
           >
             <TelegramIcon />
             Написать в Telegram @{MANAGER_TELEGRAM}
@@ -161,7 +163,7 @@ export function HandoffCard({ draft, history, prefs, sent, onSent }: HandoffCard
           </button>
         </p>
       </div>
-      {privacyOpen && <PrivacyModal onClose={() => setPrivacyOpen(false)} />}
+      {privacyOpen && <PrivacyModal document="consent" onClose={() => setPrivacyOpen(false)} />}
     </>
   );
 }

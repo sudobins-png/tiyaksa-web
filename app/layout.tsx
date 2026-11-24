@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Script from 'next/script';
+import { Suspense } from 'react';
+import { MetrikaController } from '@/components/analytics/MetrikaController';
 import { Toaster } from '@/components/ui/Toaster';
 import { CookieBanner } from '@/components/ui/CookieBanner';
 import { ExitIntentPromo } from '@/components/ui/ExitIntentPromo';
@@ -58,14 +60,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ru" className={inter.variable}>
       <head>
-        <Script id="ym-init" strategy="afterInteractive">{`
-          (function(m,e,t,r,i,k,a){
-            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-            m[i].l=1*new Date();
-            for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
-            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-          })(window,document,'script','https://mc.yandex.ru/metrika/tag.js?id=111307528','ym');
-          ym(111307528,'init',{ssr:true,webvisor:true,clickmap:true,ecommerce:"dataLayer",referrer:document.referrer,url:location.href,accurateTrackBounce:true,trackLinks:true});
+        <Script id="landing-context" strategy="beforeInteractive">{`
+          window.__tiyaksaLanding = {url: location.href, referrer: document.referrer};
         `}</Script>
       </head>
       <body className="font-sans">
@@ -73,10 +69,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             Google take company data (address, hours, phone) from this, not
             from the provider nested inside each Service. */}
         <JsonLd data={organizationSchema()} />
-        <noscript>
-          <div><img src="https://mc.yandex.ru/watch/111307528" style={{position:'absolute',left:'-9999px'}} alt="" /></div>
-        </noscript>
         {children}
+        <Suspense fallback={null}><MetrikaController /></Suspense>
         <UtmCapture />
         <Toaster />
         <CookieBanner />

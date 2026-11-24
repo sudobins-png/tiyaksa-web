@@ -1,5 +1,6 @@
 import { appendFile, mkdir } from 'node:fs/promises';
 import { join } from 'node:path';
+import type { FormConsentEvidence } from '@/lib/server/formConsent';
 
 /**
  * Local, append-only record of every real lead submitted through the site —
@@ -21,7 +22,7 @@ const LOG_DIR = process.env.LEAD_LOG_DIR || '/app/data';
 const LOG_FILE = join(LOG_DIR, 'leads.jsonl');
 
 export interface LeadLogEntry {
-  route: 'lead' | 'estimate';
+  route: 'lead' | 'estimate' | 'handoff';
   source: string;
   name: string;
   phone: string;
@@ -32,6 +33,7 @@ export interface LeadLogEntry {
   file?: string;
   delivered: boolean;
   error?: string;
+  consent?: FormConsentEvidence;
 }
 
 /**

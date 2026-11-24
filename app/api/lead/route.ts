@@ -4,6 +4,7 @@ import { cleanText, cleanLine } from '@/lib/utils/sanitize';
 import { UTM_KEYS } from '@/lib/utils/utm';
 import { telegramFetch } from '@/lib/server/telegram';
 import { appendLeadLog } from '@/lib/server/leadLog';
+import { readFormConsent } from '@/lib/server/formConsent';
 import { createOffer } from '@/lib/server/offers';
 import { buildOfferSummaryLine } from '@/lib/utils/offerSummary';
 
@@ -83,6 +84,7 @@ export async function POST(req: NextRequest) {
     route: 'lead' as const,
     source: leadSourceLabel(source),
     name, phone, message, params, utm,
+    consent: readFormConsent(raw.personalDataConsentVersion),
   };
 
   const token = process.env.TELEGRAM_BOT_TOKEN;

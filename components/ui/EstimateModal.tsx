@@ -17,6 +17,7 @@ import {
   formatBytes,
 } from '@/lib/config/upload';
 import { getStoredUtmParams } from '@/lib/utils/utm';
+import { personalDataConsentFields } from '@/lib/config/privacy';
 import { useLockBodyScroll } from '@/hooks/useLockBodyScroll';
 
 const schema = z.object({
@@ -84,6 +85,7 @@ export function EstimateModal({ onClose }: EstimateModalProps) {
 
   const onSubmit = async (data: Values) => {
     const payload = new FormData();
+    Object.entries(personalDataConsentFields()).forEach(([key, value]) => payload.append(key, value));
     payload.append('name', data.name);
     payload.append('phone', data.phone);
     if (data.message) payload.append('message', data.message);
@@ -142,27 +144,27 @@ export function EstimateModal({ onClose }: EstimateModalProps) {
         </div>
 
         <div className="overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch] px-6 pb-6 pt-5">
-          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
+          <form onSubmit={handleSubmit(onSubmit)} className="ym-hide-content flex flex-col gap-4" noValidate>
             <input {...register('website')} type="text" autoComplete="off" tabIndex={-1} aria-hidden
-              style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', width: 0, height: 0 }} />
+              style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', width: 0, height: 0 }} className="ym-disable-keys" />
 
             <div>
               <input {...register('name')} type="text" placeholder="Ваше имя" autoComplete="name"
-                className={inputCls}
+                className={"ym-disable-keys " + (inputCls)}
                 aria-invalid={!!errors.name} aria-describedby={errors.name ? 'em-name-err' : undefined} />
               {errors.name && <p id="em-name-err" className="mt-1 text-xs text-red-500">{errors.name.message}</p>}
             </div>
 
             <div>
               <input {...register('phone')} type="tel" inputMode="tel" placeholder="+7 (___) ___-__-__"
-                autoComplete="tel" className={inputCls}
+                autoComplete="tel" className={"ym-disable-keys " + (inputCls)}
                 aria-invalid={!!errors.phone} aria-describedby={errors.phone ? 'em-phone-err' : undefined} />
               {errors.phone && <p id="em-phone-err" className="mt-1 text-xs text-red-500">{errors.phone.message}</p>}
             </div>
 
             <div>
               <textarea {...register('message')} rows={3} placeholder="Ваше сообщение"
-                className={`${inputCls} resize-none`}
+                className={"ym-disable-keys " + (`${inputCls} resize-none`)}
                 aria-invalid={!!errors.message} aria-describedby={errors.message ? 'em-msg-err' : undefined} />
               {errors.message && <p id="em-msg-err" className="mt-1 text-xs text-red-500">{errors.message.message}</p>}
             </div>
@@ -174,7 +176,7 @@ export function EstimateModal({ onClose }: EstimateModalProps) {
               </p>
 
               <input ref={fileInputRef} type="file" accept={ACCEPT_ATTR} onChange={onPickFile}
-                id="em-file" className="sr-only" />
+                id="em-file" className="ym-disable-keys sr-only" />
 
               {!file ? (
                 <label htmlFor="em-file"
@@ -223,7 +225,7 @@ export function EstimateModal({ onClose }: EstimateModalProps) {
     {/* Sibling of the overlay, not a child: nested inside, a click on the
         policy would bubble to the overlay's onClick and close this modal too.
         PrivacyModal sits at z-[300], above this one. */}
-    {privacyOpen && <PrivacyModal onClose={() => setPrivacyOpen(false)} />}
+    {privacyOpen && <PrivacyModal document="consent" onClose={() => setPrivacyOpen(false)} />}
     </>
   );
 }
